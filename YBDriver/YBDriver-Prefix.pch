@@ -1,0 +1,88 @@
+//
+//  YBDriver-Prefix.pch
+//  YBDriver
+//
+//  Created by 凯东源 on 16/8/30.
+//  Copyright © 2016年 凯东源. All rights reserved.
+//
+
+#ifndef YBDriver_Prefix_pch
+#define YBDriver_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+/*--------- import ---------*/
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>
+#import <BaiduMapAPI_Radar/BMKRadarComponent.h>
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
+#import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>//引入检索功能所有的头文件
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>//引入云检索功能所有的头文件
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>//引入计算工具所有的头文件
+#import <BaiduMapAPI_Radar/BMKRadarComponent.h>//引入周边雷达功能所有的头文件
+#import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
+
+/*--------- 主题色 ---------*/
+#define YBGreen [UIColor colorWithRed:0 / 255.0 green:154 / 255.0 blue:77 / 255.0 alpha:1]
+
+/*--------- 权限管理 ---------*/
+#define YBADMIN @"ADMIN"
+#define YBWLS @"WLS"
+
+/*--------- 最短定位距离(米) ---------*/
+#define YBLocationDistance 500
+
+/*--------- NSUserDefaults ---------*/
+// 服务器地址用户名
+#define udUserName @"userName"
+// 服务器地址用户密码
+#define udPassWord @"passWord"
+
+
+/*--------- API ---------*/
+/// 登陆接口
+#define API_LOGIN @"http://218.17.181.244:8081/api/Login"
+/// 批量上传缓存位置数据
+#define API_UPDATA_LOCATION_LIST @"http://218.17.181.244:8081/api/CurrentLocaltionList"
+/// 上传单个点位置
+#define API_UPDATA_LOCATION @"http://218.17.181.244:8081/api/CurrentLocaltion"
+/// 获取订单列表接口
+#define API_GET_DRIVER_ORDER_LIST @"http://218.17.181.244:8081/api/GetDriverOrderList"
+/// 更改密码接口
+#define API_CHANGE_PASSWORD @"http://218.17.181.244:8081/api/modifyPassword"
+/// 根据时间获取订单列表
+#define API_GET_DRIVER_ORDER_DATE @"http://218.17.181.244:8081/api/GetDriverOrderDate"
+/// 获取订单详情
+#define API_GET_ORDER_TMSINFO @"http://218.17.181.244:8081/api/getOrderTmsInfo"
+/// 获取订单线路点位集合
+#define API_GET_ORDER_LOCATIONS @"http://218.17.181.244:8081/api/GetLocaltion"
+/// 交付订单
+#define API_PAY_ORDER @"http://218.17.181.244:8081/api/DriverPay"
+/// 信息管理
+#define API_INFORMATION_MANANGE @"http://218.17.181.244:8081/api/GetCestbonCount"
+/// 获取已交付订单图片信息
+#define API_GET_ORDER_PICTURE @"http://218.17.181.244:8081/api/GetAutograph"
+
+/// 图片地址
+#define API_LOAD_URL @"http://218.17.181.244:8081/"
+
+/*--------- 判断iOS版本 ---------*/
+#define SystemVersion [[UIDevice currentDevice] systemVersion].floatValue
+
+/*--------- 屏幕尺寸 ---------*/
+#define ScreenHeight [UIScreen mainScreen] .bounds.size.height
+#define ScreenWidth [UIScreen mainScreen] .bounds.size.width
+
+
+
+
+#endif /* YBDriver_Prefix_pch */

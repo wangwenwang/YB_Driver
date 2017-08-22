@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>title</key>
+		<string>用户姓名：</string>
+		<key>prompt</key>
+		<string>暂无设置</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>用户角色：</string>
+		<key>prompt</key>
+		<string>暂无设置</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>修改密码</string>
+		<key>prompt</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>管理信息</string>
+		<key>prompt</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>当前版本    </string>
+		<key>prompt</key>
+		<string>V 1.2</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>关于</string>
+		<key>prompt</key>
+		<string></string>
+	</dict>
+</array>
+</plist>
