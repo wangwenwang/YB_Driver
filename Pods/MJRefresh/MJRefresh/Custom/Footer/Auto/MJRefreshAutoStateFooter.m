@@ -89,4 +89,12 @@
         self.stateLabel.text = self.stateTitles[@(state)];
     }
 }
+
+
+- (void)setCount_NoMoreData:(NSUInteger)count {
+    
+    // 设置状态文字
+    self.stateLabel.text = [NSString stringWithFormat:@"共计%d条记录", count];
+}
+
 @end

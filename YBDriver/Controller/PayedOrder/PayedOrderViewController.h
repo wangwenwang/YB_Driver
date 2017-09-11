@@ -10,4 +10,7 @@
 
 @interface PayedOrderViewController : UIViewController
 
+/// 界面显示到前台的时候是否要刷新数据、主要在司机交付订单成功后返回该界面和登陆界面使用
+@property (assign, nonatomic) BOOL shouldRefresh;
+
 @end

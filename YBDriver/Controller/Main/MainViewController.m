@@ -78,6 +78,8 @@
     [super viewDidLoad];
     NSLog(@"%s", __func__);
     
+    [self.view layoutIfNeeded];
+    
     // 本地加载图片的轮播器
     SDCycleScrollView *_cycleScrollView1 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, CGRectGetHeight(_cycleScrollView.frame)) imageNamesGroup:@[@"ad_pic_0.jpg", @"ad_pic_1.jpg", @"ad_pic_2.jpg", @"ad_pic_3.jpg"]];
     [self.view addSubview:_cycleScrollView1];
@@ -85,6 +87,19 @@
     [self startLocationService];
     [self startUpdataLocationTimer];
     
+    //判断定位权限  延迟检查，因为用户首次选择需要时间
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        sleep(5);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if([Tools isLocationServiceOpen]) {
+                NSLog(@"应用拥有定位权限");
+            } else {
+                [Tools skipLocationSettings];
+            }
+        });
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -259,10 +274,10 @@
  */
 - (void)didFailToLocateUserWithError:(NSError *)error {
     NSLog(@"%@", error);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请开启位置定位权限" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alert show];
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请开启位置定位权限" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//        [alert show];
+//    });
 }
 
 #pragma mark -- MyBMKLocationServiceDelegate

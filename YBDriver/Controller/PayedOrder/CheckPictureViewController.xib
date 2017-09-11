@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CheckPictureViewController">
@@ -16,26 +17,24 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="erO-x1-Zi4" userLabel="View1">
-                    <rect key="frame" x="0.0" y="15" width="600" height="138"/>
                     <subviews>
                         <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqD-eE-2sN" userLabel="Btn1">
-                            <rect key="frame" x="175" y="0.0" width="250" height="138"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="X3D-P6-ruY"/>
                             </constraints>
                             <state key="normal" image="ic_imageview_default_bg">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="btnOnclick:" destination="-1" eventType="touchUpInside" id="T3I-Xo-MTU"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="AqD-eE-2sN" secondAttribute="bottom" id="3Im-Nx-UbZ"/>
                         <constraint firstItem="AqD-eE-2sN" firstAttribute="top" secondItem="erO-x1-Zi4" secondAttribute="top" id="gS8-Gv-Cq8"/>
@@ -44,22 +43,20 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qsI-Vc-9X6" userLabel="View2">
-                    <rect key="frame" x="0.0" y="161" width="600" height="139"/>
                     <subviews>
                         <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDa-B5-qk0" userLabel="Btn2">
-                            <rect key="frame" x="175" y="0.0" width="250" height="139"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="wLU-l4-vct"/>
                             </constraints>
                             <state key="normal" image="ic_imageview_default_bg">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="btnOnclick:" destination="-1" eventType="touchUpInside" id="vmM-2h-cev"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="EDa-B5-qk0" secondAttribute="bottom" id="4I6-SP-XLj"/>
                         <constraint firstItem="EDa-B5-qk0" firstAttribute="centerX" secondItem="qsI-Vc-9X6" secondAttribute="centerX" id="Iz3-Hy-YZh"/>
@@ -68,22 +65,20 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VkA-06-BSx" userLabel="View3">
-                    <rect key="frame" x="0.0" y="308" width="600" height="138"/>
                     <subviews>
                         <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cpE-dB-3UK" userLabel="Btn3">
-                            <rect key="frame" x="175" y="0.0" width="250" height="138"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="bpN-nG-iab"/>
                             </constraints>
                             <state key="normal" image="ic_imageview_default_bg">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="btnOnclick:" destination="-1" eventType="touchUpInside" id="iap-dX-ntg"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="cpE-dB-3UK" secondAttribute="bottom" id="BlQ-9Z-gQ7"/>
                         <constraint firstItem="cpE-dB-3UK" firstAttribute="centerX" secondItem="VkA-06-BSx" secondAttribute="centerX" id="Yr1-c2-0Zf"/>
@@ -92,22 +87,20 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gEd-PR-gJt" userLabel="View4">
-                    <rect key="frame" x="0.0" y="454" width="600" height="138"/>
                     <subviews>
                         <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWJ-OW-yhD" userLabel="Btn4">
-                            <rect key="frame" x="175" y="0.0" width="250" height="138"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="YwW-Nr-zpZ"/>
                             </constraints>
                             <state key="normal" image="ic_imageview_default_bg">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="btnOnclick:" destination="-1" eventType="touchUpInside" id="I4r-6J-hmx"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="AWJ-OW-yhD" firstAttribute="centerX" secondItem="gEd-PR-gJt" secondAttribute="centerX" id="5hN-S1-dPW"/>
                         <constraint firstItem="AWJ-OW-yhD" firstAttribute="centerY" secondItem="gEd-PR-gJt" secondAttribute="centerY" id="jGJ-MP-6iV"/>
@@ -116,7 +109,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="erO-x1-Zi4" secondAttribute="trailing" id="3ad-UV-d59"/>
                 <constraint firstItem="gEd-PR-gJt" firstAttribute="trailing" secondItem="erO-x1-Zi4" secondAttribute="trailing" id="6GV-p7-UXr"/>

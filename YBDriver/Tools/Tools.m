@@ -10,6 +10,7 @@
 #import <MBProgressHUD.h>
 #import "Reachability.h"
 #import "AppDelegate.h"
+#import "LM_alert.h"
 
 @implementation Tools
 
@@ -78,6 +79,16 @@
     hud.removeFromSuperViewOnHide = YES;
     hud.userInteractionEnabled = NO;
     [hud hideAnimated:YES afterDelay:1.5];
+}
+
++ (void)showAlert:(nullable UIView *)view andTitle:(nullable NSString *)title andTime:(NSTimeInterval)time {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = title;
+    hud.margin = 15.0f;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.userInteractionEnabled = NO;
+    [hud hideAnimated:YES afterDelay:time];
 }
 
 + (BOOL)isConnectionAvailable {
@@ -200,6 +211,45 @@ typedef void (^Animation)(void);
     if([app.user.USER_TYPE isEqualToString:YBADMIN] || [app.user.USER_TYPE isEqualToString:YBWLS]) {
         return YES;
     }else {
+        return NO;
+    }
+}
+
+
++ (void)skipLocationSettings {
+    NSString *promptLocation = [NSString stringWithFormat:@"请打开系统设置中\"隐私->定位服务\",允许%@使用定位服务", AppDisplayName];
+    [LM_alert showLMAlertViewWithTitle:@"打开定位开关" message:promptLocation cancleButtonTitle:nil okButtonTitle:@"立即设置" otherButtonTitleArray:nil clickHandle:^(NSInteger index) {
+        if(SystemVersion > 8.0) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+        }
+    }];
+}
+
+
++ (void)skipNotifiationSettings {
+    NSString *promptNotifity = [NSString stringWithFormat:@"请打开系统设置中\"隐私->通知服务\",允许%@使用通知服务", AppDisplayName];
+    [LM_alert showLMAlertViewWithTitle:@"打开通知开关" message:promptNotifity cancleButtonTitle:nil okButtonTitle:@"立即设置" otherButtonTitleArray:nil clickHandle:^(NSInteger index) {
+        if(SystemVersion > 8.0) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+        }
+    }];
+}
+
+
++ (BOOL)isLocationServiceOpen {
+    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+        return YES;
+    } else {
         return NO;
     }
 }

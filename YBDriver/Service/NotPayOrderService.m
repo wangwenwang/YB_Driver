@@ -24,26 +24,22 @@
         _orders = [[NSMutableArray alloc] init];
         _tempPage = 1;
         _page = 1;
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         _isDropDown = NO;
         
     }
     return self;
 }
 
-/**
- * 获取未交付订单数据集合
- *
- * httpresponseProtocol: 网络请求协议
- */
-- (void)getNotPayOrderData {
+
+- (void)getNotPayOrderData:(NSUInteger)strPageCount {
     NSDictionary *parameters = nil;
     if(_app.user) {
         parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                       _app.user.IDX, @"strUserIdx",
                       @"N", @"strIsPay",
                       @(_tempPage), @"strPage",
-                      @"20", @"strPageCount",
+                      @(strPageCount), @"strPageCount",
                       @"", @"strLicense",
                       @"ios", @"UUID",
                       nil];
@@ -70,7 +66,7 @@
                 [orderM setDict:dictResult];
                 [wkSelf.orders addObject:orderM];
             }
-            wkSelf.page = wkSelf.tempPage + 1;
+            wkSelf.page = wkSelf.tempPage;
             if([_delegate respondsToSelector:@selector(successWithNotPay)]) {
                 [_delegate successWithNotPay];
             }
@@ -88,7 +84,7 @@
         NSLog(@"获取未交付订单失败！");
         NSLog(@"请求失败---%@", error);
         if([_delegate respondsToSelector:@selector(failureWithNotPay:)]) {
-            [_delegate failureWithNotPay:nil];
+            [_delegate failureWithNotPay:@"请求失败"];
         }
     }];
     

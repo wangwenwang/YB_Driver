@@ -19,7 +19,7 @@
  *
  *  return 压缩后图片的二进制
  */
-- (NSData *)compressImage:(UIImage *)image andMaxLength:(int)maxLength;
+- (NSData *)compressImage:(UIImage *)image andMaxLength:(int)maxLength andMaxWidthAndHeight:(CGFloat)maxWidthAndHeight;
 
 //添加水印方法
 - (UIImage *)waterMarkedImage:(NSString *)waterMarkText;

@@ -72,6 +72,9 @@ typedef void (^MJRefreshComponentEndRefreshingCompletionBlock)();
 /** 刷新状态 一般交给子类内部实现 */
 @property (assign, nonatomic) MJRefreshState state;
 
+/// TableView滑到底部时显示记录数  添加者:王文望
+- (void)setCount_NoMoreData:(NSUInteger)count;
+
 #pragma mark - 交给子类去访问
 /** 记录scrollView刚开始的inset */
 @property (assign, nonatomic, readonly) UIEdgeInsets scrollViewOriginalInset;

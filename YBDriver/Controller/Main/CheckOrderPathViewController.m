@@ -1,18 +1,18 @@
 //
-//  CheckPathViewController.m
-//  YBDriver
+//  CheckOrderPathViewController.m
+//  Order
 //
-//  Created by 凯东源 on 16/9/3.
+//  Created by 凯东源 on 16/10/20.
 //  Copyright © 2016年 凯东源. All rights reserved.
 //
 
-#import "CheckPathViewController.h"
+#import "CheckOrderPathViewController.h"
 #import "CheckPathService.h"
 #import "Tools.h"
-#import "LocationModel.h"
 #import "RouteAnnotation.h"
+#import "LocationModel.h"
 
-@interface CheckPathViewController ()<BMKMapViewDelegate, BMKRouteSearchDelegate, CheckPathServiceDelegate> {
+@interface CheckOrderPathViewController ()<BMKMapViewDelegate, BMKRouteSearchDelegate, CheckPathServiceDelegate> {
     
     /// 查看订单线路业务类
     CheckPathService *_service;
@@ -20,8 +20,14 @@
     /// 订单线路长度
     int _orderPathDistance;
     
+    // 规划路线 10个点一批 判断是否最后一批
+    BOOL _pathPointLast;
+    
     /// 已经规划完路线的位置点
     int _startSearchPoint;
+    
+    /// 已经规划完路线的位置点
+    int _startSearchPoint1;
     
     /// 是否是让地图缩放到包含线路
     BOOL _isJustFitMapWithPolyLine;
@@ -36,9 +42,12 @@
 /// 百度地图控件
 @property (weak, nonatomic) IBOutlet BMKMapView *mapViwe;
 
+// 路线距离
+@property (weak, nonatomic) IBOutlet UILabel *pathDistanceField;
+
 @end
 
-@implementation CheckPathViewController
+@implementation CheckOrderPathViewController
 #pragma mark -- 生命周期
 - (instancetype)init {
     if(self = [super init]) {
@@ -57,7 +66,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"查看路线";
+    self.title = @"订单路线";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,21 +76,11 @@
     _routeSearch.delegate = self;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"%s", __func__);
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [_mapViwe viewWillDisappear];
     _mapViwe.delegate = nil;
     _routeSearch.delegate = nil;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"%s", __func__);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,21 +111,21 @@
 - (void)onGetRidingRouteResult:(BMKRouteSearch *)searcher result:(BMKRidingRouteResult *)result errorCode:(BMKSearchErrorCode)error {
     NSLog(@"onGetRidingRouteResult:%u", error);
     
-//    NSMutableArray *ridingroute = [result.routes mutableCopy];
-//    if(error == BMK_SEARCH_NO_ERROR) {
-//        if(ridingroute.count > 0) {
-//            [ridingroute removeObjectAtIndex:0];
-//            for (int i = 0; i < ridingroute.count; i++) {
-//                _orderPathDistance += ridingroute
-//                BMKRidingRouteLine *ridingroute = array[i];
-//                _orderPathDistance += ridingroute.distance;
-//                
-//            }
-//            //            if() {
-//            //
-//            //            }
-//        }
-//    }
+    //    NSMutableArray *ridingroute = [result.routes mutableCopy];
+    //    if(error == BMK_SEARCH_NO_ERROR) {
+    //        if(ridingroute.count > 0) {
+    //            [ridingroute removeObjectAtIndex:0];
+    //            for (int i = 0; i < ridingroute.count; i++) {
+    //                _orderPathDistance += ridingroute
+    //                BMKRidingRouteLine *ridingroute = array[i];
+    //                _orderPathDistance += ridingroute.distance;
+    //
+    //            }
+    //            //            if() {
+    //            //
+    //            //            }
+    //        }
+    //    }
 }
 
 /**
@@ -145,6 +144,17 @@
         unsigned int planPointCounts = 0;
         for (int i = 0; i < size; i++) {
             BMKDrivingStep *transitStep = plan.steps[i];
+            
+            //            NSLog(@"sizesizesize:%ld, planPointCounts:%d", (long)size, planPointCounts);
+            
+            // 添加 annotation 节点
+            RouteAnnotation *item = [[RouteAnnotation alloc] init];
+            item.coordinate = transitStep.entrace.location;
+            item.title = transitStep.instruction;
+            item.degree = transitStep.direction * 30;
+            item.type = 4;
+            [_mapViwe addAnnotation:item];
+            
             // 轨迹点总数累计
             planPointCounts = transitStep.pointsCount + planPointCounts;
         }
@@ -167,12 +177,24 @@
         
         // 添加路线 overlay
         if(_isJustFitMapWithPolyLine) {
+            
             [self mapViewFitPolyLine:polyLine];
             _isJustFitMapWithPolyLine = NO;
             NSLog(@"缩放地图");
-        }else {
+        } else {
+            
             [_mapViwe addOverlay:polyLine];
-            NSLog(@"规划驾车路线");
+            
+            // 统计总距离
+            _orderPathDistance = _orderPathDistance + plan.distance;
+            CGFloat distance = _orderPathDistance / 1000.0;
+            if(_pathPointLast) {
+                
+                _pathDistanceField.text = [NSString stringWithFormat:@"路线长度：%.1f公里", distance];
+            } else  {
+                
+                _pathDistanceField.text = [NSString stringWithFormat:@"路线长度：%.1f公里 统计中...", distance];
+            }
         }
         //递归回调
         [self searchDrivingPath];
@@ -344,47 +366,70 @@
 - (void)searchDrivingPath {
     NSMutableArray *points = _service.orderLocations;
     NSInteger pointsSize = points.count;
-    if(_startSearchPoint >= pointsSize - 1) {
+    if(_startSearchPoint1 >= pointsSize - 2) {
         return;
     }
     
-    LocationModel *startPoint = points[_startSearchPoint];
-    BMKDrivingRoutePlanOption *drivingRouteSearchOption = [[BMKDrivingRoutePlanOption alloc] init];
+    //声明变量
     BMKPlanNode *from = [[BMKPlanNode alloc] init];
-    from.pt = CLLocationCoordinate2DMake(startPoint.CORDINATEY, startPoint.CORDINATEX);
-    drivingRouteSearchOption.from = from;
-    
-    if(!_isJustFitMapWithPolyLine) {
-        NSMutableArray *passBys = [[NSMutableArray alloc] init];
-        int i = 0;
-        while (i < 10) {
-            _startSearchPoint ++;
-            i ++;
-            if(_startSearchPoint >= pointsSize - 2) {
-                break;
-            }
-            
+    BMKPlanNode *to = [[BMKPlanNode alloc] init];
+    NSMutableArray *passBys = [[NSMutableArray alloc] init];
+    //用11个点缩放地图，起、途中9个点、终
+    if(_isJustFitMapWithPolyLine) {
+        //起点
+        LocationModel *startPoint = points[0];
+        //途中
+        CGFloat i = 0.1;
+        while (i <= 0.9) {
+            CGFloat count = points.count;
             BMKPlanNode *passBy = [[BMKPlanNode alloc] init];
-            LocationModel *passByLocalPoint = points[_startSearchPoint];
+            int j = count * i;
+            LocationModel *passByLocalPoint = points[j];
+            passBy.pt = CLLocationCoordinate2DMake(passByLocalPoint.CORDINATEY, passByLocalPoint.CORDINATEX);
+            [passBys addObject:passBy];
+            i += 0.1;
+        }
+        //终点
+        LocationModel *endPoint = points[points.count - 1];
+        from.pt = CLLocationCoordinate2DMake(startPoint.CORDINATEY, startPoint.CORDINATEX);
+        to.pt = CLLocationCoordinate2DMake(endPoint.CORDINATEY, endPoint.CORDINATEX);
+    } else {
+        //检出本途中点个数
+        int fori = 0;
+        if((points.count - _startSearchPoint1 - 2) > 10) {
+            fori = 10;
+        } else {
+            fori = (int)points.count - _startSearchPoint1 - 2;
+            _pathPointLast = YES;
+        }
+        
+        //起点
+        LocationModel *startPoint = points[_startSearchPoint1];
+        //途中
+        for (int i = 0; i < fori; i++) {
+            _startSearchPoint1 += 1;
+            BMKPlanNode *passBy = [[BMKPlanNode alloc] init];
+            LocationModel *passByLocalPoint = points[_startSearchPoint1];
             passBy.pt = CLLocationCoordinate2DMake(passByLocalPoint.CORDINATEY, passByLocalPoint.CORDINATEX);
             [passBys addObject:passBy];
         }
-        drivingRouteSearchOption.wayPointsArray = passBys;
+        //终点
+        LocationModel *endPoint = points[_startSearchPoint1 + 1];
+        
+        from.pt = CLLocationCoordinate2DMake(startPoint.CORDINATEY, startPoint.CORDINATEX);
+        to.pt = CLLocationCoordinate2DMake(endPoint.CORDINATEY, endPoint.CORDINATEX);
     }
-    LocationModel *endPoint = points[pointsSize - 1];
-    if(!_isJustFitMapWithPolyLine) {
-        endPoint = points[_startSearchPoint];
-    }
-    BMKPlanNode *to = [[BMKPlanNode alloc] init];
-    to.pt = CLLocationCoordinate2DMake(endPoint.CORDINATEY, endPoint.CORDINATEX);
-    drivingRouteSearchOption.to = to;
     
+    BMKDrivingRoutePlanOption *drivingRouteSearchOption = [[BMKDrivingRoutePlanOption alloc] init];
+    drivingRouteSearchOption.from = from;
+    drivingRouteSearchOption.wayPointsArray = passBys;
+    drivingRouteSearchOption.to = to;
     drivingRouteSearchOption.drivingRequestTrafficType = BMK_DRIVING_REQUEST_TRAFFICE_TYPE_PATH_AND_TRAFFICE;
     
     BOOL flag = [_routeSearch drivingSearch:drivingRouteSearchOption];
     if(flag) {
         NSLog(@"驾乘检索发送成功");
-    }else {
+    } else {
         NSLog(@"驾乘检索发送失败");
         [Tools showAlert:self.view andTitle:@"规划失败!"];
     }
@@ -423,14 +468,22 @@
 /// 获取订单线路位置集合成功
 - (void)success {
     NSMutableArray *points = _service.orderLocations;
-    if(points.count > 0) {
-        [self addStartAndEndPointMark:points[0] andEnd:points[points.count - 1]];
+    
+    if(points.count > 2) {
+        if(points.count > 0) {
+            [self addStartAndEndPointMark:points[0] andEnd:points[points.count - 1]];
+        }
+        [self searchDrivingPath];
+    } else {
+        
+        [Tools showAlert:self.view andTitle:[NSString stringWithFormat:@"定位点个数为%ld,小于3个点不能规划线路",(long)points.count] andTime:2.5];
     }
-    [self searchDrivingPath];
 }
 
 - (void)failure:(NSString *)msg {
     [Tools showAlert:self.view andTitle:msg ? msg : @"获取线路失败"];
 }
+
+
 
 @end

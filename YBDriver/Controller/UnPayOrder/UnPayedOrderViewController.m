@@ -13,6 +13,7 @@
 #import "UnPayTableViewCell.h"
 #import "OrderDetailViewController.h"
 #import <MBProgressHUD.h>
+#import "UITableView+NoDataPrompt.h"
 
 @interface UnPayedOrderViewController ()<UITableViewDelegate, UITableViewDataSource, NotPayOrderServiceDelegate, OrderDetailServiceDelegate>
 
@@ -31,7 +32,10 @@
 
 @implementation UnPayedOrderViewController
 
-#pragma mark -- 生命周期
+
+#define kPageCount 20
+
+#pragma mark - 生命周期
 - (instancetype)init {
     NSLog(@"%s", __func__);
     if(self = [super init]) {
@@ -63,9 +67,7 @@
     }
     _shouldShowAlert = YES;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_myTableView reloadData];
-    });
+    [_myTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -128,7 +130,7 @@
 - (void)loadMoreDataUp {
     if([Tools isConnectionAvailable]) {
         _service.tempPage = _service.page + 1;
-        [_service getNotPayOrderData];
+        [_service getNotPayOrderData:kPageCount];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用"];
     }
@@ -138,7 +140,7 @@
     _service.tempPage = 1;
     if([Tools isConnectionAvailable]) {
         _service.isDropDown = YES;
-        [_service getNotPayOrderData];
+        [_service getNotPayOrderData:kPageCount];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用"];
     }
@@ -174,12 +176,20 @@
 
 #pragma mark -- NotPayOrderServiceDelatate
 - (void)successWithNotPay {
+    
     _service.isDropDown = NO;
+    
     [_myTableView.mj_header endRefreshing];
     [_myTableView.mj_footer endRefreshing];
-    if(_service.orders.count > 19) {
+    
+    [_myTableView reloadData];
+    
+    if(_service.orders.count > kPageCount - 1) {
+        
         _myTableView.mj_footer.hidden = NO;
-        if(_service.page != 2) {
+        
+        if(_service.page != 1) {
+            
             CGFloat y = _myTableView.contentOffset.y;
             CGPoint p = CGPointMake(0, y + 73);
             [_myTableView setContentOffset:p animated:YES];
@@ -187,10 +197,7 @@
     }else {
         _myTableView.mj_footer.hidden = YES;
     }
-    [Tools showAlert:self.view andTitle:@"获取成功"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_myTableView reloadData];
-    });
+    [Tools showAlert:_myTableView andTitle:@"获取成功"];
     
     _isRequestData = NO;
 }
@@ -199,7 +206,21 @@
     _service.isDropDown = NO;
     [_myTableView.mj_header endRefreshing];
     [_myTableView.mj_footer endRefreshing];
-    [Tools showAlert:self.view andTitle:msg ? msg : @"获取已交付订单失败！"];
+    [Tools showAlert:_myTableView andTitle:msg ? msg : @"获取已交付订单失败！"];
+    
+    if(_service.page == 1) {
+        
+        [_service.orders removeAllObjects];
+        [_myTableView noOrder:msg];
+    } else {
+        
+        // 已加载完毕
+        [_myTableView.mj_footer endRefreshingWithNoMoreData];
+        [_myTableView removeNoDataPrompt];
+        [_myTableView.mj_footer setCount_NoMoreData:_service.orders.count];
+    }
+    
+    [_myTableView reloadData];
     
     _isRequestData = NO;
 }

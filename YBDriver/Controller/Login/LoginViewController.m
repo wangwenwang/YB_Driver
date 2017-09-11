@@ -40,7 +40,7 @@
     NSLog(@"%s", __func__);
     if(self = [super init]) {
         _loginService = [[LoginService alloc] init];
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -80,6 +80,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%s", __func__);
+    
+    [self.view layoutIfNeeded];
     
     //帐号
     UIImageView *uImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetHeight(_userNameT.frame), CGRectGetHeight(_userNameT.frame))];

@@ -11,10 +11,11 @@
 #import "Tools.h"
 #import "OrderModel.h"
 #import <MBProgressHUD.h>
-#import "CheckPathViewController.h"
+#import "CheckOrderPathViewController.h"
 #import "PayOrderViewController.h"
 #import "AppDelegate.h"
 #import "CheckPictureViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface OrderDetailViewController ()<UITableViewDelegate, UITableViewDataSource> {
     AppDelegate *_app;
@@ -82,7 +83,7 @@
 - (instancetype)init {
     NSLog(@"%s", __func__);
     if(self = [super init]) {
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -160,6 +161,82 @@
     _orderToAddress.text = order.ORD_TO_ADDRESS;
 }
 
+
+- (void)navigationOnclick {
+    
+    NSMutableArray *maps = [[NSMutableArray alloc] init];
+    [maps addObject:@"苹果自带地图"];
+    
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
+        
+        [maps addObject:@"高德地图"];
+    }
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]) {
+        
+        [maps addObject:@"百度地图"];
+    }
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"icomgooglemaps://"]]) {
+        
+        [maps addObject:@"谷歌地图"];
+    }
+    [self mapsSheet:maps];
+}
+
+
+- (void)mapsSheet:(NSMutableArray *)maps {
+    
+    UIAlertController *actionSheetC = [UIAlertController alertControllerWithTitle:@"选择地图" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheetC addAction:([UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil])];
+    
+    for (int i = 0; i < maps.count; i++) {
+        
+        [actionSheetC addAction:([UIAlertAction actionWithTitle:maps[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [self toMaps:maps[i] andAddress:_service.order.ORD_TO_ADDRESS];
+        }])];
+    }
+    [self presentViewController:actionSheetC animated:YES completion:nil];
+}
+
+// 实时导航
+- (void)toMaps:(NSString *)type andAddress:(NSString *)address {
+    
+    if([type isEqualToString:@"苹果自带地图"]) {
+        
+        // 起点
+        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+        
+        // 终点
+        CLGeocoder *geo = [[CLGeocoder alloc] init];
+        [geo geocodeAddressString:address completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+            
+            CLPlacemark *endMark=placemarks.firstObject;
+            MKPlacemark *mkEndMark=[[MKPlacemark alloc]initWithPlacemark:endMark];
+            MKMapItem *endItem=[[MKMapItem alloc]initWithPlacemark:mkEndMark];
+            NSDictionary *dict=@{
+                                 MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving,
+                                 MKLaunchOptionsMapTypeKey:@(MKMapTypeStandard),
+                                 MKLaunchOptionsShowsTrafficKey:@(YES)
+                                 };
+            [MKMapItem openMapsWithItems:@[currentLocation,endItem] launchOptions:dict];\
+        }];
+    } else if([type isEqualToString:@"高德地图"]) {
+        
+        NSString *urlString = [NSString stringWithFormat:@"iosamap://path?sourceApplication=配货易(司机)&sid=BGVIS1&slat=&slon=&sname=&did=BGVIS2&dname=%@&dev=0&t=0", address];
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    } else if([type isEqualToString:@"百度地图"]) {
+        
+        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?destination=%@&mode=driving&coord_type=gcj02", address];
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    } else if([type isEqualToString:@"谷歌地图"]) {
+        
+        [Tools showAlert:self.view andTitle:@"正在建设中..."];
+    }
+}
+
 /// 猪多重复代码，下个版本修改
 /// 添加底部按钮，司机有两个按钮（查看路线 到达交付），其它用户只能查看路线
 - (void)addBottomBtn {
@@ -177,11 +254,18 @@
             [showOrderPathBtn setFrame:CGRectMake(showOrderPathX, showOrderPathY, showOrderPathW, showOrderPathH)];
             showOrderPathBtn.backgroundColor = YBGreen;
             showOrderPathBtn.layer.cornerRadius = 2.0f;
-            [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
             [showOrderPathBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [showOrderPathBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-            [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:showOrderPathBtn];
+            if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
+                
+                [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
+                [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
+            } else {
+                
+                [showOrderPathBtn setTitle:@"实时导航" forState:UIControlStateNormal];
+                [showOrderPathBtn addTarget:self action:@selector(navigationOnclick) forControlEvents:UIControlEventTouchUpInside];
+            }
             
             //添加到达交付按钮
             UIButton *orderPayedBtn = [[UIButton alloc] init];
@@ -193,14 +277,18 @@
             orderPayedBtn.backgroundColor = YBGreen;
             orderPayedBtn.layer.cornerRadius = 2.0f;
             NSString *orderPayedBtnTitle = @"";
+            
             if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
+                
                 orderPayedBtnTitle = @"查看签名、图片";
                 [orderPayedBtn addTarget:self action:@selector(checkAutographAndPicture:) forControlEvents:UIControlEventTouchUpInside];
+            } else {
                 
-            }else {
                 if([_service.order.DRIVER_PAY isEqualToString:@"N"]) {
+                    
                     orderPayedBtnTitle = @"到达交付";
-                }else {
+                } else if([_service.order.DRIVER_PAY isEqualToString:@"S"]){
+                    
                     orderPayedBtnTitle = @"最终交付";
                 }
                 [orderPayedBtn addTarget:self action:@selector(orderPayedOnclick) forControlEvents:UIControlEventTouchUpInside];
@@ -288,7 +376,7 @@
 #pragma mark -- 点击事件
 /// 跳转到查看订单线路界面
 - (void)showOrderPathOnclick {
-    CheckPathViewController *vc = [[CheckPathViewController alloc] init];
+    CheckOrderPathViewController *vc = [[CheckOrderPathViewController alloc] init];
     vc.orderIDX = _service.order.IDX;
     [self.navigationController pushViewController:vc animated:YES];
 }

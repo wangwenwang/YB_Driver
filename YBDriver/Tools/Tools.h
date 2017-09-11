@@ -67,4 +67,21 @@
 /// 判断是否管理员和物流商
 + (BOOL)isADMINorWLS;
 
+
++ (void)skipLocationSettings;
+
+
++ (void)skipNotifiationSettings;
+
++ (BOOL)isLocationServiceOpen;
+
+/**
+ 提示带时间参数
+ 
+ @param view  父窗口
+ @param title 标题
+ @param time  停留时间
+ */
++ (void)showAlert:(nullable UIView *)view andTitle:(nullable NSString *)title andTime:(NSTimeInterval)time;
+
 @end

@@ -14,6 +14,7 @@
 #import "OrderDetailViewController.h"
 #import "OrderDetailService.h"
 #import <MBProgressHUD.h>
+#import "UITableView+NoDataPrompt.h"
 
 @interface PayedOrderViewController ()<UITableViewDelegate, UITableViewDataSource, PayedOrderServiceDelegate, OrderDetailServiceDelegate>
 
@@ -22,9 +23,6 @@
 
 /// 已交付订单业务类
 @property (strong, nonatomic) PayedOrderService *service;
-
-/// 界面显示到前台的时候是否要刷新数据、主要在司机交付订单成功后返回该界面和登陆界面使用
-@property (assign, nonatomic) BOOL shouldRefresh;
 
 /// 是否弹出对话框显示警告信息，pagemenue bug 滑动到底部的时候再进行左右滑动切换的时候会刷新数据
 @property (assign, nonatomic) BOOL shouldShowAlert;
@@ -35,7 +33,10 @@
 
 @implementation PayedOrderViewController
 
-#pragma mark -- 生命周期
+
+#define kPageCount 20
+
+#pragma mark - 生命周期
 - (instancetype)init {
     NSLog(@"%s", __func__);
     if(self = [super init]) {
@@ -67,6 +68,8 @@
         [_myTableView.mj_header beginRefreshing];
         _shouldRefresh = NO;
     }
+    
+    [_myTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,7 +95,7 @@
     NSLog(@"%s", __func__);
 }
 
-#pragma mark -- UITableViewDelegate
+#pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _service.orders.count;
 }
@@ -122,11 +125,11 @@
     [_orderDetailService getOrderData:or.ORD_IDX];
 }
 
-#pragma mark -- 功能函数
+#pragma mark - 功能函数
 - (void)loadMoreDataUp {
     if([Tools isConnectionAvailable]) {
         _service.tempPage = _service.page + 1;
-        [_service getPayedOrderData];
+        [_service getPayedOrderData:kPageCount];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用"];
     }
@@ -135,13 +138,13 @@
 - (void)loadMoreDataDown {
     _service.tempPage = 1;
     if([Tools isConnectionAvailable]) {
-        [_service getPayedOrderData];
+        [_service getPayedOrderData:kPageCount];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用"];
     }
 }
 
-#pragma mark -- 控件GET方法
+#pragma mark - 控件GET方法
 - (UITableView *)myTableView {
     if(!_myTableView) {
         _myTableView = [[UITableView alloc] init];
@@ -166,31 +169,56 @@
     return _myTableView;
 }
 
-#pragma mark -- PayedOrderServiceDelegate
+#pragma mark - PayedOrderServiceDelegate
+
 - (void)successWithPayed {
+    
     [_myTableView.mj_header endRefreshing];
     [_myTableView.mj_footer endRefreshing];
-    if(_service.orders.count > 19) {
+    
+    if(_service.orders.count > kPageCount - 1) {
+        
         _myTableView.mj_footer.hidden = NO;
-        if(_service.page != 2) {
+        
+        if(_service.page != 1) {
+            
+            [_myTableView reloadData];
+            
             CGFloat y = _myTableView.contentOffset.y;
             CGPoint p = CGPointMake(0, y + 73);
             [_myTableView setContentOffset:p animated:YES];
         }
-    }else {
+    } else {
+        
         _myTableView.mj_footer.hidden = YES;
     }
-    [Tools showAlert:self.view andTitle:@"获取成功"];
+    
+    [Tools showAlert:_myTableView andTitle:@"获取成功"];
     [_myTableView reloadData];
 }
 
 - (void)failureWithPayed:(NSString *)msg {
+    
     [_myTableView.mj_header endRefreshing];
     [_myTableView.mj_footer endRefreshing];
-    [Tools showAlert:self.view andTitle:msg ? msg : @"获取已交付订单失败！"];
+    [Tools showAlert:_myTableView andTitle:msg ? msg : @"获取已交付订单失败！"];
+    
+    if(_service.page == 1) {
+        
+        [_service.orders removeAllObjects];
+        [_myTableView noOrder:msg];
+    } else {
+        
+        // 已加载完毕
+        [_myTableView.mj_footer endRefreshingWithNoMoreData];
+        [_myTableView removeNoDataPrompt];
+        [_myTableView.mj_footer setCount_NoMoreData:_service.orders.count];
+    }
+    
+    [_myTableView reloadData];
 }
 
-#pragma mark -- OrderDetailServiceDelegate
+#pragma mark - OrderDetailServiceDelegate
 - (void)success {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];

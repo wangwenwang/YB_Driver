@@ -35,19 +35,15 @@
     return self;
 }
 
-/**
- * 获取已交付订单数据集合
- *
- * httpresponseProtocol: 网络请求协议
- */
-- (void)getPayedOrderData {
+
+- (void)getPayedOrderData:(NSInteger)strPageCount {
     NSDictionary *parameters = nil;
     if(_app.user) {
         parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                       _app.user.IDX, @"strUserIdx",
                       @"Y", @"strIsPay",
                       @(_tempPage), @"strPage",
-                      @"20", @"strPageCount",
+                      @(strPageCount), @"strPageCount",
                       @"", @"strLicense",
                       @"ios", @"UUID",
                       nil];
@@ -90,7 +86,7 @@
         NSLog(@"请求失败---%@", error);
         NSLog(@"获取已交付订单失败");
         if([_delegate respondsToSelector:@selector(failureWithPayed:)]) {
-            [_delegate failureWithPayed:nil];
+            [_delegate failureWithPayed:@"请求失败"];
         }
     }];
 }

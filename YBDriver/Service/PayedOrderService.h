@@ -31,11 +31,12 @@
 
 @property (weak, nonatomic)id <PayedOrderServiceDelegate> delegate;
 
+
 /**
- * 获取已交付订单数据集合
- *
- * httpresponseProtocol: 网络请求协议
+ 获取已交付订单数据集合
+
+ @param strPageCount 每页数量
  */
-- (void)getPayedOrderData;
+- (void)getPayedOrderData:(NSInteger)strPageCount;
 
 @end

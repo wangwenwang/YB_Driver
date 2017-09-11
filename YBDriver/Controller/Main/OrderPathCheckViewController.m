@@ -12,7 +12,7 @@
 #import "Tools.h"
 #import "NotPayedTableViewCell.h"
 #import <MJRefresh.h>
-#import "CheckPathViewController.h"
+#import "CheckOrderPathViewController.h"
 
 
 @interface OrderPathCheckViewController ()<UITableViewDelegate, UITableViewDataSource, CheckPayedOrderPathServiceDelegate, NotPayOrderServiceDelegate> {
@@ -100,26 +100,6 @@
     [self initPayedTableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -170,7 +150,7 @@
     //判断连接状态
     if([Tools isConnectionAvailable]) {
         _notPayOrderService.isDropDown = YES;
-        [_notPayOrderService getNotPayOrderData];
+        [_notPayOrderService getNotPayOrderData:20];
     }else{
         [Tools showAlert:self.view andTitle:@"网络连接不可用!"];
         [_notPayTableView.mj_header endRefreshing];
@@ -181,7 +161,7 @@
     //判断连接状态
     if([Tools isConnectionAvailable]) {
         _notPayOrderService.tempPage = _notPayOrderService.page + 1;
-        [_notPayOrderService getNotPayOrderData];
+        [_notPayOrderService getNotPayOrderData:20];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用!"];
         [_notPayTableView.mj_footer endRefreshing];
@@ -342,7 +322,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CheckPathViewController *vc = [[CheckPathViewController alloc] init];
+    CheckOrderPathViewController *vc = [[CheckOrderPathViewController alloc] init];
     if([tableView isEqual:_notPayTableView]) {
         OrderModel *or = _notPayOrderService.orders[indexPath.row];
         vc.orderIDX = or.ORD_IDX;

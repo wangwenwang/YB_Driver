@@ -37,7 +37,7 @@
  *
  * httpresponseProtocol: 网络请求协议
  */
-- (void)getNotPayOrderData;
+- (void)getNotPayOrderData:(NSUInteger)strPageCount;
 
 @property (weak, nonatomic) id <NotPayOrderServiceDelegate> delegate;
 

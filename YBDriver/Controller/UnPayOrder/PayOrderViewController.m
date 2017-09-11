@@ -14,6 +14,8 @@
 #import <MBProgressHUD.h>
 #import "OrderDetailViewController.h"
 #import "UnPayedOrderViewController.h"
+#import "PhotoBroswerVC.h"
+#import "PayedOrderViewController.h"
 
 @interface PayOrderViewController ()<UIAlertViewDelegate, UIImagePickerControllerDelegate, PayOrderServiceDelegate, UINavigationControllerDelegate> {
     
@@ -78,7 +80,9 @@
 
 @implementation PayOrderViewController
 
-#pragma mark -- 生命周期
+
+#pragma mark - 生命周期
+
 - (instancetype)init {
     NSLog(@"%s", __func__);
     self = [super init];
@@ -102,6 +106,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSLog(@"%s", __func__);
+    
     if([_orderPayState isEqualToString:@"N"]) {
         [_addPictureButtonOne setTitle:@"车头照片" forState:UIControlStateNormal];
         [_addPictureButtonTwo setTitle:@"卸货车照" forState:UIControlStateNormal];
@@ -138,40 +143,56 @@
     NSLog(@"%s", __func__);
 }
 
-#pragma mark -- 事件
+
+#pragma mark - 事件
+
+// 查看或添加图片1
 - (IBAction)onImageOneButtonClick:(UIButton *)sender {
-    _currentUpdataPictureIndex = 1;
     
     if(_isHaveImageOne) {
-        [Tools showImage:_imageOneButton.imageView];
+        
+//        [Tools showImage:_imageOneButton.imageView];
+        [self localImageShow:_imageOneButton.imageView];
     } else {
-        [self showUpdataPictureWay];
+        
+        [self addPictureOneBtnOnclick:nil];
     }
 }
 
+
+// 添加图片1
 - (IBAction)addPictureOneBtnOnclick:(UIButton *)sender {
+    
     _currentUpdataPictureIndex = 1;
     [self showUpdataPictureWay];
 }
 
+
+// 查看或添加图片2
 - (IBAction)onImageTwoButtonClick:(UIButton *)sender {
-    _currentUpdataPictureIndex = 2;
     
     if(_isHaveImageTwo) {
-        [Tools showImage:_imageOneButton.imageView];
+        
+        [self localImageShow:_imageTwoButton.imageView];
     } else {
-        [self showUpdataPictureWay];
+        
+        [self addPictureTwoBtnOnclick:nil];
     }
 }
 
+
+// 添加图片2
 - (IBAction)addPictureTwoBtnOnclick:(UIButton *)sender {
+    
     _currentUpdataPictureIndex = 2;
     [self showUpdataPictureWay];
 }
+
 
 - (IBAction)cancelPayOnclick:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (IBAction)commitPayOnclick:(UIButton *)sender {
     if(!_isHaveImageOne) {
@@ -198,7 +219,8 @@
     }
 }
 
-#pragma mark -- 功能函数
+#pragma mark - 功能函数
+
 /// 显示选择上传图片方式的对话框
 - (void)showUpdataPictureWay {
     _showUpdataPictureWayAlert.title = @"拍照上传";
@@ -209,7 +231,36 @@
     [_showUpdataPictureWayAlert show];
 }
 
-#pragma mark -- UIAlertViewDelegate
+
+/*
+ *  本地图片展示
+ */
+-(void)localImageShow:(UIImageView *)imageView {
+    
+    [PhotoBroswerVC show:self type:PhotoBroswerVCTypeZoom index:0 photoModelBlock:^NSArray *{
+        
+        NSArray *localImages = @[imageView.image];
+        
+        NSMutableArray *modelsM = [NSMutableArray arrayWithCapacity:localImages.count];
+        for (NSUInteger i = 0; i< localImages.count; i++) {
+            
+            PhotoModel *pbModel=[[PhotoModel alloc] init];
+            pbModel.mid = [[NSDate date] timeIntervalSince1970] * 1000;
+            pbModel.image = localImages[i];
+            
+            //源frame
+            pbModel.sourceImageView = imageView;
+            
+            [modelsM addObject:pbModel];
+        }
+        
+        return modelsM;
+    }];
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
 /**
  * 显示对话框提示用户信息
  *
@@ -242,7 +293,9 @@
     }
 }
 
-#pragma mark -- UIImagePickerControllerDelegate
+
+#pragma mark - UIImagePickerControllerDelegate
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
     [self dismissViewControllerAnimated:YES completion:^{
@@ -255,7 +308,11 @@
     }
     
     if(image != nil) {
-        NSData *data = [image compressImage:image andMaxLength:1024*100];
+        
+        CGFloat maxLenth = ([_orderPayState isEqualToString:@"S"] && _currentUpdataPictureIndex == 2) ? 800 * 1000 : 80 * 1000;
+        CGFloat maxWidthAndHeight = ([_orderPayState isEqualToString:@"S"] && _currentUpdataPictureIndex == 2) ? 568 * 5 : 568 * 2;
+        
+        NSData *data = [image compressImage:image andMaxLength:maxLenth andMaxWidthAndHeight:maxWidthAndHeight];
         if(data != nil) {
             image = [UIImage imageWithData:data];
         }
@@ -298,10 +355,16 @@
                 UIViewController *tabbarVC = arrTabBarVc[j];
                 if([tabbarVC isMemberOfClass:[UnPayedOrderViewController class]]) {
                     _unPayedOrderVC = (UnPayedOrderViewController *)tabbarVC;
-                    break;
+                } else if([tabbarVC isMemberOfClass:[PayedOrderViewController class]]) {
+                    
+                    if([_orderPayState isEqualToString:@"S"]) {
+                        
+                        PayedOrderViewController *vc = (PayedOrderViewController *)tabbarVC;
+                        vc.shouldRefresh = YES;
+                    }
                 }
             }
-        }else if([navVC isMemberOfClass:[OrderDetailViewController class]]) {
+        } else if([navVC isMemberOfClass:[OrderDetailViewController class]]) {
             _orderDetailVC = (OrderDetailViewController *)navVC;
         }
     }
@@ -309,7 +372,9 @@
     _unPayedOrderVC.isRequestData = YES;
 }
 
-#pragma mark -- PayOrderServiceDelegate
+
+#pragma mark - PayOrderServiceDelegate
+
 /// 提交订单成功回调
 - (void)success {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
