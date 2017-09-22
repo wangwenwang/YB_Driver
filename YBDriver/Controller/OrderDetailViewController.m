@@ -133,20 +133,25 @@
     NSLog(@"%s", __func__);
 }
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark -- 功能函数
-/// 注册Cell
+
+#pragma mark - 功能函数
+
+// 注册Cell
 - (void)regisCell {
     UINib *n = [UINib nibWithNibName:@"OrderDetailsTableViewCell" bundle:nil];
     [_myTableView registerNib:n forCellReuseIdentifier:@"OrderDetailsTableViewCell"];
     _myTableView.separatorStyle = NO;
 }
 
-/// 更新界面中的数据
+
+// 更新界面中的数据
 - (void)updataUI:(OrderModel *)order {
+    
     _orderNO.text = order.ORD_NO;
     _orderIssueName.text = order.TMS_FLEET_NAME;
     _orderOutTime.text = order.TMS_DATE_ISSUE;
@@ -155,7 +160,7 @@
     _orderDriverPhoneNumber.text = order.TMS_DRIVER_TEL;
     _orderTransWay.text = order.TMS_TYPE_TRANSPORT;
     _orderCarNumber.text = order.TMS_PLATE_NUMBER;
-    _orderTotalCount.text = [NSString stringWithFormat:@"%@件", order.ORD_QTY];
+    _orderTotalCount.text = [Tools OneDecimal:order.ORD_QTY];
     _orderTotalWeight.text = [NSString stringWithFormat:@"%@吨", order.ORD_WEIGHT];
     _customerName.text = order.ORD_TO_NAME;
     _orderToAddress.text = order.ORD_TO_ADDRESS;
@@ -352,13 +357,17 @@
     return count;
 }
 
-/// 设置 cell 高度
+
+// 设置 cell 高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return 66;
 }
 
-/// 设置自定义的 cell
+
+// 设置自定义的 cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     static NSString *cellId = @"OrderDetailsTableViewCell";
     OrderDetailsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     cell.orderDetail = _service.order.OrderDetails[indexPath.section];

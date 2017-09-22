@@ -7,6 +7,7 @@
 //
 
 #import "UnPayTableViewCell.h"
+#import "Tools.h"
 
 @implementation UnPayTableViewCell
 
@@ -21,11 +22,13 @@
     // Configure the view for the selected state
 }
 
+
 - (void)setOrder:(OrderModel *)order {
+    
     _orderNO.text = order.ORD_NO;
     _orderToName.text = order.ORD_TO_NAME;
     _orderToAddress.text = order.ORD_TO_ADDRESS;
-    _orderIssueQTY.text = order.ORD_QTY;
+    _orderIssueQTY.text = [Tools OneDecimal:order.ORD_QTY];
     _orderIssueWeight.text = order.ORD_WEIGHT;
     _orderDriverName.text = order.TMS_DRIVER_NAME;
     _orderDriverTelephone.text = order.TMS_DRIVER_TEL;
