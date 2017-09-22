@@ -144,10 +144,15 @@
     cell.oneLabel.text = _minePlistArrM[indexPath.row][@"title"];
     cell.twoLabel.text = _minePlistArrM[indexPath.row][@"prompt"];
     
-    
     if(indexPath.row == 0) {
+        
         cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_NAME : @"";
-    }else if(indexPath.row == 1) {cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_TYPE : @"";
+    } else if(indexPath.row == 1) {
+        
+        cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_TYPE : @"";
+    } else if(indexPath.row == 3) {
+        
+        cell.twoLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     }
     if([Tools isADMINorWLS]) {
         if(indexPath.row == 2 || indexPath.row == 4) {

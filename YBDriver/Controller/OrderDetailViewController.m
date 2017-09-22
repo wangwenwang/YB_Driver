@@ -162,27 +162,6 @@
 }
 
 
-- (void)navigationOnclick {
-    
-    NSMutableArray *maps = [[NSMutableArray alloc] init];
-    [maps addObject:@"苹果自带地图"];
-    
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
-        
-        [maps addObject:@"高德地图"];
-    }
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]) {
-        
-        [maps addObject:@"百度地图"];
-    }
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"icomgooglemaps://"]]) {
-        
-        [maps addObject:@"谷歌地图"];
-    }
-    [self mapsSheet:maps];
-}
-
-
 - (void)mapsSheet:(NSMutableArray *)maps {
     
     UIAlertController *actionSheetC = [UIAlertController alertControllerWithTitle:@"选择地图" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -240,131 +219,63 @@
 /// 猪多重复代码，下个版本修改
 /// 添加底部按钮，司机有两个按钮（查看路线 到达交付），其它用户只能查看路线
 - (void)addBottomBtn {
-    if(_service.order.OrderDetails.count > 0) {
-        if([_app.user.USER_TYPE isEqualToString:@"司机"]) {
-            //两个按钮之间的距离
-            CGFloat btnToBtnSpace = 15;
-            
-            //添加查看路线按钮
-            UIButton *showOrderPathBtn = [[UIButton alloc] init];
-            CGFloat showOrderPathX = CGRectGetMinX(_orderNoLabel.frame);
-            CGFloat showOrderPathY = CGRectGetMaxY(_myTableView.frame);
-            CGFloat showOrderPathW = (ScreenWidth - 8 - btnToBtnSpace - 8) / 2;
-            CGFloat showOrderPathH = 35;
-            [showOrderPathBtn setFrame:CGRectMake(showOrderPathX, showOrderPathY, showOrderPathW, showOrderPathH)];
-            showOrderPathBtn.backgroundColor = YBGreen;
-            showOrderPathBtn.layer.cornerRadius = 2.0f;
-            [showOrderPathBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [showOrderPathBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-            [self.view addSubview:showOrderPathBtn];
-            if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
-                
-                [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
-                [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
-            } else {
-                
-                [showOrderPathBtn setTitle:@"实时导航" forState:UIControlStateNormal];
-                [showOrderPathBtn addTarget:self action:@selector(navigationOnclick) forControlEvents:UIControlEventTouchUpInside];
-            }
-            
-            //添加到达交付按钮
-            UIButton *orderPayedBtn = [[UIButton alloc] init];
-            CGFloat orderPayedX = CGRectGetMaxX(showOrderPathBtn.frame) + btnToBtnSpace;
-            CGFloat orderPayedY = CGRectGetMinY(showOrderPathBtn.frame);
-            CGFloat orderPayedW = CGRectGetWidth(showOrderPathBtn.frame);
-            CGFloat orderPayedH = CGRectGetHeight(showOrderPathBtn.frame);
-            [orderPayedBtn setFrame:CGRectMake(orderPayedX, orderPayedY, orderPayedW, orderPayedH)];
-            orderPayedBtn.backgroundColor = YBGreen;
-            orderPayedBtn.layer.cornerRadius = 2.0f;
-            NSString *orderPayedBtnTitle = @"";
-            
-            if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
-                
-                orderPayedBtnTitle = @"查看签名、图片";
-                [orderPayedBtn addTarget:self action:@selector(checkAutographAndPicture:) forControlEvents:UIControlEventTouchUpInside];
-            } else {
-                
-                if([_service.order.DRIVER_PAY isEqualToString:@"N"]) {
-                    
-                    orderPayedBtnTitle = @"到达交付";
-                } else if([_service.order.DRIVER_PAY isEqualToString:@"S"]){
-                    
-                    orderPayedBtnTitle = @"最终交付";
-                }
-                [orderPayedBtn addTarget:self action:@selector(orderPayedOnclick) forControlEvents:UIControlEventTouchUpInside];
-            }
-            [orderPayedBtn setTitle:orderPayedBtnTitle forState:UIControlStateNormal];
-            [orderPayedBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [orderPayedBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-            
-            [self.view addSubview:orderPayedBtn];
-        }else {
-            if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
-                //两个按钮之间的距离
-                CGFloat btnToBtnSpace = 15;
-                
-                //添加查看路线按钮
-                UIButton *showOrderPathBtn = [[UIButton alloc] init];
-                CGFloat showOrderPathX = CGRectGetMinX(_orderNoLabel.frame);
-                CGFloat showOrderPathY = CGRectGetMaxY(_myTableView.frame);
-                CGFloat showOrderPathW = (ScreenWidth - 8 - btnToBtnSpace - 8) / 2;
-                CGFloat showOrderPathH = 35;
-                [showOrderPathBtn setFrame:CGRectMake(showOrderPathX, showOrderPathY, showOrderPathW, showOrderPathH)];
-                showOrderPathBtn.backgroundColor = YBGreen;
-                showOrderPathBtn.layer.cornerRadius = 2.0f;
-                [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
-                [showOrderPathBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [showOrderPathBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-                [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
-                [self.view addSubview:showOrderPathBtn];
-                
-                //添加到达交付按钮
-                UIButton *orderPayedBtn = [[UIButton alloc] init];
-                CGFloat orderPayedX = CGRectGetMaxX(showOrderPathBtn.frame) + btnToBtnSpace;
-                CGFloat orderPayedY = CGRectGetMinY(showOrderPathBtn.frame);
-                CGFloat orderPayedW = CGRectGetWidth(showOrderPathBtn.frame);
-                CGFloat orderPayedH = CGRectGetHeight(showOrderPathBtn.frame);
-                [orderPayedBtn setFrame:CGRectMake(orderPayedX, orderPayedY, orderPayedW, orderPayedH)];
-                orderPayedBtn.backgroundColor = YBGreen;
-                orderPayedBtn.layer.cornerRadius = 2.0f;
-                NSString *orderPayedBtnTitle = @"";
-                if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
-                    orderPayedBtnTitle = @"查看签名、图片";
-                    [orderPayedBtn addTarget:self action:@selector(checkAutographAndPicture:) forControlEvents:UIControlEventTouchUpInside];
-                    
-                }else {
-                    if([_service.order.DRIVER_PAY isEqualToString:@"N"]) {
-                        orderPayedBtnTitle = @"到达交付";
-                    }else {
-                        orderPayedBtnTitle = @"最终交付";
-                    }
-                    [orderPayedBtn addTarget:self action:@selector(orderPayedOnclick) forControlEvents:UIControlEventTouchUpInside];
-                }
-                [orderPayedBtn setTitle:orderPayedBtnTitle forState:UIControlStateNormal];
-                [orderPayedBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [orderPayedBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-                
-                [self.view addSubview:orderPayedBtn];
-            }else {
-                //添加查看路线按钮
-                UIButton *showOrderPathBtn = [[UIButton alloc] init];
-                CGFloat showOrderPathX = CGRectGetMinX(_orderNoLabel.frame);
-                CGFloat showOrderPathY = CGRectGetMaxY(_myTableView.frame);
-                CGFloat showOrderPathW = (ScreenWidth - 8 - 8);
-                CGFloat showOrderPathH = 35;
-                [showOrderPathBtn setFrame:CGRectMake(showOrderPathX, showOrderPathY, showOrderPathW, showOrderPathH)];
-                showOrderPathBtn.backgroundColor = YBGreen;
-                showOrderPathBtn.layer.cornerRadius = 2.0f;
-                [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
-                [showOrderPathBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [showOrderPathBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
-                [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
-                [self.view addSubview:showOrderPathBtn];
-            }
-        }
-    }else {
-        nil;
+    
+    //两个按钮之间的距离
+    CGFloat btnToBtnSpace = 15;
+    
+    //添加查看路线按钮
+    UIButton *showOrderPathBtn = [[UIButton alloc] init];
+    CGFloat showOrderPathX = CGRectGetMinX(_orderNoLabel.frame);
+    CGFloat showOrderPathY = CGRectGetMaxY(_myTableView.frame);
+    CGFloat showOrderPathW = (ScreenWidth - 8 - btnToBtnSpace - 8) / 2;
+    CGFloat showOrderPathH = 35;
+    [showOrderPathBtn setFrame:CGRectMake(showOrderPathX, showOrderPathY, showOrderPathW, showOrderPathH)];
+    showOrderPathBtn.backgroundColor = YBGreen;
+    showOrderPathBtn.layer.cornerRadius = 2.0f;
+    [showOrderPathBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [showOrderPathBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
+    [self.view addSubview:showOrderPathBtn];
+    if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
+        
+        [showOrderPathBtn setTitle:@"查看路线" forState:UIControlStateNormal];
+        [showOrderPathBtn addTarget:self action:@selector(showOrderPathOnclick) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        
+        [showOrderPathBtn setTitle:@"实时导航" forState:UIControlStateNormal];
+        [showOrderPathBtn addTarget:self action:@selector(navigationOnclick) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    //添加到达交付按钮
+    UIButton *orderPayedBtn = [[UIButton alloc] init];
+    CGFloat orderPayedX = CGRectGetMaxX(showOrderPathBtn.frame) + btnToBtnSpace;
+    CGFloat orderPayedY = CGRectGetMinY(showOrderPathBtn.frame);
+    CGFloat orderPayedW = CGRectGetWidth(showOrderPathBtn.frame);
+    CGFloat orderPayedH = CGRectGetHeight(showOrderPathBtn.frame);
+    [orderPayedBtn setFrame:CGRectMake(orderPayedX, orderPayedY, orderPayedW, orderPayedH)];
+    orderPayedBtn.backgroundColor = YBGreen;
+    orderPayedBtn.layer.cornerRadius = 2.0f;
+    NSString *orderPayedBtnTitle = @"";
+    
+    if([_service.order.DRIVER_PAY isEqualToString:@"Y"]) {
+        
+        orderPayedBtnTitle = @"查看签名、图片";
+        [orderPayedBtn addTarget:self action:@selector(checkAutographAndPicture:) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        
+        if([_service.order.DRIVER_PAY isEqualToString:@"N"]) {
+            
+            orderPayedBtnTitle = @"到达交付";
+        } else if([_service.order.DRIVER_PAY isEqualToString:@"S"]){
+            
+            orderPayedBtnTitle = @"最终交付";
+        }
+        [orderPayedBtn addTarget:self action:@selector(orderPayedOnclick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [orderPayedBtn setTitle:orderPayedBtnTitle forState:UIControlStateNormal];
+    [orderPayedBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [orderPayedBtn.titleLabel setFont:[UIFont systemFontOfSize:15.0f]];
+    
+    [self.view addSubview:orderPayedBtn];
 }
 
 - (void)checkAutographAndPicture:(UIButton *)sender {
@@ -373,21 +284,62 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark -- 点击事件
-/// 跳转到查看订单线路界面
+
+#pragma mark - 点击事件
+
+// 查看路线
 - (void)showOrderPathOnclick {
+    
     CheckOrderPathViewController *vc = [[CheckOrderPathViewController alloc] init];
     vc.orderIDX = _service.order.IDX;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-/// 跳转到交付订单界面
+
+// 交付
 - (void)orderPayedOnclick {
-    PayOrderViewController *vc = [[PayOrderViewController alloc] init];
-    vc.orderIDX = _service.order.IDX;
-    vc.orderPayState = _service.order.DRIVER_PAY;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if([_app.user.USER_TYPE isEqualToString:@"司机"]) {
+        
+        PayOrderViewController *vc = [[PayOrderViewController alloc] init];
+        vc.orderIDX = _service.order.IDX;
+        vc.orderPayState = _service.order.DRIVER_PAY;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else {
+        
+        [Tools showAlert:self.view andTitle:@"此功能仅开放于司机"];
+    }
 }
+
+
+// 导航
+- (void)navigationOnclick {
+    
+    if([_app.user.USER_TYPE isEqualToString:@"司机"]) {
+        
+        NSMutableArray *maps = [[NSMutableArray alloc] init];
+        [maps addObject:@"苹果自带地图"];
+        
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
+            
+            [maps addObject:@"高德地图"];
+        }
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]) {
+            
+            [maps addObject:@"百度地图"];
+        }
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"icomgooglemaps://"]]) {
+            
+            [maps addObject:@"谷歌地图"];
+        }
+        [self mapsSheet:maps];
+    } else {
+        
+        [Tools showAlert:self.view andTitle:@"此功能仅开放于司机"];
+    }
+}
+
 
 #pragma mark -- UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

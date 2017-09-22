@@ -7,6 +7,7 @@
 //
 
 #import "OrderDetailsTableViewCell.h"
+#import "Tools.h"
 
 @implementation OrderDetailsTableViewCell
 
@@ -21,8 +22,8 @@
 - (void)setOrderDetail:(OrderDetailModel *)orderDetail {
     _productName.text = [NSString stringWithFormat:@"%@(%@)", orderDetail.PRODUCT_NAME, orderDetail.PRODUCT_NO];
     _playTime.text = orderDetail.ORD_REQUEST_ISSUE;
-    _orderQTY.text = [NSString stringWithFormat:@"%@件", orderDetail.ORD_QTY];
-    _sendQTY.text = [NSString stringWithFormat:@"%@件", orderDetail.ISSUE_QTY];
+    _orderQTY.text = [NSString stringWithFormat:@"%@件", [Tools OneDecimal:orderDetail.ORD_QTY]];
+    _sendQTY.text = [NSString stringWithFormat:@"%@件", [Tools OneDecimal:orderDetail.ISSUE_QTY]];
     NSString *text = orderDetail.ORD_TO_REGION;
     if(text) {
         NSArray *array = [text componentsSeparatedByString:@"."];

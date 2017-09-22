@@ -84,4 +84,24 @@
  */
 + (void)showAlert:(nullable UIView *)view andTitle:(nullable NSString *)title andTime:(NSTimeInterval)time;
 
+
+/**
+ 保留字符串后面1位小数
+ 
+ @param str 字符串
+ 
+ @return 带1位小数的字符串
+ */
++ (nullable NSString *)OneDecimal:(nullable NSString *)str;
+
+
+/**
+ 智能保留小数
+ 
+ @param f 小数
+ 
+ @return 已去掉小数点后的0
+ */
++ (nullable NSString *)formatFloat:(float)f;
+
 @end
