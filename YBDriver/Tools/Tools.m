@@ -277,4 +277,23 @@ typedef void (^Animation)(void);
     }
 }
 
+
++ (CGFloat)getWidthOfString:(nullable NSString *)text fontSize:(CGFloat)fontSize {
+    UILabel *label = [[UILabel alloc] init];
+    label.text = text;
+    label.font = [UIFont systemFontOfSize:fontSize];
+    label.lineBreakMode = NSLineBreakByCharWrapping;
+    CGSize sizeToFit = [label sizeThatFits:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    return sizeToFit.width;
+}
+
+
++ (nullable NSString *)getCurrentBeforeDate_Second:(NSTimeInterval)second {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *nowDate = [NSDate date];
+    NSDate *date1 = [nowDate initWithTimeIntervalSinceNow:+second];
+    return [dateFormatter stringFromDate:date1];
+}
+
 @end

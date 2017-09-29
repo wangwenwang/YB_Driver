@@ -14,79 +14,90 @@
 #import "ManangeInformationService.h"
 #import <MBProgressHUD.h>
 #import "AppDelegate.h"
+#import "LMPickerView.h"
 
-@interface ManangeInformationViewController ()<ManangeInformationServiceDelegate, PNChartDelegate> {
+@interface ManangeInformationViewController ()<ManangeInformationServiceDelegate, PNChartDelegate, LMPickerViewDelegate> {
+    
     NSDateFormatter *_formatter;
     AppDelegate *_app;
 }
 
-//条形图
+// 日期
+@property (strong, nonatomic)LMPickerView *LM;
+
+// 时间格式 yyyy-MM-dd
+@property (strong, nonatomic) NSDateFormatter *formatter_ss;
+
+// 条形图
 @property (weak, nonatomic) IBOutlet UIView *barChartView;
 
-//饼状图
+// 条形图Scroll
+@property (weak, nonatomic) IBOutlet UIScrollView *barChartScrollView;
+
+// 条形图宽度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartScrollContentWidth;
+
+// 条形图 最大栏宽
+@property (assign, nonatomic) CGFloat barItemMaxWidth;
+
+// 饼状图
 @property (weak, nonatomic) IBOutlet UIView *picChartView;
 
-//汇总发货总数
+// 汇总发货总数
 @property (weak, nonatomic) IBOutlet UILabel *outGoodsTotalLabel;
 
-//条形图底部Lable
+// 条形图底部Lable
 @property (strong, nonatomic) NSMutableArray *arrXLabels;
 
-/// 选择日期Button
+// 选择日期Button
 @property (weak, nonatomic) IBOutlet UIButton *selectDate;
 
-//选择日期
+// 选择日期
 - (IBAction)selectDateOnclick:(UIButton *)sender;
 
-//饼图标题
+// 饼图标题
 @property (weak, nonatomic) IBOutlet UILabel *pieChartTitleLabel;
 
-//条形图要显示的数据
+// 条形图要显示的数据
 @property (strong, nonatomic) NSMutableArray *arrYValues;
 
-//饼状图的颜色
+// 饼状图的颜色
 @property (strong, nonatomic) NSArray *pieChartColors;
 
 @property (assign, nonatomic) int outGoodsTotal;
 
-//饼状图要显示柱状图的哪条柱
+// 饼状图要显示柱状图的哪条柱
 @property (assign, nonatomic) int pieChartDataIndex;
 
 @property (strong, nonatomic) NSMutableArray *pieItems;
 
-/// 显示时间选择器控件
-@property (strong, nonatomic) UIView *coView;
-
-/// 用户选择的时间,默认为当天
+// 用户选择的时间,默认为当天
 @property (copy, nonatomic) NSDate *startDate;
 
-/// 用户是否选择了日期
+// 用户是否选择了日期
 @property (assign, nonatomic) BOOL isSelectedDate;
 
-///
+//
 @property (strong, nonatomic) ManangeInformationService *service;
 
-///
+//
 @property (strong, nonatomic) MyPNPieChart *pieChartView;
-
-///时间选择器是否弹出
-@property (assign, nonatomic) BOOL isShowDatePicker;
 
 @end
 
 @implementation ManangeInformationViewController
 
-#pragma mark -- 生命周期
+#pragma mark - 生命周期
+
 - (instancetype)init {
-    NSLog(@"%s", __func__);
-    self = [super init];
-    if (self) {
+    
+    if (self = [super init]) {
+        
         self.title = @"信息管理";
         self.tabBarItem.image = [UIImage imageNamed:@"menu_manangeInformation_unselected"];
         
-        _isShowDatePicker = NO;
         _isSelectedDate = NO;
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         _service = [[ManangeInformationService alloc] init];
         _service.delegate = self;
         _formatter = [[NSDateFormatter alloc] init];
@@ -104,83 +115,110 @@
         
         _pieChartDataIndex = 0;
         _startDate = [NSDate date];
+        
+        _formatter_ss = [[NSDateFormatter alloc] init];
+        [_formatter_ss setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        _LM = [[LMPickerView alloc] init];
+        _LM.delegate = self;
+        [_LM initDatePicker];
     }
     return self;
 }
 
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    NSLog(@"%s", __func__);
     
     if([Tools isADMINorWLS]) {
+        
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [_service.arrM removeAllObjects];
         [_service getManangeInformationData:@""];
-    }else {
+    } else {
+        
         [self dealData];
     }
     
     _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"%s", __func__);
-}
 
 - (void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
-    NSLog(@"%s", __func__);
     
     self.navigationController.navigationBar.topItem.title = @"信息管理";
     UIColor *color = [UIColor whiteColor];
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     
+    _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
+    
+    
+    [self calculateBarWidth];
+    
     
     if([Tools isADMINorWLS]) {
         
-    }else {
+    } else {
+        
         [self addBarChart];
         [self addPieChartView];
     }
-
-    _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"%s", __func__);
-}
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-    NSLog(@"%s", __func__);
-}
 
-#pragma mark -- 功能函数
+#pragma mark - 功能函数
+
 - (void)hiddenView {
+    
     _barChartView.hidden = YES;
     _picChartView.hidden = YES;
     _outGoodsTotalLabel.hidden = YES;
     _pieChartTitleLabel.hidden = YES;
 }
 
+
 - (void)showView {
+    
     _barChartView.hidden = NO;
     _picChartView.hidden = NO;
     _outGoodsTotalLabel.hidden = NO;
     _pieChartTitleLabel.hidden = NO;
 }
+
+
+- (void)calculateBarWidth {
+    
+    // 根据最大数字计算出条形图，栏的最大宽度
+    for (int i = 0; i < _arrM.count; i++) {
+        
+        ManangeInformationModel *m = _arrM[i];
+        
+        NSString *qty = [NSString stringWithFormat:@"%d", m.QtyTotal];
+        CGFloat width = [Tools getWidthOfString:qty fontSize:11.0];
+        if(width > _barItemMaxWidth) {
+            
+            _barItemMaxWidth = width + 8;
+        }
+    }
+    _barChartScrollContentWidth.constant = (_barItemMaxWidth + 40) * _arrM.count;
+    if(_barChartScrollContentWidth.constant < ScreenWidth) {
+        
+        _barChartScrollContentWidth.constant = ScreenWidth;
+    }
+}
+
+
 - (void)addPieChartView {
+    
     NSString *centerTitle = [self getPieChartDataWithIndex:_pieChartDataIndex];
     NSArray *items = [_pieItems copy];
     int total = [_arrYValues[_pieChartDataIndex] intValue];
@@ -188,7 +226,9 @@
     [self addPieChart:items andCenterTitle:[NSString stringWithFormat:@"%@发贷总数：%d", centerTitle, total]];
 }
 
+
 - (NSString *)getPieChartDataWithIndex:(int)index {
+    
     [_pieItems removeAllObjects];
     NSString *centerTitle = @"";
     @try {
@@ -211,33 +251,43 @@
             [_pieItems addObject:item];
         }
     } @catch (NSException *exception) {
+        
         [Tools showAlert:self.view andTitle:@"服务器数据异常"];
-    } @finally {
-        nil;
     }
     
     return centerTitle;
 }
 
-/// 处理数据
+
+// 处理数据
 - (void)dealData {
+    
     [_arrXLabels removeAllObjects];
     [_arrYValues removeAllObjects];
     _outGoodsTotal = 0;
     for (int i = 0; i < _arrM.count; i++) {
+        
         ManangeInformationModel *model = _arrM[i];
         [_arrXLabels addObject:model.tms_fllet_name];
         [_arrYValues addObject:@(model.QtyTotal)];
         _outGoodsTotal += model.QtyTotal;
     }
-    
-    NSLog(@"");
-    
-    
 }
 
+
 - (void)addBarChart {
-    //For BarC hart
+    
+    //如果_arrYValues.count == 0，程序会崩溃
+    if(_arrYValues.count == 0) {
+        [Tools showAlert:self.view andTitle:@"没有数据"];
+        return;
+    }
+    
+    [_barChartView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    [self.view layoutIfNeeded];
+    
+    // For BarC hart
     PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:_barChartView.bounds];
     barChart.delegate = self;
     barChart.yChartLabelWidth = 35.0;
@@ -245,26 +295,11 @@
     barChart.chartMarginRight = 10.0;
     barChart.chartMarginTop = 7.0;
     barChart.chartMarginBottom = 17.0;
+    barChart.barWidth = _barItemMaxWidth;
     
     barChart.yLabelFormatter = ^(CGFloat value) {
         return [NSString stringWithFormat:@"%zi", (NSUInteger)value];
     };
-    
-    
-    
-    //    /*
-    //     *画实线
-    //     */
-    //    CAShapeLayer *solidShapeLayer = [CAShapeLayer layer];
-    //    CGMutablePathRef solidShapePath =  CGPathCreateMutable();
-    //    [solidShapeLayer setFillColor:[[UIColor clearColor] CGColor]];
-    //    [solidShapeLayer setStrokeColor:[[UIColor orangeColor] CGColor]];
-    //    solidShapeLayer.lineWidth = 2.0f ;
-    //    CGPathMoveToPoint(solidShapePath, NULL, 20, 265);
-    //    CGPathAddLineToPoint(solidShapePath, NULL, 300,265);
-    //    CGPathAddLineToPoint(solidShapePath, NULL, 300,50);
-    //    [solidShapeLayer setPath:solidShapePath];
-    //    CGPathRelease(solidShapePath);
     
     barChart.showChartBorder = YES;
     
@@ -280,13 +315,11 @@
     
     [_pieChartView removeFromSuperview];
     
-    //中心Label
+    // 中心Label
     UILabel *centerLabel = nil;
     
-    //For Pie Chart
-    //    if(!_pieChartView) {
+    // For Pie Chart
     _pieChartView = [[MyPNPieChart alloc] initWithFrame:_picChartView.bounds items:items];
-//    _pieChartView.delegate = self;
     
     centerLabel = [[UILabel alloc] init];
     centerLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -313,7 +346,6 @@
         if([v isMemberOfClass:[UIView class]]) {
             [v removeFromSuperview];
         }
-        NSLog(@"_____:%@", [v class]);
     }
     
     _pieChartView.legendStyle = PNLegendItemStyleStacked;
@@ -322,107 +354,39 @@
     CGFloat legendX = CGRectGetWidth(_picChartView.frame) - legendW + CGRectGetMinX(_picChartView.frame) - 3;
     [legend setFrame:CGRectMake(legendX, 0, legendW, CGRectGetHeight(legend.frame))];
     [_picChartView addSubview:legend];
-    //    }else {
-    //        [_pieChartView updateChartData:items];
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            centerLabel.text = centerTitle;
-    //        });
-    //    }
 }
 
-- (void)createDatePicker {
-    if(_isShowDatePicker) return;
-    CGFloat startX = 10;
-    CGFloat width = self.view.frame.size.width - startX * 2;
-    CGFloat height = width * 2 / 3;
-    CGFloat startY = (ScreenHeight - height) / 2;
-    CGFloat buttonHeight = 35;
-    CGFloat buttonWidth = 100;
-    CGFloat buttonSpan = (width-buttonWidth * 2) / 3;
-    /// 添加背景
-    _coView = [[UIView alloc] initWithFrame:CGRectMake(startX, startY, width, height + buttonHeight + 10)];
-    _coView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:_coView];
-    
-    /// 添加确定按钮
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonSpan, height + 5, buttonWidth, buttonHeight)];
-    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelButton setBackgroundColor:YBGreen];
-    cancelButton.layer.cornerRadius = 2.0;
-    [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_coView addSubview:cancelButton];
-    
-    /// 添加确认按钮
-    UIButton *sureButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonSpan * 2 + buttonWidth, height + 5, buttonWidth, buttonHeight)];
-    [sureButton setTitle:@"确定" forState:UIControlStateNormal];
-    [sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [sureButton setBackgroundColor:YBGreen];
-    sureButton.layer.cornerRadius = 2.0;
-    [sureButton addTarget:self action:@selector(sureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_coView addSubview:sureButton];
-    
-    //创建日期选择器
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    //将日期选择器区域设置为中文，则选择器日期显示为中文
-    datePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh_CN"];
-    //设置样式，当前设为同时显示日期和时间
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    NSDate *minDate = [_formatter dateFromString:@"2014-5-20"];
-    datePicker.maximumDate = [[NSDate alloc] init];
-    datePicker.minimumDate = minDate;
-    // 设置默认时间
-    datePicker.date = _startDate;
-    
-    //注意：action里面的方法名后面需要加个冒号“：”
-    [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-    [_coView addSubview:datePicker];
-    _isShowDatePicker = YES;
-}
 
-#pragma mark -- 点击事件
+#pragma mark - 点击事件
+
 - (IBAction)selectDateOnclick:(UIButton *)sender {
-    [self createDatePicker];
+    
+    NSDate *maxDate = [_formatter_ss dateFromString:[Tools getCurrentBeforeDate_Second:0]];
+    
+    [self createDatePicker:maxDate];
 }
 
-/// 时间选择器点击取消按钮
-- (void)cancelButtonClick:(UIButton *)sender {
-    [_coView removeFromSuperview];
-    _isShowDatePicker = NO;
-}
 
-// 日期选择器响应方法
-- (void)dateChanged:(UIDatePicker *)datePicker {
-    _startDate = datePicker.date;
-}
+#pragma mark - 时间模块
 
-/// 时间选择器点击了确定按钮
-- (void)sureButtonClick:(UIButton *)sender {
-    NSString *time = [_formatter stringFromDate:_startDate];
-    [_coView removeFromSuperview];
+- (void)PickerViewComplete:(NSDate *)date {
+    
+    _startDate = date;
+    
+    NSString *time = [_formatter stringFromDate:date];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     if([Tools isConnectionAvailable]) {
+        
+        _barItemMaxWidth = 0;
         [_service.arrM removeAllObjects];
         [_service getManangeInformationData:time];
-    }else {
+    } else {
         [Tools showAlert:self.view andTitle:@"网络不可用"];
     }
-    NSLog(@"startDate:%@", _startDate);
-    _isShowDatePicker = NO;
     _isSelectedDate = YES;
-}
-
-#pragma mark -- ManangeInformationServiceDelegate
-- (void)success {
-    [self showView];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    _arrM = _service.arrM;
-    _pieChartDataIndex = 0;
-    [self dealData];
     
-    [self addBarChart];
-    [self addPieChartView];
-    _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
+    
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:_startDate];
@@ -432,20 +396,52 @@
     NSInteger day=[components day];
     
     if(_isSelectedDate) {
+        
         NSString *showTime = [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)year, (long)month, (long)day];
         [_selectDate setTitle:showTime forState:UIControlStateNormal];
     }
 }
 
+
+- (void)createDatePicker:maxDate {
+    
+    _LM.maximumDate = maxDate;
+    [_LM showDatePicker];
+}
+
+
+#pragma mark - ManangeInformationServiceDelegate
+
+- (void)success {
+    
+    [self showView];
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    _arrM = _service.arrM;
+    
+    [self calculateBarWidth];
+    
+    _pieChartDataIndex = 0;
+    [self dealData];
+    
+    [self addBarChart];
+    [self addPieChartView];
+    _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
+}
+
+
 - (void)failure:(NSString *)msg {
+    
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Tools showAlert:self.view andTitle:msg ? msg : @"请求失败"];
     [self hiddenView];
 }
 
-#pragma mark -- PNChartDelegate
+
+#pragma mark - PNChartDelegate
+
 - (void)userClickedOnBarAtIndex:(NSInteger)barIndex {
-    NSLog(@"userClickedOnBarAtIndex%ld", (long)barIndex);
+    
     _pieChartDataIndex = (int)barIndex;
     [self addPieChartView];
 }

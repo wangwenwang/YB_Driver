@@ -37,7 +37,7 @@
         self.title = @"我的";
         self.tabBarItem.image = [UIImage imageNamed:@"menu_mine_unselected"];
         _minePlistArrM = [[NSMutableArray alloc] init];
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         _manangeInformationService = [[ManangeInformationService alloc] init];
         _manangeInformationService.delegate = self;
     }
@@ -53,6 +53,7 @@
     // 填充数组内容
     _minePlistArrM = [NSMutableArray arrayWithContentsOfFile:dataPath];
     if([Tools isADMINorWLS]) {
+        
         [_minePlistArrM removeObjectAtIndex:3];
     }
     
@@ -150,7 +151,7 @@
     } else if(indexPath.row == 1) {
         
         cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_TYPE : @"";
-    } else if(indexPath.row == 3) {
+    } else if([cell.oneLabel.text isEqualToString:@"当前版本    "]) {
         
         cell.twoLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     }

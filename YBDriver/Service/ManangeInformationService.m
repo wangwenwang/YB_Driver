@@ -20,7 +20,7 @@
 
 - (instancetype)init {
     if(self = [super init]) {
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         _arrM = [[NSMutableArray alloc] init];
     }
     return self;

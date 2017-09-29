@@ -104,4 +104,18 @@
  */
 + (nullable NSString *)formatFloat:(float)f;
 
+
++ (CGFloat)getWidthOfString:(nullable NSString *)text fontSize:(CGFloat)fontSize;
+
+
+/**
+ 时间加法（负数为减法）
+ 
+ @param second 秒
+ 
+ @return 相加后时间 yyyy-MM-dd HH:mm:ss
+ */
++ (nullable NSString *)getCurrentBeforeDate_Second:(NSTimeInterval)second;
+
+
 @end
