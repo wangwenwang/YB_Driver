@@ -16,10 +16,12 @@
 #import <MBProgressHUD.h>
 #import "UITableView+NoDataPrompt.h"
 
-@interface PayedOrderViewController ()<UITableViewDelegate, UITableViewDataSource, PayedOrderServiceDelegate, OrderDetailServiceDelegate>
+@interface PayedOrderViewController ()<UITableViewDelegate, UITableViewDataSource, PayedOrderServiceDelegate, OrderDetailServiceDelegate, UISearchBarDelegate>
 
 
 @property (strong, nonatomic)UITableView *myTableView;
+
+@property (strong, nonatomic)UISearchBar *mySearchBar;
 
 /// 已交付订单业务类
 @property (strong, nonatomic) PayedOrderService *service;
@@ -53,6 +55,19 @@
     [super viewDidLoad];
     NSLog(@"%s", __func__);
     [self.view addSubview:self.myTableView];
+    [self.view addSubview:self.mySearchBar];
+    
+    //监听当键盘将要出现时
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //监听当键将要退出时
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -144,6 +159,11 @@
     }
 }
 
+- (void)recoverKeyboardOnclick {
+    
+    [self.view endEditing:YES];
+}
+
 #pragma mark - 控件GET方法
 - (UITableView *)myTableView {
     if(!_myTableView) {
@@ -152,7 +172,7 @@
     _myTableView.separatorStyle = NO;
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
-    [_myTableView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49 - 64)];
+    [_myTableView setFrame:CGRectMake(0, 40, ScreenWidth, ScreenHeight - 49 - 64 - 40)];
     
     UINib *n = [UINib nibWithNibName:@"UnPayTableViewCell" bundle:nil];
     [_myTableView registerNib:n forCellReuseIdentifier:@"UnPayTableViewCell"];
@@ -167,6 +187,17 @@
     _myTableView.mj_footer.hidden = YES;
     
     return _myTableView;
+}
+
+- (UISearchBar *)mySearchBar {
+    
+    if(!_mySearchBar) {
+        _mySearchBar = [[UISearchBar alloc] init];
+    }
+    _mySearchBar.delegate = self;
+    [_mySearchBar setFrame:CGRectMake(0, 0, ScreenWidth, 44)];
+    _mySearchBar.placeholder = @"请输入车牌号";
+    return _mySearchBar;
 }
 
 #pragma mark - PayedOrderServiceDelegate
@@ -229,6 +260,92 @@
 - (void)failure:(NSString *)msg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Tools showAlert:self.view andTitle:msg ? msg : @"请求失败"];
+}
+
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    _service.TMS_PLATE_NUMBER = searchBar.text;
+    [self loadMoreDataUp];
+    [self.view endEditing:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *) searchBar
+{
+    UITextField *searchBarTextField = nil;
+    NSArray *views = ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) ? searchBar.subviews : [[searchBar.subviews objectAtIndex:0] subviews];
+    for (UIView *subview in views)
+    {
+        if ([subview isKindOfClass:[UITextField class]])
+        {
+            searchBarTextField = (UITextField *)subview;
+            break;
+        }
+    }
+    searchBarTextField.enablesReturnKeyAutomatically = NO;
+}
+
+//当键盘出现
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    UIView *coverView = [[UIView alloc] init];
+    coverView.backgroundColor = [UIColor redColor];
+    [coverView setFrame:CGRectMake(0, 0, ScreenWidth, CGRectGetHeight(_myTableView.frame))];
+    coverView.tag = 10088;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recoverKeyboardOnclick)];
+    tap.numberOfTapsRequired = 1;
+    [coverView addGestureRecognizer:tap];
+    [_myTableView addSubview:coverView];
+    coverView.alpha = 1;
+    
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        sleep(1);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:3.0f animations:^{
+                
+                coverView.alpha = 0.0f;
+                [UIView animateWithDuration:3.0f animations:^{
+                    
+                    coverView.alpha = 0.5f;
+                    
+                }];
+                
+            }];
+        });
+    });
+    
+//    [UIView animateWithDuration:0.2 animations:^{
+//
+//        [coverView setFrame:CGRectMake(0, 0, ScreenWidth, CGRectGetHeight(_myTableView.frame))];
+//        coverView.alpha = 0.4;
+//    }];
+}
+
+//当键退出
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    UIView *coverView = nil;
+    for (int i = 0; i < _myTableView.subviews.count; i++) {
+        
+        UIView *view = _myTableView.subviews[i];
+        NSInteger tag = view.tag;
+        if(tag == 10088) {
+            
+            coverView = view;
+        }
+    }
+    
+    [UIView animateWithDuration:3 animations:^{
+        
+        [coverView setFrame:CGRectMake(0, 0, 0, 0)];
+        coverView.alpha = 0;
+    } completion:^(BOOL finished) {
+        
+        [coverView removeFromSuperview];
+    }];
 }
 
 @end

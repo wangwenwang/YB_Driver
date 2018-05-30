@@ -31,6 +31,9 @@
         
         /// 分页加载，已加载完的页数
         _page = 1;
+        
+        /// 车牌号码
+        _TMS_PLATE_NUMBER = @"";
     }
     return self;
 }
@@ -46,6 +49,7 @@
                       @(strPageCount), @"strPageCount",
                       @"", @"strLicense",
                       @"ios", @"UUID",
+                      _TMS_PLATE_NUMBER, @"strPlateNumber",
                       nil];
     }
     

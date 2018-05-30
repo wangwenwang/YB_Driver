@@ -29,6 +29,9 @@
 /// 分页加载，已加载完的页数
 @property (assign, nonatomic)int page;
 
+/// 车牌号码
+@property (copy, nonatomic) NSString *TMS_PLATE_NUMBER;
+
 @property (weak, nonatomic)id <PayedOrderServiceDelegate> delegate;
 
 
