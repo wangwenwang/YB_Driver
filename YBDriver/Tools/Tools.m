@@ -207,7 +207,7 @@ typedef void (^Animation)(void);
 }
 
 + (BOOL)isADMINorWLS {
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if([app.user.USER_TYPE isEqualToString:YBADMIN] || [app.user.USER_TYPE isEqualToString:YBWLS]) {
         return YES;
     }else {

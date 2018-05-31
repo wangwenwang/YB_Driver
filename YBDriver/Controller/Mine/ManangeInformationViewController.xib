@@ -1,51 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManangeInformationViewController">
             <connections>
+                <outlet property="GCPieChartSuperView" destination="ybl-lo-jJo" id="hGo-Jz-wUG"/>
+                <outlet property="GCPieChartSuperViewHeight" destination="Jbo-ia-XVO" id="ILp-xc-RSj"/>
                 <outlet property="barChartScrollContentWidth" destination="1cb-fB-PXD" id="Cfz-HY-Eq6"/>
                 <outlet property="barChartScrollView" destination="aQr-eW-ZX6" id="31n-Pk-0ve"/>
                 <outlet property="barChartView" destination="yNe-Is-4zk" id="T9t-5b-HUm"/>
+                <outlet property="barChartViewHeight" destination="4TC-6G-hM8" id="yJc-bU-own"/>
                 <outlet property="outGoodsTotalLabel" destination="Dve-Pg-pVE" id="Pv8-6b-Ohb"/>
                 <outlet property="picChartView" destination="QfG-iE-Rxe" id="1Wu-cf-CWW"/>
-                <outlet property="pieChartTitleLabel" destination="hcL-m0-31H" id="tQ8-9w-n95"/>
+                <outlet property="pieChartTitleLabel" destination="hcL-m0-31H" id="jQw-B3-Tgc"/>
+                <outlet property="pieChartViewHeight" destination="qoh-KK-pte" id="dPL-m5-fj2"/>
+                <outlet property="scrollContentViewHeight" destination="fWQ-Ma-5I5" id="L3w-og-VMg"/>
                 <outlet property="selectDate" destination="PNj-vz-JLq" id="pEe-gq-8w2"/>
+                <outlet property="selectDateViewHeight" destination="cCk-tf-zCB" id="Ala-Ee-bvn"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="684"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="1272"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qGH-Iv-6vb">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="1272"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jgn-4Y-8y1">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="1050"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dE-Ou-kA6" userLabel="View1">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-lo-jJo" userLabel="承运商发货数量饼状图">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="汇总发货总数：1547" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dve-Pg-pVE">
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.92549019610000005" green="0.45882352939999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发货数量圆饼图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6sL-5T-ZPd">
+                                            <rect key="frame" x="239.5" y="10" width="121.5" height="20.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="C8v-63-7Je"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="C8v-63-7Je"/>
+                                                </mask>
+                                            </variation>
                                         </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="300" id="Jbo-ia-XVO"/>
+                                        <constraint firstItem="6sL-5T-ZPd" firstAttribute="centerX" secondItem="ybl-lo-jJo" secondAttribute="centerX" id="aPv-4G-f76"/>
+                                        <constraint firstItem="6sL-5T-ZPd" firstAttribute="top" secondItem="ybl-lo-jJo" secondAttribute="top" constant="10" id="mvE-ih-AzM"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8o0-nJ-RaM" userLabel="时间筛选">
+                                    <rect key="frame" x="0.0" y="300" width="600" height="40"/>
+                                    <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNj-vz-JLq">
+                                            <rect key="frame" x="231" y="5" width="138" height="30"/>
                                             <state key="normal" title="默认全日期发货汇总"/>
                                             <connections>
                                                 <action selector="selectDateOnclick:" destination="-1" eventType="touchUpInside" id="L9P-Va-H2c"/>
                                             </connections>
                                         </button>
+                                    </subviews>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="centerX" secondItem="8o0-nJ-RaM" secondAttribute="centerX" id="8Nr-4u-U1P"/>
+                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="centerY" secondItem="8o0-nJ-RaM" secondAttribute="centerY" id="GpY-ye-3My"/>
+                                        <constraint firstAttribute="height" constant="40" id="cCk-tf-zCB"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dE-Ou-kA6" userLabel="承运商发货数量条形图">
+                                    <rect key="frame" x="0.0" y="340" width="600" height="270"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="汇总发货总数：1547" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dve-Pg-pVE">
+                                            <rect key="frame" x="478.5" y="46" width="113.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.92549019610000005" green="0.45882352939999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s6L-Ae-yFb" userLabel="BarChart">
+                                            <rect key="frame" x="4" y="60" width="596" height="210"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aQr-eW-ZX6">
+                                                    <rect key="frame" x="0.0" y="0.0" width="596" height="210"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNe-Is-4zk">
+                                                            <rect key="frame" x="0.0" y="0.0" width="500" height="210"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="500" id="1cb-fB-PXD"/>
@@ -73,20 +126,19 @@
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="270" id="4TC-6G-hM8"/>
-                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="top" secondItem="3dE-Ou-kA6" secondAttribute="top" constant="8" id="FXm-9g-vWp"/>
+                                        <constraint firstItem="Dve-Pg-pVE" firstAttribute="top" secondItem="3dE-Ou-kA6" secondAttribute="top" constant="46" id="DAV-mq-3sy"/>
                                         <constraint firstItem="s6L-Ae-yFb" firstAttribute="leading" secondItem="3dE-Ou-kA6" secondAttribute="leading" constant="4" id="Fv7-CC-TIg"/>
-                                        <constraint firstItem="Dve-Pg-pVE" firstAttribute="top" secondItem="PNj-vz-JLq" secondAttribute="bottom" constant="8" id="GII-jU-tLb"/>
                                         <constraint firstAttribute="trailing" secondItem="s6L-Ae-yFb" secondAttribute="trailing" id="IVG-9w-5UF"/>
                                         <constraint firstAttribute="bottom" secondItem="s6L-Ae-yFb" secondAttribute="bottom" id="Ijn-c0-ogw"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="VBN-Fj-GVf"/>
-                                        <constraint firstItem="s6L-Ae-yFb" firstAttribute="top" secondItem="PNj-vz-JLq" secondAttribute="bottom" constant="22" id="smW-rM-o66"/>
-                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="centerX" secondItem="3dE-Ou-kA6" secondAttribute="centerX" id="xi8-sZ-P1h"/>
                                         <constraint firstAttribute="trailing" secondItem="Dve-Pg-pVE" secondAttribute="trailing" constant="8" id="zGQ-kH-NeM"/>
+                                        <constraint firstItem="s6L-Ae-yFb" firstAttribute="top" secondItem="3dE-Ou-kA6" secondAttribute="top" constant="60" id="zNM-5c-Srg"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzR-DD-gHP" userLabel="View2">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzR-DD-gHP" userLabel="承运商交付情况饼状图">
+                                    <rect key="frame" x="0.0" y="610" width="600" height="300"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="物流状态圆饼图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcL-m0-31H">
+                                            <rect key="frame" x="239.5" y="10" width="121.5" height="20.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="9y0-G7-7uq"/>
                                             </constraints>
@@ -99,7 +151,8 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfG-iE-Rxe" userLabel="PieChart">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfG-iE-Rxe">
+                                            <rect key="frame" x="185.5" y="50.5" width="229.5" height="229.5"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="QfG-iE-Rxe" secondAttribute="height" multiplier="1:1" id="rhg-5M-Qkz"/>
@@ -118,37 +171,29 @@
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="3dE-Ou-kA6" firstAttribute="top" secondItem="Jgn-4Y-8y1" secondAttribute="top" id="4s4-lc-GqJ"/>
+                                <constraint firstItem="3dE-Ou-kA6" firstAttribute="top" secondItem="8o0-nJ-RaM" secondAttribute="bottom" id="4mR-lh-vUe"/>
                                 <constraint firstAttribute="trailing" secondItem="3dE-Ou-kA6" secondAttribute="trailing" id="59X-bR-Kia"/>
+                                <constraint firstItem="8o0-nJ-RaM" firstAttribute="top" secondItem="ybl-lo-jJo" secondAttribute="bottom" id="8Av-Fj-0lz"/>
                                 <constraint firstItem="kzR-DD-gHP" firstAttribute="leading" secondItem="Jgn-4Y-8y1" secondAttribute="leading" id="9lh-y3-nKh"/>
-                                <constraint firstItem="kzR-DD-gHP" firstAttribute="top" secondItem="3dE-Ou-kA6" secondAttribute="bottom" constant="30" id="GCO-Yi-Iyd"/>
+                                <constraint firstAttribute="trailing" secondItem="ybl-lo-jJo" secondAttribute="trailing" id="BQx-5i-qSx"/>
+                                <constraint firstItem="kzR-DD-gHP" firstAttribute="top" secondItem="3dE-Ou-kA6" secondAttribute="bottom" id="GCO-Yi-Iyd"/>
                                 <constraint firstAttribute="trailing" secondItem="kzR-DD-gHP" secondAttribute="trailing" id="Rii-aJ-VNz"/>
-                                <constraint firstAttribute="height" constant="650" id="fWQ-Ma-5I5"/>
+                                <constraint firstItem="ybl-lo-jJo" firstAttribute="leading" secondItem="Jgn-4Y-8y1" secondAttribute="leading" id="Xrs-nq-Xva"/>
+                                <constraint firstItem="8o0-nJ-RaM" firstAttribute="leading" secondItem="Jgn-4Y-8y1" secondAttribute="leading" id="eVX-rH-ngc"/>
+                                <constraint firstAttribute="height" constant="1050" id="fWQ-Ma-5I5"/>
                                 <constraint firstItem="3dE-Ou-kA6" firstAttribute="leading" secondItem="Jgn-4Y-8y1" secondAttribute="leading" id="h7y-z1-6M5"/>
+                                <constraint firstItem="ybl-lo-jJo" firstAttribute="top" secondItem="Jgn-4Y-8y1" secondAttribute="top" id="lGL-nF-NN3"/>
+                                <constraint firstAttribute="trailing" secondItem="8o0-nJ-RaM" secondAttribute="trailing" id="rN2-Dp-ENR"/>
                             </constraints>
                         </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Jgn-4Y-8y1" firstAttribute="top" secondItem="qGH-Iv-6vb" secondAttribute="top" id="1Ss-Jm-MQu"/>
-                        <constraint firstAttribute="trailing" secondItem="Jgn-4Y-8y1" secondAttribute="trailing" constant="52" id="50M-ON-O2e"/>
-                        <constraint firstItem="Jgn-4Y-8y1" firstAttribute="leading" secondItem="qGH-Iv-6vb" secondAttribute="leading" id="HWy-3c-tpA"/>
                         <constraint firstAttribute="trailing" secondItem="Jgn-4Y-8y1" secondAttribute="trailing" id="I3O-HY-Z0Z"/>
-                        <constraint firstAttribute="trailing" secondItem="Jgn-4Y-8y1" secondAttribute="trailing" id="Rie-uw-DXe"/>
-                        <constraint firstAttribute="trailing" secondItem="Jgn-4Y-8y1" secondAttribute="trailing" id="XDL-O4-OOJ"/>
                         <constraint firstAttribute="bottom" secondItem="Jgn-4Y-8y1" secondAttribute="bottom" id="rSB-z8-QXc"/>
                         <constraint firstItem="Jgn-4Y-8y1" firstAttribute="centerX" secondItem="qGH-Iv-6vb" secondAttribute="centerX" id="riv-FZ-L94"/>
                         <constraint firstItem="Jgn-4Y-8y1" firstAttribute="leading" secondItem="qGH-Iv-6vb" secondAttribute="leading" id="ywF-Tf-Rgh"/>
-                        <constraint firstAttribute="trailing" secondItem="Jgn-4Y-8y1" secondAttribute="trailing" id="zg4-K2-1WI"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="50M-ON-O2e"/>
-                            <exclude reference="HWy-3c-tpA"/>
-                            <exclude reference="Rie-uw-DXe"/>
-                            <exclude reference="XDL-O4-OOJ"/>
-                            <exclude reference="zg4-K2-1WI"/>
-                        </mask>
-                    </variation>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -159,7 +204,7 @@
                 <constraint firstItem="qGH-Iv-6vb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zdK-9O-OgD"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="552" y="178"/>
+            <point key="canvasLocation" x="552" y="472"/>
         </view>
     </objects>
 </document>

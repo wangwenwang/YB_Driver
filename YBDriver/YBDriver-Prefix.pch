@@ -82,6 +82,9 @@
 #define ScreenHeight [UIScreen mainScreen] .bounds.size.height
 #define ScreenWidth [UIScreen mainScreen] .bounds.size.width
 
+/*--------- 是否iPhoneX ---------*/
+#define KISIphoneX (CGSizeEqualToSize(CGSizeMake(375.f, 812.f), [UIScreen mainScreen].bounds.size) || CGSizeEqualToSize(CGSizeMake(812.f, 375.f), [UIScreen mainScreen].bounds.size))
+
 
 /*--------- 应用名称 ---------*/
 #define AppDisplayName [[NSBundle mainBundle] infoDictionary][@"CFBundleDisplayName"]

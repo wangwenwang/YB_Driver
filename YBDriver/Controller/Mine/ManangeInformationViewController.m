@@ -24,66 +24,69 @@
 
 // 日期
 @property (strong, nonatomic)LMPickerView *LM;
-
 // 时间格式 yyyy-MM-dd
 @property (strong, nonatomic) NSDateFormatter *formatter_ss;
-
-// 条形图
-@property (weak, nonatomic) IBOutlet UIView *barChartView;
-
-// 条形图Scroll
-@property (weak, nonatomic) IBOutlet UIScrollView *barChartScrollView;
-
-// 条形图宽度
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartScrollContentWidth;
-
-// 条形图 最大栏宽
-@property (assign, nonatomic) CGFloat barItemMaxWidth;
-
-// 饼状图
-@property (weak, nonatomic) IBOutlet UIView *picChartView;
-
-// 汇总发货总数
-@property (weak, nonatomic) IBOutlet UILabel *outGoodsTotalLabel;
-
-// 条形图底部Lable
-@property (strong, nonatomic) NSMutableArray *arrXLabels;
-
 // 选择日期Button
 @property (weak, nonatomic) IBOutlet UIButton *selectDate;
-
 // 选择日期
 - (IBAction)selectDateOnclick:(UIButton *)sender;
-
-// 饼图标题
-@property (weak, nonatomic) IBOutlet UILabel *pieChartTitleLabel;
-
-// 条形图要显示的数据
-@property (strong, nonatomic) NSMutableArray *arrYValues;
-
-// 饼状图的颜色
-@property (strong, nonatomic) NSArray *pieChartColors;
-
-@property (assign, nonatomic) int outGoodsTotal;
-
-// 饼状图要显示柱状图的哪条柱
-@property (assign, nonatomic) int pieChartDataIndex;
-
-@property (strong, nonatomic) NSMutableArray *pieItems;
-
 // 用户选择的时间,默认为当天
 @property (copy, nonatomic) NSDate *startDate;
-
 // 用户是否选择了日期
 @property (assign, nonatomic) BOOL isSelectedDate;
-
-//
+// 网络层
 @property (strong, nonatomic) ManangeInformationService *service;
+// 页面高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollContentViewHeight;
+// 时间筛选容器高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectDateViewHeight;
 
-//
+// 承运商发货数量饼状图
+@property (weak, nonatomic) IBOutlet UIView *GCPieChartSuperView;
+// 容器高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *GCPieChartSuperViewHeight;
+@property (strong, nonatomic) NSMutableArray *colors;
+
+// 承运商发货数量条形图
+@property (weak, nonatomic) IBOutlet UIView *barChartView;
+// 条形图Scroll
+@property (weak, nonatomic) IBOutlet UIScrollView *barChartScrollView;
+// 条形图宽度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartScrollContentWidth;
+// 条形图 最大栏宽
+@property (assign, nonatomic) CGFloat barItemMaxWidth;
+// 条形图底部Lable
+@property (strong, nonatomic) NSMutableArray *arrXLabels;
+// 条形图要显示的数据
+@property (strong, nonatomic) NSMutableArray *arrYValues;
+// 条形图汇总发货总数
+@property (assign, nonatomic) int outGoodsTotal;
+// 容器高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartViewHeight;
+
+// 承运商交付情况饼状图
+@property (weak, nonatomic) IBOutlet UIView *picChartView;
+// 饼状图容器
 @property (strong, nonatomic) MyPNPieChart *pieChartView;
+// 汇总发货总数
+@property (weak, nonatomic) IBOutlet UILabel *outGoodsTotalLabel;
+// 饼图标题
+@property (weak, nonatomic) IBOutlet UILabel *pieChartTitleLabel;
+// 饼状图的颜色
+@property (strong, nonatomic) NSArray *pieChartColors;
+// 饼状图要显示柱状图的哪条柱
+@property (assign, nonatomic) int pieChartDataIndex;
+// 饼状图数据源
+@property (strong, nonatomic) NSMutableArray *pieItems;
+// 容器高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pieChartViewHeight;
 
 @end
+
+// 承运商饼图长宽
+#define kGCPieChartWH 200
+// 顶部文字高度
+#define kGCPieChartTopText 40
 
 @implementation ManangeInformationViewController
 
@@ -112,6 +115,7 @@
         UIColor *color2 = [UIColor colorWithRed:190 / 255.0 green:50 / 255.0 blue:44 / 255.0 alpha:1.0];
         UIColor *color3 = [UIColor colorWithRed:244 / 255.0 green:120 / 255.0 blue:49 / 255.0 alpha:1.0];
         _pieChartColors = [NSArray arrayWithObjects:color1, color2, color3, nil];
+        _colors = [[NSMutableArray alloc] init];
         
         _pieChartDataIndex = 0;
         _startDate = [NSDate date];
@@ -129,6 +133,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    [self addColor];
     
     if([Tools isADMINorWLS]) {
         
@@ -155,7 +161,6 @@
     
     _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
     
-    
     [self calculateBarWidth];
     
     
@@ -168,6 +173,14 @@
     }
 }
 
+- (void)updateViewConstraints {
+    
+    [super updateViewConstraints];
+    
+    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + _arrM.count * 15;
+    _scrollContentViewHeight.constant = _GCPieChartSuperViewHeight.constant + _selectDateViewHeight.constant + _barChartViewHeight.constant + _pieChartViewHeight.constant;
+}
+
 
 - (void)didReceiveMemoryWarning {
     
@@ -176,6 +189,69 @@
 
 
 #pragma mark - 功能函数
+
+- (void)addColor {
+    
+    [_colors addObject:[UIColor blueColor]];
+    [_colors addObject:[UIColor cyanColor]];
+    [_colors addObject:[UIColor greenColor]];
+    [_colors addObject:[UIColor brownColor]];
+    [_colors addObject:[UIColor redColor]];
+    [_colors addObject:[UIColor yellowColor]];
+    [_colors addObject:[UIColor purpleColor]];
+    [_colors addObject:[UIColor orangeColor]];
+    [_colors addObject:[UIColor magentaColor]];
+    [_colors addObject:[UIColor colorWithRed:135 / 255.0 green:206 / 255.0 blue:235 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:235 / 2550. blue:205 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:220 / 255.0 green:220 / 255.0 blue:220 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:221 / 255.0 green:160 / 255.0 blue:221 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:99 / 255.0 blue:71 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:210 / 255.0 green:180 / 255.0 blue:140 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:61 / 255.0 green:89 / 255.0 blue:171 / 255.0 alpha:1.0]];
+    
+    //以下备用重复
+    [_colors addObject:[UIColor colorWithRed:127 / 255.0 green:255 / 255.0 blue:0 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:192 / 255.0 green:192 / 255.0 blue:192 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:192 / 255.0 blue:203 / 255.0 alpha:1.0]];
+    [_colors addObject:[UIColor blueColor]];
+    [_colors addObject:[UIColor cyanColor]];
+    [_colors addObject:[UIColor greenColor]];
+    [_colors addObject:[UIColor brownColor]];
+    [_colors addObject:[UIColor redColor]];
+    [_colors addObject:[UIColor yellowColor]];
+    [_colors addObject:[UIColor purpleColor]];
+    [_colors addObject:[UIColor orangeColor]];
+    [_colors addObject:[UIColor magentaColor]];
+}
+
+- (void)addGCPieChart {
+    
+    NSMutableArray *muArrM = [[NSMutableArray alloc] init];
+    for(int i = 0; i < _arrM.count; i++) {
+        
+        ManangeInformationModel *m = _arrM[i];
+        [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:m.tms_fllet_name]];
+    }
+    
+    NSArray *items = [muArrM copy];
+    
+    PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText, kGCPieChartWH, kGCPieChartWH) items:items];
+    pieChart.descriptionTextColor = [UIColor whiteColor];
+    pieChart.descriptionTextFont = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+    pieChart.descriptionTextShadowColor = [UIColor clearColor];
+    pieChart.showAbsoluteValues = NO;
+    pieChart.showOnlyValues = YES;
+    [pieChart strokeChart];
+    
+    pieChart.legendStyle = PNLegendItemStyleStacked;
+    pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
+    
+    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - (ScreenWidth - kGCPieChartWH) / 2)];
+    [legend setFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
+    [self.GCPieChartSuperView addSubview:legend];
+
+    [self.GCPieChartSuperView addSubview:pieChart];
+}
 
 - (void)hiddenView {
     
@@ -232,8 +308,8 @@
     [_pieItems removeAllObjects];
     NSString *centerTitle = @"";
     @try {
-    ManangeInformationModel *m = _arrM[index];
-    centerTitle = m.tms_fllet_name;
+        ManangeInformationModel *m = _arrM[index];
+        centerTitle = m.tms_fllet_name;
         for (int i = 0; i < 3; i++) {
             int value = 0;
             NSString *des = @"";
@@ -426,6 +502,7 @@
     
     [self addBarChart];
     [self addPieChartView];
+    [self addGCPieChart];
     _outGoodsTotalLabel.text = [NSString stringWithFormat:@"汇总发货总数：%d", _outGoodsTotal];
 }
 

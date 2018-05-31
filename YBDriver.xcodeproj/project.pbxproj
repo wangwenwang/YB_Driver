@@ -133,6 +133,8 @@
 		3B7AE4471F753D030077F1C9 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4421F753D030077F1C9 /* TPKeyboardAvoidingTableView.m */; };
 		3B7AE4481F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4441F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		41977D7FBBC89B803915AAEF /* libPods-YBDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */; };
+		775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */; };
+		775C2FE220BFAAAC00860183 /* QRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,6 +366,9 @@
 		3B7AE4421F753D030077F1C9 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		3B7AE4431F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		3B7AE4441F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		775C2FDE20BFAAAC00860183 /* QRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
+		775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
+		775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRCodeViewController.xib; sourceTree = "<group>"; };
 		7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YBDriver.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B0EBE48AEEE3C57BFA746B /* Pods-YBDriver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YBDriver.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YBDriver/Pods-YBDriver.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -958,6 +963,9 @@
 				306417431D84EC50002C609F /* ManangeInformationViewController.h */,
 				306417441D84EC50002C609F /* ManangeInformationViewController.m */,
 				306417451D84EC50002C609F /* ManangeInformationViewController.xib */,
+				775C2FDE20BFAAAC00860183 /* QRCodeViewController.h */,
+				775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */,
+				775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */,
 				30324A701D8293D400ABAC2E /* AboutViewController.h */,
 				30324A711D8293D400ABAC2E /* AboutViewController.m */,
 				30324A721D8293D400ABAC2E /* AboutViewController.xib */,
@@ -1149,6 +1157,7 @@
 				302F68A11D90BE4B004DA6F1 /* PB.bundle in Resources */,
 				3007796A1D7EAB5500AE49BA /* OrderDetailsTableViewCell.xib in Resources */,
 				30324A921D8293D400ABAC2E /* MainViewController.xib in Resources */,
+				775C2FE220BFAAAC00860183 /* QRCodeViewController.xib in Resources */,
 				308783581D94EAE7002EED76 /* Default.png in Resources */,
 				3035E8E01D93D75300944F94 /* Default-568@2x.png in Resources */,
 				30CC65791D7D05CE0019720C /* MineTableViewCell.xib in Resources */,
@@ -1300,6 +1309,7 @@
 				300779691D7EAB5500AE49BA /* OrderDetailsTableViewCell.m in Sources */,
 				30324AA11D8293D400ABAC2E /* UnPayedOrderViewController.m in Sources */,
 				300E8EB01D8E336400684F48 /* LocationService.m in Sources */,
+				775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */,
 				302F68AC1D90BE4B004DA6F1 /* CoreArchive.m in Sources */,
 				30CC65781D7D05CE0019720C /* MineTableViewCell.m in Sources */,
 				30EC83281D8156A300C10EB6 /* PayOrderService.m in Sources */,

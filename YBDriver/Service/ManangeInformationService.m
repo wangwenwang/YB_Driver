@@ -36,6 +36,8 @@
                       nil];
     }
     
+    NSLog(@"%@", parameters);
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     

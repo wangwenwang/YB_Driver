@@ -23,7 +23,7 @@
 
 - (instancetype)init {
     if(self = [super init]) {
-        _app = [[UIApplication sharedApplication] delegate];//单例初始化方式
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];//单例初始化方式
     }
     return self;
 }
@@ -39,7 +39,24 @@
                                  @"UUID" : @"ios"
                                  };
     
+//    parameters = @{
+//                   @"strLicense" : @"",
+//                   @"chartDate" : @"",
+//                   @"strUserId" : @"13"
+//                   };
     
+//    parameters = @{
+//                       @"strLicense" : @"",
+//                       @"user" : @"13800138000",
+//                       @"pwd" : @"123456"
+//                       };
+    // 2018-05-30
+    NSLog(@"参数：%@", parameters);
+    
+    // API_LOGIN
+    // @"http://218.17.181.244:8081/api/GetCestbonFleetCount"
+    // @"http://218.17.181.244:8081/api/GetFleetReport"
+//     @"http://218.17.181.244:8081/api/Register"
     [manager POST:API_LOGIN parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

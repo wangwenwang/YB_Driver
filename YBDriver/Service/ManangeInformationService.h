@@ -25,7 +25,7 @@
 @property (weak, nonatomic)id <ManangeInformationServiceDelegate> delegate;
 
 /**
- * 提交订单
+ * 获取报表数据
  *
  * time: 当天的时间 格式：yyyy-MM-dd
  *

@@ -20,7 +20,7 @@
 #import "ManangeInformationViewController.h"
 
 @interface LoginViewController ()<LoginServiceDelegate>{
-
+    
     //业务类
     LoginService *_loginService;
     
@@ -130,17 +130,15 @@
     
 }
 
-#pragma mark -- LoginServiceDelegate
+#pragma mark - LoginServiceDelegate
 - (void)success {
+    
     NSLog(@"登陆成功");
     
     [[NSUserDefaults standardUserDefaults] setValue:[_userNameT.text trim] forKey:udUserName];
     [[NSUserDefaults standardUserDefaults] setValue:[_pswT.text trim] forKey:udPassWord];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-    //nav导航
-    UINavigationController *nav = nil;
     
     //tabbar导航
     UITabBarController *tbaVC = [[UITabBarController alloc] init];
@@ -151,23 +149,8 @@
     PayedOrderViewController *payVC = [[PayedOrderViewController alloc] init];
     MineViewController *mineVC = [[MineViewController alloc] init];
     UnPayedOrderViewController *unPayVC = [[UnPayedOrderViewController alloc] init];
-    
-    //根据权限选择模式
-    if([Tools isADMINorWLS]) {
-        //进入管理员模式
-        ManangeInformationViewController *manangeMsgVc = [[ManangeInformationViewController alloc] init];
-        
-        tbaVC.viewControllers = @[mainVC, unPayVC, payVC, manangeMsgVc, mineVC];
-        
-        nav = [[UINavigationController alloc] initWithRootViewController:tbaVC];
-        
-    }else {
-        //进入司机模式
-
-        tbaVC.viewControllers = @[mainVC, unPayVC, payVC, mineVC];
-        
-        nav = [[UINavigationController alloc] initWithRootViewController:tbaVC];
-    }
+    tbaVC.viewControllers = @[mainVC, unPayVC, payVC, mineVC];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tbaVC];
     
     //切换根控制器
     [UIView transitionWithView:_app.window duration:1.0 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
@@ -178,6 +161,7 @@
 }
 
 - (void)failure {
+    
     NSLog(@"登陆失败");
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Tools showAlert:self.view andTitle:@"登陆失败"];

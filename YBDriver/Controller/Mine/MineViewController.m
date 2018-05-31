@@ -17,6 +17,7 @@
 #import <MBProgressHUD.h>
 #import "Tools.h"
 #import "MainViewController.h"
+#import "QRCodeViewController.h"
 
 @interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, ManangeInformationServiceDelegate> {
     NSMutableArray *_minePlistArrM;
@@ -26,6 +27,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *mineTableView;
 - (IBAction)changeAccount:(UIButton *)sender;
 @property (strong, nonatomic) ManangeInformationService *manangeInformationService;
+
+// 底部高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomHeight;
+
 @end
 
 @implementation MineViewController
@@ -52,10 +57,18 @@
     NSString *dataPath = [[NSBundle mainBundle]pathForResource:@"Mine.plist" ofType:nil];
     // 填充数组内容
     _minePlistArrM = [NSMutableArray arrayWithContentsOfFile:dataPath];
-    if([Tools isADMINorWLS]) {
-        
-        [_minePlistArrM removeObjectAtIndex:3];
-    }
+    
+    //
+    //    if([Tools isADMINorWLS]) {
+    //
+    //        for (int i = 0; i < _minePlistArrM.count; i++) {
+    //
+    //            if([_minePlistArrM[i][@"title"] isEqualToString:@"管理信息"]) {
+    //
+    //                [_minePlistArrM removeObjectAtIndex:i];
+    //            }
+    //        }
+    //    }
     
     [self initMineTableView];
 }
@@ -81,26 +94,35 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    
     [super viewDidDisappear:animated];
     NSLog(@"%s", __func__);
 }
 
+- (void)updateViewConstraints {
+    
+    [super updateViewConstraints];
+    _bottomHeight.constant = KISIphoneX ? (34 + 49) : 49;
+}
+
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
 - (void)dealloc {
+    
     NSLog(@"%s", __func__);
 }
 
-#pragma mark -- 功能函数
-/// 初始我的列表
+#pragma mark - 功能函数
+// 初始我的列表
 - (void)initMineTableView {
     UINib *n = [UINib nibWithNibName:@"MineTableViewCell" bundle:nil];
     [self.mineTableView registerNib:n forCellReuseIdentifier:@"MineTableViewCell"];
 }
 
-/// 销毁MainViewController的计时器，不然控制器不释放
+// 销毁MainViewController的计时器，不然控制器不释放
 - (void)invalidateTimer {
     NSArray *navControllers = self.navigationController.viewControllers;
     MainViewController *mainVc = nil;
@@ -123,7 +145,7 @@
     [mainVc.localTimer invalidate];
 }
 
-#pragma mark -- 点击事件
+#pragma mark - 点击事件
 - (IBAction)changeAccount:(UIButton *)sender {
     [self invalidateTimer];
     
@@ -133,7 +155,7 @@
     [Tools setRootViewController:_app.window andViewController:nav];
 }
 
-#pragma mark -- UITableViewDelegate
+#pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _minePlistArrM.count;
 }
@@ -145,65 +167,70 @@
     cell.oneLabel.text = _minePlistArrM[indexPath.row][@"title"];
     cell.twoLabel.text = _minePlistArrM[indexPath.row][@"prompt"];
     
-    if(indexPath.row == 0) {
+    if([cell.oneLabel.text isEqualToString:@"用户姓名："]) {
         
         cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_NAME : @"";
-    } else if(indexPath.row == 1) {
+    } else if([cell.oneLabel.text isEqualToString:@"用户角色："]) {
         
         cell.twoLabel.text = _app.user.USER_NAME ? _app.user.USER_TYPE : @"";
     } else if([cell.oneLabel.text isEqualToString:@"当前版本    "]) {
         
         cell.twoLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     }
-    if([Tools isADMINorWLS]) {
-        if(indexPath.row == 2 || indexPath.row == 4) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-    }else {
-        if(indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 5) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-    }
     
+    if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"修改密码"] ||
+       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"管理信息"] ||
+       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"二维码"] ||
+       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"关于"]
+       ) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row == 2) {
+    
+    if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"修改密码"]) {
+        
         ChangePasswordViewController *vc = [[ChangePasswordViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"管理信息"]) {
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        if([Tools isConnectionAvailable]) {
+            [_manangeInformationService.arrM removeAllObjects];
+            [_manangeInformationService getManangeInformationData:@""];
+        }else {
+            [Tools showAlert:self.view andTitle:@"网络不可用"];
+        }
+    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"二维码"]) {
+        
+        QRCodeViewController *vc = [[QRCodeViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"关于"]) {
+        
+        AboutViewController *vc = [[AboutViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
     
-    //权限管理
-    if([Tools isADMINorWLS]) {
-        if(indexPath.row == 4) {
-            AboutViewController *vc = [[AboutViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }else {
-        if(indexPath.row == 3) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            if([Tools isConnectionAvailable]) {
-                [_manangeInformationService.arrM removeAllObjects];
-                [_manangeInformationService getManangeInformationData:@""];
-            }else {
-                [Tools showAlert:self.view andTitle:@"网络不可用"];
-            }
-        }else if(indexPath.row == 5) {
-            AboutViewController *vc = [[AboutViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
+    //    //权限管理
+    //    if([Tools isADMINorWLS]) {
+    //
+    //    }else {
+    //        if(indexPath.row == 3) {
+    //
+    //        }
+    //    }
 }
 
-#pragma mark -- ManangeInformationServiceDelegate
+#pragma mark - ManangeInformationServiceDelegate
 - (void)success {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     ManangeInformationViewController *vc = [[ManangeInformationViewController alloc] init];
     vc.arrM = _manangeInformationService.arrM;
     if(_manangeInformationService.arrM.count) {
-    [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
     }else {
         [Tools showAlert:self.view andTitle:@"没有数据"];
     }

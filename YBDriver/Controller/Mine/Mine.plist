@@ -34,6 +34,12 @@
 	</dict>
 	<dict>
 		<key>title</key>
+		<string>二维码</string>
+		<key>prompt</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>title</key>
 		<string>关于</string>
 		<key>prompt</key>
 		<string></string>

@@ -21,7 +21,7 @@
 
 - (instancetype)init {
     if(self = [super init]) {
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         /// 已交付订单集合
         _orders = [[NSMutableArray alloc] init];
