@@ -75,6 +75,9 @@
 /// 图片地址
 #define API_LOAD_URL @"http://218.17.181.244:8081/"
 
+/// 工厂发货报表
+#define API_FACTORY_CHART @"http://218.17.181.244:8081/api/GetCestbonFleetCount"
+
 /*--------- 判断iOS版本 ---------*/
 #define SystemVersion [[UIDevice currentDevice] systemVersion].floatValue
 

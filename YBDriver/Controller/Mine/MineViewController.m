@@ -18,6 +18,7 @@
 #import "Tools.h"
 #import "MainViewController.h"
 #import "QRCodeViewController.h"
+#import "FactoryChartViewController.h"
 
 @interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, ManangeInformationServiceDelegate> {
     NSMutableArray *_minePlistArrM;
@@ -58,17 +59,17 @@
     // 填充数组内容
     _minePlistArrM = [NSMutableArray arrayWithContentsOfFile:dataPath];
     
-    //
-    //    if([Tools isADMINorWLS]) {
-    //
-    //        for (int i = 0; i < _minePlistArrM.count; i++) {
-    //
-    //            if([_minePlistArrM[i][@"title"] isEqualToString:@"管理信息"]) {
-    //
-    //                [_minePlistArrM removeObjectAtIndex:i];
-    //            }
-    //        }
-    //    }
+    
+    if(![Tools isADMINorWLS]) {
+        
+        for (int i = 0; i < _minePlistArrM.count; i++) {
+            
+            if([_minePlistArrM[i][@"title"] isEqualToString:@"工厂管理信息"]) {
+                
+                [_minePlistArrM removeObjectAtIndex:i];
+            }
+        }
+    }
     
     [self initMineTableView];
 }
@@ -179,7 +180,8 @@
     }
     
     if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"修改密码"] ||
-       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"管理信息"] ||
+       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"物流管理信息"] ||
+       [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"工厂管理信息"] ||
        [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"二维码"] ||
        [_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"关于"]
        ) {
@@ -194,7 +196,7 @@
         
         ChangePasswordViewController *vc = [[ChangePasswordViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
-    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"管理信息"]) {
+    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"物流管理信息"]) {
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         if([Tools isConnectionAvailable]) {
@@ -203,6 +205,10 @@
         }else {
             [Tools showAlert:self.view andTitle:@"网络不可用"];
         }
+    }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"工厂管理信息"]) {
+        
+        FactoryChartViewController *vc = [[FactoryChartViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"二维码"]) {
         
         QRCodeViewController *vc = [[QRCodeViewController alloc] init];

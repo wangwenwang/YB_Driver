@@ -14,16 +14,16 @@
 @property (copy, nonatomic) NSString *tms_fllet_name;
 
 /// 发货总数
-@property (assign, nonatomic) int QtyTotal;
+@property (assign, nonatomic) long long QtyTotal;
 
 /// 未交付货数
-@property (assign, nonatomic) int Ndeliver;
+@property (assign, nonatomic) long long  Ndeliver;
 
 /// 已交付货数
-@property (assign, nonatomic) int Adeliver;
+@property (assign, nonatomic) long long  Adeliver;
 
 /// 已到达货数
-@property (assign, nonatomic) int Arrive;
+@property (assign, nonatomic) long long  Arrive;
 
 - (void)setDict:(NSDictionary *)dict;
 

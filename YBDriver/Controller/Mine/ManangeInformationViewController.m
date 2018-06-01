@@ -45,7 +45,7 @@
 @property (weak, nonatomic) IBOutlet UIView *GCPieChartSuperView;
 // 容器高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *GCPieChartSuperViewHeight;
-@property (strong, nonatomic) NSMutableArray *colors;
+@property (strong, nonatomic) NSArray *colors;
 
 // 承运商发货数量条形图
 @property (weak, nonatomic) IBOutlet UIView *barChartView;
@@ -61,6 +61,8 @@
 @property (strong, nonatomic) NSMutableArray *arrYValues;
 // 条形图汇总发货总数
 @property (assign, nonatomic) int outGoodsTotal;
+// 汇总发货总数
+@property (weak, nonatomic) IBOutlet UILabel *outGoodsTotalLabel;
 // 容器高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartViewHeight;
 
@@ -68,8 +70,6 @@
 @property (weak, nonatomic) IBOutlet UIView *picChartView;
 // 饼状图容器
 @property (strong, nonatomic) MyPNPieChart *pieChartView;
-// 汇总发货总数
-@property (weak, nonatomic) IBOutlet UILabel *outGoodsTotalLabel;
 // 饼图标题
 @property (weak, nonatomic) IBOutlet UILabel *pieChartTitleLabel;
 // 饼状图的颜色
@@ -115,7 +115,6 @@
         UIColor *color2 = [UIColor colorWithRed:190 / 255.0 green:50 / 255.0 blue:44 / 255.0 alpha:1.0];
         UIColor *color3 = [UIColor colorWithRed:244 / 255.0 green:120 / 255.0 blue:49 / 255.0 alpha:1.0];
         _pieChartColors = [NSArray arrayWithObjects:color1, color2, color3, nil];
-        _colors = [[NSMutableArray alloc] init];
         
         _pieChartDataIndex = 0;
         _startDate = [NSDate date];
@@ -134,7 +133,7 @@
     
     [super viewDidLoad];
     
-    [self addColor];
+    _colors = [Tools getChartColor];
     
     if([Tools isADMINorWLS]) {
         
@@ -177,7 +176,7 @@
     
     [super updateViewConstraints];
     
-    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + _arrM.count * 15;
+    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + _arrM.count * 15 + 30;
     _scrollContentViewHeight.constant = _GCPieChartSuperViewHeight.constant + _selectDateViewHeight.constant + _barChartViewHeight.constant + _pieChartViewHeight.constant;
 }
 
@@ -190,47 +189,16 @@
 
 #pragma mark - 功能函数
 
-- (void)addColor {
-    
-    [_colors addObject:[UIColor blueColor]];
-    [_colors addObject:[UIColor cyanColor]];
-    [_colors addObject:[UIColor greenColor]];
-    [_colors addObject:[UIColor brownColor]];
-    [_colors addObject:[UIColor redColor]];
-    [_colors addObject:[UIColor yellowColor]];
-    [_colors addObject:[UIColor purpleColor]];
-    [_colors addObject:[UIColor orangeColor]];
-    [_colors addObject:[UIColor magentaColor]];
-    [_colors addObject:[UIColor colorWithRed:135 / 255.0 green:206 / 255.0 blue:235 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:235 / 2550. blue:205 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:220 / 255.0 green:220 / 255.0 blue:220 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:221 / 255.0 green:160 / 255.0 blue:221 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:99 / 255.0 blue:71 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:210 / 255.0 green:180 / 255.0 blue:140 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:61 / 255.0 green:89 / 255.0 blue:171 / 255.0 alpha:1.0]];
-    
-    //以下备用重复
-    [_colors addObject:[UIColor colorWithRed:127 / 255.0 green:255 / 255.0 blue:0 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:192 / 255.0 green:192 / 255.0 blue:192 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor colorWithRed:255 / 255.0 green:192 / 255.0 blue:203 / 255.0 alpha:1.0]];
-    [_colors addObject:[UIColor blueColor]];
-    [_colors addObject:[UIColor cyanColor]];
-    [_colors addObject:[UIColor greenColor]];
-    [_colors addObject:[UIColor brownColor]];
-    [_colors addObject:[UIColor redColor]];
-    [_colors addObject:[UIColor yellowColor]];
-    [_colors addObject:[UIColor purpleColor]];
-    [_colors addObject:[UIColor orangeColor]];
-    [_colors addObject:[UIColor magentaColor]];
-}
-
 - (void)addGCPieChart {
     
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
     for(int i = 0; i < _arrM.count; i++) {
         
         ManangeInformationModel *m = _arrM[i];
-        [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:m.tms_fllet_name]];
+        // 除数不能为0
+        long long qtyTotal = _outGoodsTotal ? _outGoodsTotal : 1;
+        NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.tms_fllet_name, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
+        [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:desc]];
     }
     
     NSArray *items = [muArrM copy];
@@ -246,8 +214,8 @@
     pieChart.legendStyle = PNLegendItemStyleStacked;
     pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
     
-    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - (ScreenWidth - kGCPieChartWH) / 2)];
-    [legend setFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
+    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - 12)];
+    [legend setFrame:CGRectMake(12, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
     [self.GCPieChartSuperView addSubview:legend];
 
     [self.GCPieChartSuperView addSubview:pieChart];

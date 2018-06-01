@@ -296,4 +296,40 @@ typedef void (^Animation)(void);
     return [dateFormatter stringFromDate:date1];
 }
 
++ (nullable NSArray *)getChartColor {
+    
+    NSMutableArray *colors = [[NSMutableArray alloc] init];
+    [colors addObject:[UIColor blueColor]];
+    [colors addObject:[UIColor brownColor]];
+    [colors addObject:[UIColor redColor]];
+    [colors addObject:[UIColor yellowColor]];
+    [colors addObject:[UIColor purpleColor]];
+    [colors addObject:[UIColor orangeColor]];
+    [colors addObject:[UIColor magentaColor]];
+    [colors addObject:[UIColor greenColor]];
+    [colors addObject:[UIColor cyanColor]];
+    [colors addObject:[UIColor colorWithRed:135 / 255.0 green:206 / 255.0 blue:235 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:255 / 255.0 green:235 / 2550. blue:205 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:220 / 255.0 green:220 / 255.0 blue:220 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:221 / 255.0 green:160 / 255.0 blue:221 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:255 / 255.0 green:99 / 255.0 blue:71 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:210 / 255.0 green:180 / 255.0 blue:140 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:61 / 255.0 green:89 / 255.0 blue:171 / 255.0 alpha:1.0]];
+    
+    //以下备用重复
+    [colors addObject:[UIColor colorWithRed:127 / 255.0 green:255 / 255.0 blue:0 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:192 / 255.0 green:192 / 255.0 blue:192 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor colorWithRed:255 / 255.0 green:192 / 255.0 blue:203 / 255.0 alpha:1.0]];
+    [colors addObject:[UIColor blueColor]];
+    [colors addObject:[UIColor cyanColor]];
+    [colors addObject:[UIColor greenColor]];
+    [colors addObject:[UIColor brownColor]];
+    [colors addObject:[UIColor redColor]];
+    [colors addObject:[UIColor yellowColor]];
+    [colors addObject:[UIColor purpleColor]];
+    [colors addObject:[UIColor orangeColor]];
+    [colors addObject:[UIColor magentaColor]];
+    return colors;
+}
+
 @end

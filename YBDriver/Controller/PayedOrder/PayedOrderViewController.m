@@ -297,7 +297,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recoverKeyboardOnclick)];
     tap.numberOfTapsRequired = 1;
     [coverView addGestureRecognizer:tap];
-    [_myTableView addSubview:coverView];
+//    [_myTableView addSubview:coverView];
     coverView.alpha = 1;
     
     

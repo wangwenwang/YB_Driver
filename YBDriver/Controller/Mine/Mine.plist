@@ -22,7 +22,13 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>管理信息</string>
+		<string>物流管理信息</string>
+		<key>prompt</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>工厂管理信息</string>
 		<key>prompt</key>
 		<string></string>
 	</dict>

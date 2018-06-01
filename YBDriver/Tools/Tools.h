@@ -118,4 +118,11 @@
 + (nullable NSString *)getCurrentBeforeDate_Second:(NSTimeInterval)second;
 
 
+/**
+ 获取饼状图颜色
+
+ @return 颜色数组
+ */
++ (nullable NSArray *)getChartColor;
+
 @end

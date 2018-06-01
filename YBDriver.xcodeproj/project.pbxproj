@@ -135,6 +135,10 @@
 		41977D7FBBC89B803915AAEF /* libPods-YBDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */; };
 		775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */; };
 		775C2FE220BFAAAC00860183 /* QRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */; };
+		7760623E20C1167C00F0899A /* FactoryChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760623C20C1167C00F0899A /* FactoryChartViewController.m */; };
+		7760623F20C1167C00F0899A /* FactoryChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7760623D20C1167C00F0899A /* FactoryChartViewController.xib */; };
+		7760624220C1183200F0899A /* FactoryChartService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760624120C1183200F0899A /* FactoryChartService.m */; };
+		7760624520C11EB600F0899A /* FactoryChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760624420C11EB600F0899A /* FactoryChartModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -369,6 +373,13 @@
 		775C2FDE20BFAAAC00860183 /* QRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRCodeViewController.xib; sourceTree = "<group>"; };
+		7760623B20C1167C00F0899A /* FactoryChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactoryChartViewController.h; sourceTree = "<group>"; };
+		7760623C20C1167C00F0899A /* FactoryChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactoryChartViewController.m; sourceTree = "<group>"; };
+		7760623D20C1167C00F0899A /* FactoryChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactoryChartViewController.xib; sourceTree = "<group>"; };
+		7760624020C1183200F0899A /* FactoryChartService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactoryChartService.h; sourceTree = "<group>"; };
+		7760624120C1183200F0899A /* FactoryChartService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactoryChartService.m; sourceTree = "<group>"; };
+		7760624320C11EB600F0899A /* FactoryChartModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactoryChartModel.h; sourceTree = "<group>"; };
+		7760624420C11EB600F0899A /* FactoryChartModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactoryChartModel.m; sourceTree = "<group>"; };
 		7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YBDriver.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B0EBE48AEEE3C57BFA746B /* Pods-YBDriver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YBDriver.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YBDriver/Pods-YBDriver.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -464,6 +475,8 @@
 				30D6E50A1D7FF00800104FCA /* LocationModel.m */,
 				302ECF4E1D8799E10019AC8B /* ManangeInformationModel.h */,
 				302ECF4F1D8799E10019AC8B /* ManangeInformationModel.m */,
+				7760624320C11EB600F0899A /* FactoryChartModel.h */,
+				7760624420C11EB600F0899A /* FactoryChartModel.m */,
 				302ECF6A1D87CC940019AC8B /* OrderPictureModel.h */,
 				302ECF6B1D87CC940019AC8B /* OrderPictureModel.m */,
 			);
@@ -497,6 +510,8 @@
 				302ECF4C1D8792450019AC8B /* ManangeInformationService.m */,
 				302ECF671D87CAB40019AC8B /* CheckPictureService.h */,
 				302ECF681D87CAB40019AC8B /* CheckPictureService.m */,
+				7760624020C1183200F0899A /* FactoryChartService.h */,
+				7760624120C1183200F0899A /* FactoryChartService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -963,6 +978,9 @@
 				306417431D84EC50002C609F /* ManangeInformationViewController.h */,
 				306417441D84EC50002C609F /* ManangeInformationViewController.m */,
 				306417451D84EC50002C609F /* ManangeInformationViewController.xib */,
+				7760623B20C1167C00F0899A /* FactoryChartViewController.h */,
+				7760623C20C1167C00F0899A /* FactoryChartViewController.m */,
+				7760623D20C1167C00F0899A /* FactoryChartViewController.xib */,
 				775C2FDE20BFAAAC00860183 /* QRCodeViewController.h */,
 				775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */,
 				775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */,
@@ -1174,6 +1192,7 @@
 				300E8ED11D8FC54200684F48 /* Launch Screen.storyboard in Resources */,
 				302F68C01D90BE4B004DA6F1 /* CoreSDWebImage.bundle in Resources */,
 				30ED362F1F62B6340054FE66 /* CheckOrderPathViewController.xib in Resources */,
+				7760623F20C1167C00F0899A /* FactoryChartViewController.xib in Resources */,
 				30CC65901D7E53410019720C /* UnPayTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1272,6 +1291,7 @@
 				30324AA71D82945F00ABAC2E /* OrderPathCheckViewController.m in Sources */,
 				30D6E5051D7F9DAC00104FCA /* OrderDetailService.m in Sources */,
 				302F68AB1D90BE4B004DA6F1 /* NSString+File.m in Sources */,
+				7760624220C1183200F0899A /* FactoryChartService.m in Sources */,
 				3012DE981D75E115005A036F /* NSString+Trim.m in Sources */,
 				3012DE8C1D75D78F005A036F /* Reachability.m in Sources */,
 				30CC65641D7A6CA00019720C /* StateTackModel.m in Sources */,
@@ -1293,12 +1313,14 @@
 				302F689D1D90BE4B004DA6F1 /* UIView+PBExtend.m in Sources */,
 				300AF1111D7564B800A2794A /* UserModel.m in Sources */,
 				30D6E5081D7FEFA000104FCA /* CheckPathService.m in Sources */,
+				7760623E20C1167C00F0899A /* FactoryChartViewController.m in Sources */,
 				302F68B71D90BE4B004DA6F1 /* UIImage+Color.m in Sources */,
 				30CC658A1D7D67720019720C /* PayedTableViewCell.m in Sources */,
 				302F68E41D910444004DA6F1 /* MyBMKLocationService.m in Sources */,
 				302F68D11D90BE4B004DA6F1 /* UIButton+SD.m in Sources */,
 				30324A931D8293D400ABAC2E /* AboutViewController.m in Sources */,
 				3B7AE4461F753D030077F1C9 /* TPKeyboardAvoidingScrollView.m in Sources */,
+				7760624520C11EB600F0899A /* FactoryChartModel.m in Sources */,
 				30ED362E1F62B6340054FE66 /* CheckOrderPathViewController.m in Sources */,
 				30324A9E1D8293D400ABAC2E /* PayedOrderViewController.m in Sources */,
 				30324A8D1D8293D400ABAC2E /* WelcomeViewController.m in Sources */,

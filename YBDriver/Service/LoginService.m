@@ -56,7 +56,7 @@
     // API_LOGIN
     // @"http://218.17.181.244:8081/api/GetCestbonFleetCount"
     // @"http://218.17.181.244:8081/api/GetFleetReport"
-//     @"http://218.17.181.244:8081/api/Register"
+//     @"http://218.17.181.244:8081/api/YibRegister"
     [manager POST:API_LOGIN parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
