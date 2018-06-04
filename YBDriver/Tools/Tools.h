@@ -125,4 +125,30 @@
  */
 + (nullable NSArray *)getChartColor;
 
+
+/**
+ 检测字符串是否是纯数字
+
+ @param num 输入
+ @return 是否数字
+ */
++ (BOOL)isNumber:(nullable NSString *)num;
+
+
+
+/**
+ 检测是否是手机号码
+
+ @param mobileNum 手机号
+ @return 是否手机号
+ */
++ (BOOL)isMobileNumber:(nullable NSString *)mobileNum;
+
+
+/**
+ 获取当前时间戳
+
+ @return 时间戳
+ */
++ (nullable NSString *)currentTimeStr;
 @end

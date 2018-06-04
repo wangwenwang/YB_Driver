@@ -80,7 +80,6 @@
     
     if (self = [super init]) {
         
-        self.title = @"信息管理";
         self.tabBarItem.image = [UIImage imageNamed:@"menu_manangeInformation_unselected"];
         
         _isSelectedDate = NO;
@@ -107,7 +106,7 @@
     
     [super viewDidLoad];
     
-    self.title = @"工厂报表";
+    self.title = @"工厂管理信息";
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if([Tools isConnectionAvailable]) {

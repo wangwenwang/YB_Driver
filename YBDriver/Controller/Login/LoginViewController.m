@@ -18,6 +18,7 @@
 #import "MineViewController.h"
 #import "AppDelegate.h"
 #import "ManangeInformationViewController.h"
+#import "RegisterViewController.h"
 
 @interface LoginViewController ()<LoginServiceDelegate>{
     
@@ -35,7 +36,7 @@
 
 @implementation LoginViewController
 
-#pragma mark -- 生命周期
+#pragma mark - 生命周期
 - (instancetype)init {
     NSLog(@"%s", __func__);
     if(self = [super init]) {
@@ -97,14 +98,16 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
 - (void)dealloc {
+    
     NSLog(@"%s", __func__);
 }
 
-#pragma mark -- 功能函数
+#pragma mark - 事件
 - (IBAction)loginBtn:(UIButton *)sender {
     [self.view endEditing:YES];
     
@@ -127,7 +130,12 @@
     }else {
         [Tools showAlert:self.view andTitle:@"请输入用户名！"];
     }
+}
+
+- (IBAction)registerOnclick {
     
+    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - LoginServiceDelegate

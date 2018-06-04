@@ -8,6 +8,7 @@
 
 #import "QRCodeViewController.h"
 #import "AppDelegate.h"
+#import "Tools.h"
 
 @interface QRCodeViewController ()
 
@@ -22,6 +23,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
     self.title = @"展示二维码";
     _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -31,7 +33,7 @@
     [filter setDefaults];
     
     // 2. 给滤镜添加数据
-    NSString *string = _app.user.USER_CODE;
+    NSString *string = [NSString stringWithFormat:@"%@,%@", _app.user.USER_CODE, [Tools currentTimeStr]];
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     // 使用KVC的方式给filter赋值
     [filter setValue:data forKeyPath:@"inputMessage"];

@@ -206,6 +206,7 @@
     
     [_myTableView.mj_header endRefreshing];
     [_myTableView.mj_footer endRefreshing];
+    [_myTableView removeNoDataPrompt];
     
     if(_service.orders.count > kPageCount - 1) {
         
@@ -238,6 +239,14 @@
         
         [_service.orders removeAllObjects];
         [_myTableView noOrder:msg];
+        if(_service.orders.count == 0) {
+            
+            [_myTableView.mj_footer setHidden:YES];
+        }else {
+            
+            [_myTableView.mj_footer setHidden:NO];
+        }
+        [_myTableView.mj_footer setHidden:YES];
     } else {
         
         // 已加载完毕
@@ -268,7 +277,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
     _service.TMS_PLATE_NUMBER = searchBar.text;
-    [self loadMoreDataUp];
+    [self loadMoreDataDown];
     [self.view endEditing:YES];
 }
 

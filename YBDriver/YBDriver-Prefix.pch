@@ -71,6 +71,8 @@
 #define API_INFORMATION_MANANGE @"http://218.17.181.244:8081/api/GetCestbonCount"
 /// 获取已交付订单图片信息
 #define API_GET_ORDER_PICTURE @"http://218.17.181.244:8081/api/GetAutograph"
+/// 注册接口
+#define API_Register @"http://218.17.181.244:8081/api/YibRegister"
 
 /// 图片地址
 #define API_LOAD_URL @"http://218.17.181.244:8081/"
@@ -91,6 +93,10 @@
 
 /*--------- 应用名称 ---------*/
 #define AppDisplayName [[NSBundle mainBundle] infoDictionary][@"CFBundleDisplayName"]
+
+
+/*--------- 通知 ---------*/
+#define kLoginViewController_receiveMsg @"LoginViewController_receiveMsg"
 
 
 #endif /* YBDriver_Prefix_pch */

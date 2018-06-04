@@ -332,4 +332,32 @@ typedef void (^Animation)(void);
     return colors;
 }
 
+
++ (BOOL)isNumber:(nullable NSString *)num {
+    NSString *number = @"0123456789";
+    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:number] invertedSet];
+    NSString *filtered = [[num componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+    BOOL basic = [num isEqualToString:filtered];
+    return basic;
+}
+
+
++ (BOOL)isMobileNumber:(nullable NSString *)mobileNum {
+    NSString * mobile = @"^1[34578]\\d{9}$";
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobile];
+    if ([regextestmobile evaluateWithObject:mobileNum] == YES) {
+        return YES;
+    }else {
+        return NO;
+    }
+}
+
+
++ (nullable NSString *)currentTimeStr{
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
+    NSTimeInterval time=[date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
+    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+    return timeString;
+}
+
 @end

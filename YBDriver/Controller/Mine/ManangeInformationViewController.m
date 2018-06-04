@@ -96,9 +96,6 @@
     
     if (self = [super init]) {
         
-        self.title = @"信息管理";
-        self.tabBarItem.image = [UIImage imageNamed:@"menu_manangeInformation_unselected"];
-        
         _isSelectedDate = NO;
         _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         _service = [[ManangeInformationService alloc] init];
@@ -153,7 +150,7 @@
     
     [super viewDidAppear:animated];
     
-    self.navigationController.navigationBar.topItem.title = @"信息管理";
+    self.navigationController.navigationBar.topItem.title = @"物流管理信息";
     UIColor *color = [UIColor whiteColor];
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;

@@ -133,6 +133,9 @@
 		3B7AE4471F753D030077F1C9 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4421F753D030077F1C9 /* TPKeyboardAvoidingTableView.m */; };
 		3B7AE4481F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4441F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		41977D7FBBC89B803915AAEF /* libPods-YBDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */; };
+		774B76B220C4E1A00038A472 /* RegisterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 774B76B120C4E1A00038A472 /* RegisterService.m */; };
+		774B76B720C4E9120038A472 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774B76B520C4E9120038A472 /* RegisterViewController.m */; };
+		774B76B820C4E9120038A472 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 774B76B620C4E9120038A472 /* RegisterViewController.xib */; };
 		775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */; };
 		775C2FE220BFAAAC00860183 /* QRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */; };
 		7760623E20C1167C00F0899A /* FactoryChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760623C20C1167C00F0899A /* FactoryChartViewController.m */; };
@@ -370,6 +373,11 @@
 		3B7AE4421F753D030077F1C9 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		3B7AE4431F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		3B7AE4441F753D030077F1C9 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		774B76B020C4E1A00038A472 /* RegisterService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterService.h; sourceTree = "<group>"; };
+		774B76B120C4E1A00038A472 /* RegisterService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterService.m; sourceTree = "<group>"; };
+		774B76B420C4E9120038A472 /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		774B76B520C4E9120038A472 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		774B76B620C4E9120038A472 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		775C2FDE20BFAAAC00860183 /* QRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		775C2FDF20BFAAAC00860183 /* QRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		775C2FE020BFAAAC00860183 /* QRCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRCodeViewController.xib; sourceTree = "<group>"; };
@@ -488,6 +496,8 @@
 			children = (
 				300AF1051D75396900A2794A /* LoginService.h */,
 				300AF1061D75396900A2794A /* LoginService.m */,
+				774B76B020C4E1A00038A472 /* RegisterService.h */,
+				774B76B120C4E1A00038A472 /* RegisterService.m */,
 				302F68E21D910444004DA6F1 /* MyBMKLocationService.h */,
 				302F68E31D910444004DA6F1 /* MyBMKLocationService.m */,
 				300E8EAE1D8E336400684F48 /* LocationService.h */,
@@ -925,6 +935,7 @@
 		30324A5D1D8293D400ABAC2E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				774B76B320C4E8F80038A472 /* Register */,
 				30324A611D8293D400ABAC2E /* Login */,
 				30324A681D8293D400ABAC2E /* Main */,
 				30324A861D8293D400ABAC2E /* UnPayOrder */,
@@ -1089,6 +1100,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		774B76B320C4E8F80038A472 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				774B76B420C4E9120038A472 /* RegisterViewController.h */,
+				774B76B520C4E9120038A472 /* RegisterViewController.m */,
+				774B76B620C4E9120038A472 /* RegisterViewController.xib */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
 		C0DD37DCE007679033033C21 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1190,6 +1211,7 @@
 				302F68D61D90BE4B004DA6F1 /* SVProgressHUD.bundle in Resources */,
 				302ECF711D87EA230019AC8B /* PayOrderViewController.xib in Resources */,
 				300E8ED11D8FC54200684F48 /* Launch Screen.storyboard in Resources */,
+				774B76B820C4E9120038A472 /* RegisterViewController.xib in Resources */,
 				302F68C01D90BE4B004DA6F1 /* CoreSDWebImage.bundle in Resources */,
 				30ED362F1F62B6340054FE66 /* CheckOrderPathViewController.xib in Resources */,
 				7760623F20C1167C00F0899A /* FactoryChartViewController.xib in Resources */,
@@ -1318,6 +1340,7 @@
 				30CC658A1D7D67720019720C /* PayedTableViewCell.m in Sources */,
 				302F68E41D910444004DA6F1 /* MyBMKLocationService.m in Sources */,
 				302F68D11D90BE4B004DA6F1 /* UIButton+SD.m in Sources */,
+				774B76B220C4E1A00038A472 /* RegisterService.m in Sources */,
 				30324A931D8293D400ABAC2E /* AboutViewController.m in Sources */,
 				3B7AE4461F753D030077F1C9 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				7760624520C11EB600F0899A /* FactoryChartModel.m in Sources */,
@@ -1334,6 +1357,7 @@
 				775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */,
 				302F68AC1D90BE4B004DA6F1 /* CoreArchive.m in Sources */,
 				30CC65781D7D05CE0019720C /* MineTableViewCell.m in Sources */,
+				774B76B720C4E9120038A472 /* RegisterViewController.m in Sources */,
 				30EC83281D8156A300C10EB6 /* PayOrderService.m in Sources */,
 				303B75181D771742005AF369 /* LocationContineTimeModel.m in Sources */,
 				302F68D81D90BE4B004DA6F1 /* LFRoundProgressView.m in Sources */,

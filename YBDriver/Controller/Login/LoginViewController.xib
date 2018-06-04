@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,15 +22,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pYZ-GD-hao" customClass="TPKeyboardAvoidingScrollView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rue-9g-Axi">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HZ2-pL-XHG" customClass="LoginTextField">
+                                    <rect key="frame" x="30" y="190" width="315" height="40"/>
                                     <color key="textColor" red="0.0" green="0.60392156860000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4lU-f3-Szp">
+                                    <rect key="frame" x="30" y="300" width="315" height="40"/>
                                     <color key="backgroundColor" red="0.0" green="0.60392156860000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <state key="normal" title="登陆">
@@ -44,6 +51,7 @@
                                     </connections>
                                 </button>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MdF-nR-a7j" customClass="LoginTextField">
+                                    <rect key="frame" x="30" y="100" width="315" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="gtG-rO-yS2"/>
                                     </constraints>
@@ -51,10 +59,28 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 </textField>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLs-3f-ZiO">
+                                    <rect key="frame" x="30" y="365" width="315" height="40"/>
+                                    <color key="backgroundColor" red="0.0" green="0.60392156860000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <state key="normal" title="注册">
+                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.0" green="0.60392156860000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="registerOnclick" destination="-1" eventType="touchUpInside" id="WLf-Fh-Y1e"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="MdF-nR-a7j" firstAttribute="top" secondItem="rue-9g-Axi" secondAttribute="top" constant="100" id="45U-bd-cFL"/>
+                                <constraint firstItem="wLs-3f-ZiO" firstAttribute="trailing" secondItem="4lU-f3-Szp" secondAttribute="trailing" id="4ci-X4-iX8"/>
                                 <constraint firstItem="HZ2-pL-XHG" firstAttribute="top" secondItem="MdF-nR-a7j" secondAttribute="bottom" constant="50" id="7AF-0Z-YGM"/>
                                 <constraint firstAttribute="trailing" secondItem="MdF-nR-a7j" secondAttribute="trailing" constant="30" id="9zU-Xh-gVa"/>
                                 <constraint firstItem="HZ2-pL-XHG" firstAttribute="leading" secondItem="MdF-nR-a7j" secondAttribute="leading" id="Awf-DO-hVQ"/>
@@ -62,10 +88,13 @@
                                 <constraint firstItem="4lU-f3-Szp" firstAttribute="height" secondItem="HZ2-pL-XHG" secondAttribute="height" id="GEF-Xd-C2K"/>
                                 <constraint firstItem="HZ2-pL-XHG" firstAttribute="height" secondItem="MdF-nR-a7j" secondAttribute="height" id="RkA-3i-bO5"/>
                                 <constraint firstItem="HZ2-pL-XHG" firstAttribute="trailing" secondItem="MdF-nR-a7j" secondAttribute="trailing" id="YpX-pV-Vhr"/>
+                                <constraint firstItem="wLs-3f-ZiO" firstAttribute="top" secondItem="4lU-f3-Szp" secondAttribute="bottom" constant="25" id="Yv5-ij-BBI"/>
                                 <constraint firstItem="4lU-f3-Szp" firstAttribute="trailing" secondItem="HZ2-pL-XHG" secondAttribute="trailing" id="idQ-z0-MS9"/>
                                 <constraint firstItem="4lU-f3-Szp" firstAttribute="leading" secondItem="HZ2-pL-XHG" secondAttribute="leading" id="m7Y-JJ-1Dp"/>
+                                <constraint firstItem="wLs-3f-ZiO" firstAttribute="height" secondItem="4lU-f3-Szp" secondAttribute="height" id="tJX-7m-ggT"/>
                                 <constraint firstAttribute="height" constant="600" id="uIl-l1-9MK"/>
                                 <constraint firstItem="MdF-nR-a7j" firstAttribute="leading" secondItem="rue-9g-Axi" secondAttribute="leading" constant="30" id="vKn-XS-J9m"/>
+                                <constraint firstItem="wLs-3f-ZiO" firstAttribute="leading" secondItem="4lU-f3-Szp" secondAttribute="leading" id="vlu-uG-3v3"/>
                             </constraints>
                         </view>
                     </subviews>
