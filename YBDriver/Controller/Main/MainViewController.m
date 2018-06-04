@@ -16,7 +16,7 @@
 
 #define alertModel 3
 
-@interface MainViewController ()<BMKMapViewDelegate, BMKLocationServiceDelegate, MyBMKLocationServiceDelegate, LocationServiceDelegate> {
+@interface MainViewController ()<BMKMapViewDelegate, BMKLocationServiceDelegate, MyBMKLocationServiceDelegate, LocationServiceDelegate, CLLocationManagerDelegate> {
     
     /// 百度地图定位服务
     BMKLocationService *_locationService;
@@ -51,12 +51,15 @@
 /// 进入货物路线场景
 - (IBAction)checkOrderPathOnclick:(UIButton *)sender;
 
+@property (strong, nonatomic) CLLocationManager *reqAuth;
+
 @end
 
 @implementation MainViewController
 
-#pragma mark -- 生命周期
+#pragma mark - 生命周期
 - (instancetype)init {
+    
     NSLog(@"%s", __func__);
     if(self = [super init]) {
         self.tabBarItem.title = @"首页";
@@ -69,12 +72,13 @@
         _myLocationService = [[LocationService alloc] init];
         _myLocationService.delegate = self;
         
-        _app = [[UIApplication sharedApplication] delegate];
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     NSLog(@"%s", __func__);
     
@@ -103,6 +107,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     NSLog(@"%s", __func__);
     
@@ -112,8 +117,10 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
     NSLog(@"%s", __func__);
+    
     self.navigationController.navigationBar.topItem.title = @"首页";
     UIColor *color = [UIColor whiteColor];
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
@@ -128,44 +135,54 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
     NSLog(@"%s", __func__);
+    
     _locationService.delegate = nil;
     _baiduMapView.delegate = nil; // 不用时，置nil
     [_baiduMapView viewWillDisappear];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    
     [super viewDidDisappear:animated];
     NSLog(@"%s", __func__);
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
 - (void)dealloc {
+    
     NSLog(@"%s", __func__);
 }
 
-#pragma mark -- 点击事件
+#pragma mark - 点击事件
 - (IBAction)myLocationOnclick:(UIButton *)sender {
+    
     _baiduMapView.userTrackingMode = BMKUserTrackingModeFollow;
     if([Tools isConnectionAvailable]) {
+        
         NSLog(@"有网络");
     }else {
+        
         NSLog(@"没网络");
     }
 }
 
 - (IBAction)checkOrderPathOnclick:(UIButton *)sender {
+    
     OrderPathCheckViewController *orderVC = [[OrderPathCheckViewController alloc] init];
     [self.navigationController pushViewController:orderVC animated:YES];
 }
 
-#pragma mark -- 功能函数
-/// 上传位置信息
+#pragma mark - 功能函数
+// 上传位置信息
 - (void)updataLocation:(NSTimer *)timer {
+    
     NSLog(@"准备上传位置点信息！%d", _i);
     _i++;
     
@@ -205,7 +222,7 @@
     
 }
 
-/// 开启间隔时间上传位置点计时器
+// 开启间隔时间上传位置点计时器
 - (void)startUpdataLocationTimer {
     if(_localTimer != nil) {
         [_localTimer invalidate];
@@ -216,13 +233,34 @@
 }
 
 - (void)startLocationService {
-    //初始化BMKLocationService
-    _localService = [[MyBMKLocationService alloc] init];
-    _localService.myDelegate = self;
+    
+    // 弹出定位授权窗口
+    _reqAuth = [[CLLocationManager alloc] init];
+    _reqAuth.delegate = self;
+    _reqAuth.distanceFilter = 100;
+    _reqAuth.pausesLocationUpdatesAutomatically = NO;
+    if(SystemVersion > 9.0) {
+
+        _reqAuth.allowsBackgroundLocationUpdates = YES;
+    }
+    [_reqAuth requestAlwaysAuthorization];
+    [_reqAuth startUpdatingLocation];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
+        sleep(2);
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            //初始化BMKLocationService
+            _localService = [[MyBMKLocationService alloc] init];
+            _localService.myDelegate = self;
+        });
+    });
 }
 
-#pragma mark -- MyBMKLocationServiceDelegate 后台上传位置点
+#pragma mark - MyBMKLocationServiceDelegate 后台上传位置点
 - (void)myDidUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
+    
     _location = userLocation.location.coordinate;
     _isUpdataLocation = YES;
     if(_myLocationService.isNeedChangeUpdataLocationSpanTime) {
@@ -235,12 +273,13 @@
     }
 }
 
-#pragma mark -- BMKLocationServiceDelegate 前台显示
+#pragma mark - BMKLocationServiceDelegate 前台显示
 /**
  *用户方向更新后，会调用此函数
  *@param userLocation 新的用户位置
  */
 - (void)didUpdateUserHeading:(BMKUserLocation *)userLocation {
+    
     [_baiduMapView updateLocationData:userLocation];
 }
 
@@ -249,22 +288,24 @@
  *@param userLocation 新的用户位置
  */
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
+    
     [_baiduMapView updateLocationData:userLocation];
 }
 
-#pragma mark -- BMKMapViewDelegate 前台显示
-/// 百度地图初始化完成
+#pragma mark - BMKMapViewDelegate 前台显示
+// 百度地图初始化完成
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView {
+    
     [_locationService startUserLocationService ];
-    //先关闭显示的定位图层
+    // 先关闭显示的定位图层
     _baiduMapView.showsUserLocation = NO;
-    //设置定位的状态
+    // 设置定位的状态
     _baiduMapView.userTrackingMode = BMKUserTrackingModeNone;
-    //显示定位图层
+    // 显示定位图层
     _baiduMapView.showsUserLocation = YES;
-    //设置定位精度
+    // 设置定位精度
     _locationService.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    //指定最小距离更新(米)，默认：kCLDistanceFilterNone
+    // 指定最小距离更新(米)，默认：kCLDistanceFilterNone
     _locationService.distanceFilter = 1;
 }
 
@@ -280,36 +321,45 @@
 //    });
 }
 
-#pragma mark -- MyBMKLocationServiceDelegate
-/// 上传单点成功回调
+#pragma mark - MyBMKLocationServiceDelegate
+// 上传单点成功回调
 - (void)uploadOneLocationSuccess {
+    
     [self alert:@"上传单点成功"];
 }
 
-/// 上传单点失败回调
+// 上传单点失败回调
 - (void)uploadOneLocationFailure {
+    
     [self alert:@"上传单点失败"];
 }
 
-/// 上传集合点成功回调
+// 上传集合点成功回调
 - (void)uploadMoreLocationSuccess {
+    
     [self alert:@"上传集合点成功"];
 }
 
-/// 上传集合点失败回调
+// 上传集合点失败回调
 - (void)uploadMoreLocationFailure {
+    
     [self alert:@"上传集合点失败"];
 }
 
-/// 提示
+// 提示
 - (void)alert:(NSString *)title {
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         if(alertModel == 1) {
+            
             [Tools showAlert:self.view andTitle:title];
         }else if(alertModel == 2) {
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:title delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
         }else {
+            
             nil;
         }
     });
