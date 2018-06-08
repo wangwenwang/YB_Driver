@@ -288,6 +288,27 @@ typedef void (^Animation)(void);
 }
 
 
++ (CGFloat)getWidthOfStringAndFont:(nullable NSString *)text andFont:(nullable UIFont *)font {
+    UILabel *label = [[UILabel alloc] init];
+    label.text = text;
+    label.font = font;
+    label.lineBreakMode = NSLineBreakByCharWrapping;
+    CGSize sizeToFit = [label sizeThatFits:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    return sizeToFit.width;
+}
+
+
++ (CGFloat)getHeightOfString:(nullable NSString *)text andFont:(nullable UIFont *)font andWidth:(CGFloat)width {
+    UILabel *label = [[UILabel alloc] init];
+    label.text = text;
+    label.font = font;
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByCharWrapping;
+    CGSize sizeToFit = [label sizeThatFits:CGSizeMake(width, MAXFLOAT)];
+    return sizeToFit.height;
+}
+
+
 + (nullable NSString *)getCurrentBeforeDate_Second:(NSTimeInterval)second {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

@@ -37,6 +37,7 @@
         _ORD_REMARK_CLIENT = @"";
         _ORD_TO_REGION = @"";
         _ORD_QTY = @"";
+        _SHIP_FROM_NAME = @"";
     }
     return self;
 }
@@ -67,6 +68,7 @@
     _ORD_REMARK_CLIENT = dict[@"ORD_REMARK_CLIENT"];
     _ORD_TO_REGION = dict[@"ORD_TO_REGION"];
     _ORD_QTY = dict[@"ORD_QTY"];
+    _SHIP_FROM_NAME = dict[@"SHIP_FROM_NAME"];
 }
 
 @end

@@ -108,6 +108,11 @@
 + (CGFloat)getWidthOfString:(nullable NSString *)text fontSize:(CGFloat)fontSize;
 
 
++ (CGFloat)getWidthOfStringAndFont:(nullable NSString *)text andFont:(nullable UIFont *)font;
+
++ (CGFloat)getHeightOfString:(nullable NSString *)text andFont:(nullable UIFont *)font andWidth:(CGFloat)width;
+
+
 /**
  时间加法（负数为减法）
  

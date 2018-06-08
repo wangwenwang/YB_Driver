@@ -24,6 +24,9 @@
         _PARTY_TYPE = @"";
         _ORD_TO_CNAME = @"";
         _ORD_TO_ADDRESS = @"";
+        _STATE= @"";
+        _CITY = @"";
+        _COUNTY = @"";
         
         _ORD_QTY = @"";
         _ORD_WEIGHT = @"";
@@ -77,6 +80,9 @@
     _PARTY_TYPE = dict[@"PARTY_TYPE"];
     _ORD_TO_CNAME = dict[@"ORD_TO_CNAME"];
     _ORD_TO_ADDRESS = dict[@"ORD_TO_ADDRESS"];
+    _STATE = dict[@"STATE"];
+    _CITY = dict[@"CITY"];
+    _COUNTY = dict[@"COUNTY"];
     
     _ORD_QTY = dict[@"ORD_QTY"];
     _ORD_WEIGHT = dict[@"ORD_WEIGHT"];

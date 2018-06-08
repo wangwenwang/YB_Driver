@@ -32,6 +32,9 @@
 /// 办事处
 @property (weak, nonatomic) IBOutlet UILabel *office;
 
+/// 仓库名称
+@property (weak, nonatomic) IBOutlet UILabel *SHIP_FROM_NAME;
+
 /// 订单详情
 @property (strong, nonatomic) OrderDetailModel *orderDetail;
 

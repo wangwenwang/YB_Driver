@@ -51,6 +51,7 @@
 /// 进入货物路线场景
 - (IBAction)checkOrderPathOnclick:(UIButton *)sender;
 
+// 弹出3个定位受权（包括iOS11下始终允许）
 @property (strong, nonatomic) CLLocationManager *reqAuth;
 
 @end
@@ -62,6 +63,7 @@
     
     NSLog(@"%s", __func__);
     if(self = [super init]) {
+        
         self.tabBarItem.title = @"首页";
         self.tabBarItem.image = [UIImage imageNamed:@"menu_index_unselected"];
         
@@ -127,8 +129,10 @@
     self.navigationController.navigationBar.titleTextAttributes = dict;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
         usleep(800000);
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             _baiduMapView.userTrackingMode = BMKUserTrackingModeFollow;
         });
     });

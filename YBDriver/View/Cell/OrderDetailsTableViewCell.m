@@ -37,7 +37,7 @@
             _office.text = array[2];
         }
     }
-
+    _SHIP_FROM_NAME.text = [NSString stringWithFormat:@"%@", orderDetail.SHIP_FROM_NAME];
 }
 
 @end

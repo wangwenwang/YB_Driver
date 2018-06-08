@@ -46,6 +46,8 @@
 @property (weak, nonatomic) IBOutlet UIView *PieChartSuperView;
 // 容器高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *PieChartSuperViewHeight;
+// 饼状图文字高度
+@property (assign, nonatomic) NSUInteger pieTextHeight;
 
 
 // 承运商发货数量条形图
@@ -125,14 +127,22 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark - 功能函数
 
 - (void)addPieChart {
+    
+    //移除GCPieChartSuperView里的UIView视图
+    NSArray *GCPieChartSuperViewArr = self.PieChartSuperView.subviews;
+    
+    for (int i = 0; i < GCPieChartSuperViewArr.count; i++) {
+        UIView *v = GCPieChartSuperViewArr[i];
+        [v removeFromSuperview];
+    }
     
     NSArray *colors = [Tools getChartColor];
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
@@ -141,9 +151,16 @@
         FactoryChartModel *m = _factorys[i];
         // 除数不能为0
         long long qtyTotal = _qtyTotal ? _qtyTotal : 1;
-        NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.ORD_FROM_NAME, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
+        NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.ship_from_name, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:colors[i] description:desc]];
+    
+        // 计算所有物流商名称高度
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)];
+        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        self.pieTextHeight += tmsFlletNameWidth;
     }
+    self.pieTextHeight += 30;
+    [self updateViewConstraints];
     NSArray *items = [muArrM copy];
     
     PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText, kGCPieChartWH, kGCPieChartWH) items:items];
@@ -168,15 +185,23 @@
 // 处理数据
 - (void)dealData {
     
-    [_arrXLabels removeAllObjects];
-    [_arrYValues removeAllObjects];
-    _qtyTotal = 0;
-    for (int i = 0; i < _factorys.count; i++) {
+    @try {
+        [_arrXLabels removeAllObjects];
+        [_arrYValues removeAllObjects];
+        _qtyTotal = 0;
+        for (int i = 0; i < _factorys.count; i++) {
+            
+            FactoryChartModel *m = _factorys[i];
+            [_arrXLabels addObject:m.ship_from_name];
+            [_arrYValues addObject:@(m.QtyTotal)];
+            _qtyTotal += m.QtyTotal;
+        }
+    } @catch (NSException *exception) {
         
-        FactoryChartModel *m = _factorys[i];
-        [_arrXLabels addObject:m.ORD_FROM_NAME];
-        [_arrYValues addObject:@(m.QtyTotal)];
-        _qtyTotal += m.QtyTotal;
+        NSLog(@"%@",exception);
+    } @finally {
+        
+        NSLog(@"@finally");
     }
 }
 

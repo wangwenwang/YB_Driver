@@ -44,6 +44,8 @@
 @property(copy, nonatomic)NSString *ORD_TO_REGION;
 /// 订单数量
 @property(copy, nonatomic)NSString *ORD_QTY;
+/// 仓库名称
+@property(copy, nonatomic)NSString *SHIP_FROM_NAME;
 
 - (void)setDict:(NSDictionary *)dict;
 

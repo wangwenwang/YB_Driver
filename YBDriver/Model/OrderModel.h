@@ -34,8 +34,14 @@
 @property(copy, nonatomic)NSString *PARTY_TYPE;
 /// 收货人
 @property(copy, nonatomic)NSString *ORD_TO_CNAME;
-/// 活活地址
+/// 目的地址
 @property(copy, nonatomic)NSString *ORD_TO_ADDRESS;
+/// 省份
+@property(copy, nonatomic)NSString *STATE;
+/// 城市
+@property(copy, nonatomic)NSString *CITY;
+/// 地区
+@property(copy, nonatomic)NSString *COUNTY;
 
 /// 订单总数量
 @property(copy, nonatomic)NSString *ORD_QTY;

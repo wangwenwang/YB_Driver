@@ -78,6 +78,8 @@
 @property (assign, nonatomic) int pieChartDataIndex;
 // 饼状图数据源
 @property (strong, nonatomic) NSMutableArray *pieItems;
+// 饼状图文字高度
+@property (assign, nonatomic) NSUInteger pieTextHeight;
 // 容器高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pieChartViewHeight;
 
@@ -159,7 +161,6 @@
     
     [self calculateBarWidth];
     
-    
     if([Tools isADMINorWLS]) {
         
     } else {
@@ -173,7 +174,7 @@
     
     [super updateViewConstraints];
     
-    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + _arrM.count * 15 + 30;
+    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + self.pieTextHeight;
     _scrollContentViewHeight.constant = _GCPieChartSuperViewHeight.constant + _selectDateViewHeight.constant + _barChartViewHeight.constant + _pieChartViewHeight.constant;
 }
 
@@ -188,6 +189,14 @@
 
 - (void)addGCPieChart {
     
+    //移除GCPieChartSuperView里的UIView视图
+    NSArray *GCPieChartSuperViewArr = self.GCPieChartSuperView.subviews;
+    
+    for (int i = 0; i < GCPieChartSuperViewArr.count; i++) {
+        UIView *v = GCPieChartSuperViewArr[i];
+        [v removeFromSuperview];
+    }
+    
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
     for(int i = 0; i < _arrM.count; i++) {
         
@@ -196,7 +205,14 @@
         long long qtyTotal = _outGoodsTotal ? _outGoodsTotal : 1;
         NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.tms_fllet_name, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:desc]];
+        
+        // 计算所有物流商名称高度
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)];
+        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        self.pieTextHeight += tmsFlletNameWidth;
     }
+    self.pieTextHeight += 30;
+    [self updateViewConstraints];
     
     NSArray *items = [muArrM copy];
     
@@ -243,7 +259,7 @@
         
         ManangeInformationModel *m = _arrM[i];
         
-        NSString *qty = [NSString stringWithFormat:@"%d", m.QtyTotal];
+        NSString *qty = [NSString stringWithFormat:@"%lld", m.QtyTotal];
         CGFloat width = [Tools getWidthOfString:qty fontSize:11.0];
         if(width > _barItemMaxWidth) {
             
@@ -276,17 +292,17 @@
         ManangeInformationModel *m = _arrM[index];
         centerTitle = m.tms_fllet_name;
         for (int i = 0; i < 3; i++) {
-            int value = 0;
+            long long value = 0;
             NSString *des = @"";
             if(i == 0) {
                 value = m.Ndeliver;
-                des = [NSString stringWithFormat:@"未交付:%d", m.Ndeliver];
+                des = [NSString stringWithFormat:@"未交付:%lld", m.Ndeliver];
             }else if(i == 1) {
                 value = m.Adeliver;
-                des = [NSString stringWithFormat:@"已交付:%d", m.Adeliver];
+                des = [NSString stringWithFormat:@"已交付:%lld", m.Adeliver];
             }else if(i == 2) {
                 value = m.Arrive;
-                des = [NSString stringWithFormat:@"已到达:%d", m.Arrive];
+                des = [NSString stringWithFormat:@"已到达:%lld", m.Arrive];
             }
             PNPieChartDataItem *item = [PNPieChartDataItem dataItemWithValue:value color:_pieChartColors[i] description:des];
             [_pieItems addObject:item];
@@ -306,6 +322,7 @@
     [_arrXLabels removeAllObjects];
     [_arrYValues removeAllObjects];
     _outGoodsTotal = 0;
+    self.pieTextHeight = 0;
     for (int i = 0; i < _arrM.count; i++) {
         
         ManangeInformationModel *model = _arrM[i];

@@ -13,7 +13,7 @@
 {
     self = [super init];
     if (self) {
-        _ORD_FROM_NAME = @"";
+        _ship_from_name = @"";
         _QtyTotal = 0;
         _Ndeliver = 0;
         _Adeliver = 0;
@@ -23,7 +23,7 @@
 }
 
 - (void)setDict:(NSDictionary *)dict {
-    _ORD_FROM_NAME = dict[@"ORD_FROM_NAME"];
+    _ship_from_name = dict[@"ship_from_name"] ? dict[@"ship_from_name"] : _ship_from_name;
     _QtyTotal = [dict[@"QtyTotal"] intValue];
     _Ndeliver = [dict[@"Ndeliver"] intValue];
     _Adeliver = [dict[@"Adeliver"] intValue];

@@ -21,75 +21,76 @@
     AppDelegate *_app;
 }
 
-/// 订单编号Label
+// 订单编号Label
 @property (weak, nonatomic) IBOutlet UILabel *orderNoLabel;
 
-/// 订单详情业务类
-//@property (strong, nonatomic)OrderDetailService *service;
-
-/// 订单编号
+// 订单编号
 @property (weak, nonatomic) IBOutlet UILabel *orderNO;
 
-/// 承运商名
+// 承运商名
 @property (weak, nonatomic) IBOutlet UILabel *orderIssueName;
 
-/// 出库时间
+// 出库时间
 @property (weak, nonatomic) IBOutlet UILabel *orderOutTime;
 
-/// 交付状态
+// 交付状态
 @property (weak, nonatomic) IBOutlet UILabel *orderPayStae;
 
-/// 司机姓名
+// 司机姓名
 @property (weak, nonatomic) IBOutlet UILabel *orderDriverName;
 
-/// 司机号码
+// 司机号码
 @property (weak, nonatomic) IBOutlet UILabel *orderDriverPhoneNumber;
 
-/// 运输方式
+// 运输方式
 @property (weak, nonatomic) IBOutlet UILabel *orderTransWay;
 
-/// 车牌号码
+// 车牌号码
 @property (weak, nonatomic) IBOutlet UILabel *orderCarNumber;
 
-/// 货物总数
+// 货物总数
 @property (weak, nonatomic) IBOutlet UILabel *orderTotalCount;
 
-/// 货物总重
+// 货物总重
 @property (weak, nonatomic) IBOutlet UILabel *orderTotalWeight;
 
-/// 客户名称
+// 省份
+@property (weak, nonatomic) IBOutlet UILabel *STATE;
+
+// 城市
+@property (weak, nonatomic) IBOutlet UILabel *CITY;
+
+// 地区
+@property (weak, nonatomic) IBOutlet UILabel *COUNTY;
+
+// 客户名称
 @property (weak, nonatomic) IBOutlet UILabel *customerName;
 
-/// 目的地点
+// 目的地点
 @property (weak, nonatomic) IBOutlet UILabel *orderToAddress;
 
-/// 货物信息
+// 货物信息
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-//这两个按钮改为手写
-//@property (weak, nonatomic) IBOutlet UIButton *showOrderPathBtn;
-//@property (weak, nonatomic) IBOutlet UIButton *orderPayedBtn;
-
-///// 查看路线
-//- (IBAction)showOrderPathOnclick:(UIButton *)sender;
-//
-///// 到达交付
-//- (IBAction)orderPayedOnclick:(UIButton *)sender;
 
 @end
 
 @implementation OrderDetailViewController
 
-#pragma mark -- 生命周期
+#pragma mark - 生命周期
 - (instancetype)init {
+    
     NSLog(@"%s", __func__);
     if(self = [super init]) {
+        
         _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
     NSLog(@"%s", __func__);
     self.title = @"物流信息";
     [self regisCell];
@@ -102,11 +103,12 @@
             [_myTableView reloadData];
         });
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
+    
     NSLog(@"%s", __func__);
     OrderModel *order = _service.order;
     if(order) {
@@ -114,27 +116,8 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)dealloc {
-    NSLog(@"%s", __func__);
-}
-
-
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
@@ -143,6 +126,7 @@
 
 // 注册Cell
 - (void)regisCell {
+    
     UINib *n = [UINib nibWithNibName:@"OrderDetailsTableViewCell" bundle:nil];
     [_myTableView registerNib:n forCellReuseIdentifier:@"OrderDetailsTableViewCell"];
     _myTableView.separatorStyle = NO;
@@ -164,8 +148,10 @@
     _orderTotalWeight.text = [NSString stringWithFormat:@"%@吨", order.ORD_WEIGHT];
     _customerName.text = order.ORD_TO_NAME;
     _orderToAddress.text = order.ORD_TO_ADDRESS;
+    _STATE.text = order.STATE;
+    _CITY.text = order.CITY;
+    _COUNTY.text = order.COUNTY;
 }
-
 
 - (void)mapsSheet:(NSMutableArray *)maps {
     
@@ -221,14 +207,14 @@
     }
 }
 
-/// 猪多重复代码，下个版本修改
-/// 添加底部按钮，司机有两个按钮（查看路线 到达交付），其它用户只能查看路线
+// 猪多重复代码，下个版本修改
+// 添加底部按钮，司机有两个按钮（查看路线 到达交付），其它用户只能查看路线
 - (void)addBottomBtn {
     
-    //两个按钮之间的距离
+    // 两个按钮之间的距离
     CGFloat btnToBtnSpace = 15;
     
-    //添加查看路线按钮
+    // 添加查看路线按钮
     UIButton *showOrderPathBtn = [[UIButton alloc] init];
     CGFloat showOrderPathX = CGRectGetMinX(_orderNoLabel.frame);
     CGFloat showOrderPathY = CGRectGetMaxY(_myTableView.frame);
@@ -361,7 +347,7 @@
 // 设置 cell 高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 66;
+    return 85;
 }
 
 

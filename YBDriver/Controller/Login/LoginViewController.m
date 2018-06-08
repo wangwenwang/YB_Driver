@@ -38,8 +38,9 @@
 
 #pragma mark - 生命周期
 - (instancetype)init {
-    NSLog(@"%s", __func__);
+    
     if(self = [super init]) {
+        
         _loginService = [[LoginService alloc] init];
         _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
@@ -47,6 +48,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     NSLog(@"%s", __func__);
     
@@ -62,23 +64,8 @@
     _pswT.text = psw;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"%s", __func__);
-}
-
-
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     NSLog(@"%s", __func__);
     
@@ -109,6 +96,7 @@
 
 #pragma mark - 事件
 - (IBAction)loginBtn:(UIButton *)sender {
+    
     [self.view endEditing:YES];
     
     NSString *_name = [_userNameT.text trim];

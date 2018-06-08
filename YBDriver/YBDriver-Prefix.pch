@@ -56,7 +56,9 @@
 /// 上传单个点位置
 #define API_UPDATA_LOCATION @"http://218.17.181.244:8081/api/CurrentLocaltion"
 /// 获取订单列表接口
-#define API_GET_DRIVER_ORDER_LIST @"http://218.17.181.244:8081/api/GetDriverOrderListNumber"
+#define API_GET_DRIVER_ORDER_LIST @"http://218.17.181.244:8081/api/GetDriverOrderList"
+/// 获取订单列表接口 带车牌号
+#define API_GET_DRIVER_ORDER_Number_LIST @"http://218.17.181.244:8081/api/GetDriverOrderListNumber"
 /// 更改密码接口
 #define API_CHANGE_PASSWORD @"http://218.17.181.244:8081/api/modifyPassword"
 /// 根据时间获取订单列表

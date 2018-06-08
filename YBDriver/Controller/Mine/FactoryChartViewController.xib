@@ -53,14 +53,14 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pfr-Md-QAN" userLabel="饼状图">
-                                    <rect key="frame" x="0.0" y="40" width="375" height="300"/>
+                                    <rect key="frame" x="0.0" y="40" width="375" height="370"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="300" id="3Q5-uQ-NRS"/>
+                                        <constraint firstAttribute="height" constant="370" id="3Q5-uQ-NRS"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VJm-t7-d4a" userLabel="条形图">
-                                    <rect key="frame" x="0.0" y="340" width="375" height="270"/>
+                                    <rect key="frame" x="0.0" y="410" width="375" height="270"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="汇总发货总数：1547" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnL-YY-Yea">
                                             <rect key="frame" x="253.5" y="46" width="113.5" height="14.5"/>

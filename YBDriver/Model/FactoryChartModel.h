@@ -11,7 +11,7 @@
 @interface FactoryChartModel : NSObject
 
 /// 工厂名称
-@property (copy, nonatomic) NSString *ORD_FROM_NAME;
+@property (copy, nonatomic) NSString *ship_from_name;
 
 /// 发货总数
 @property (assign, nonatomic) long long QtyTotal;
