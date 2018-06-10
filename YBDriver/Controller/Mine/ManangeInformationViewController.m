@@ -207,11 +207,13 @@
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:desc]];
         
         // 计算所有物流商名称高度
-        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)];
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 24)];
         tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
         self.pieTextHeight += tmsFlletNameWidth;
+        NSLog(@"物流商:%@", desc);
+        NSLog(@"行高:%.1f", tmsFlletNameWidth);
     }
-    self.pieTextHeight += 30;
+//    self.pieTextHeight += 30;
     [self updateViewConstraints];
     
     NSArray *items = [muArrM copy];
