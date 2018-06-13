@@ -89,6 +89,8 @@
 #define kGCPieChartWH 200
 // 顶部文字高度
 #define kGCPieChartTopText 40
+// 圆饼ltu字体
+#define ChartFont [UIFont fontWithName:@"Avenir-Medium" size:12]
 
 @implementation ManangeInformationViewController
 
@@ -174,7 +176,8 @@
     
     [super updateViewConstraints];
     
-    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + self.pieTextHeight;
+    // 顶部文字 + 饼状图 + 饼状图Padding + 底部文字 + 底部Padding
+    self.GCPieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + self.pieTextHeight + 12;
     _scrollContentViewHeight.constant = _GCPieChartSuperViewHeight.constant + _selectDateViewHeight.constant + _barChartViewHeight.constant + _pieChartViewHeight.constant;
 }
 
@@ -194,9 +197,18 @@
     
     for (int i = 0; i < GCPieChartSuperViewArr.count; i++) {
         UIView *v = GCPieChartSuperViewArr[i];
-        [v removeFromSuperview];
+        // tag = 10086，是饼图的头部Label
+        if(v.tag != 10086) [v removeFromSuperview];
     }
     
+    // legend左Padding
+    CGFloat legendLeftPadding = 12;
+    // legend内小圆标宽度
+    CGFloat legendIcon = 15;
+    // legend右Padding
+    CGFloat legendRightPadding = 8;
+    // 屏宽 - legend左Padding - legend内小圆标宽度 - legend右Padding
+    CGFloat labelMaxWidth = ScreenWidth - legendLeftPadding - legendIcon - legendRightPadding;
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
     for(int i = 0; i < _arrM.count; i++) {
         
@@ -207,31 +219,31 @@
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:desc]];
         
         // 计算所有物流商名称高度
-        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12 - 8 - 15)];
-        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12 - 8 - 15)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:ChartFont andWidth:labelMaxWidth];
+        // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:ChartFont andWidth:labelMaxWidth];
         self.pieTextHeight += tmsFlletNameWidth;
-        NSLog(@"物流商:%@", desc);
-        NSLog(@"宽度:%.1f", (ScreenWidth - 12 - 8 - 15));
-        NSLog(@"行高:%.1f", tmsFlletNameWidth);
+//        NSLog(@"物流商:%@", desc);
+//        NSLog(@"宽度:%.1f", labelMaxWidth);
+//        NSLog(@"行高:%.1f", tmsFlletNameWidth);
     }
-//    self.pieTextHeight += 30;
     [self updateViewConstraints];
     
     NSArray *items = [muArrM copy];
     
     PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText, kGCPieChartWH, kGCPieChartWH) items:items];
     pieChart.descriptionTextColor = [UIColor whiteColor];
-    pieChart.descriptionTextFont = [UIFont fontWithName:@"Avenir-Medium" size:12.0];
+    pieChart.descriptionTextFont = ChartFont;
     pieChart.descriptionTextShadowColor = [UIColor clearColor];
     pieChart.showAbsoluteValues = NO;
     pieChart.showOnlyValues = YES;
     [pieChart strokeChart];
     
     pieChart.legendStyle = PNLegendItemStyleStacked;
-    pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
+    pieChart.legendFont = ChartFont;
     
-    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - 12 - 8)];
-    [legend setFrame:CGRectMake(12, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
+    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - legendLeftPadding - legendRightPadding)];
+    [legend setFrame:CGRectMake(legendLeftPadding, kGCPieChartTopText + kGCPieChartWH + legendLeftPadding, legend.frame.size.width, legend.frame.size.height)];
     [self.GCPieChartSuperView addSubview:legend];
 
     [self.GCPieChartSuperView addSubview:pieChart];
@@ -343,7 +355,6 @@
         [Tools showAlert:self.view andTitle:@"没有数据"];
         return;
     }
-    
     [_barChartView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [self.view layoutIfNeeded];
@@ -392,7 +403,7 @@
     centerLabel.text = centerTitle;
     
     _pieChartView.descriptionTextColor = [UIColor whiteColor];
-    _pieChartView.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:12.0];
+    _pieChartView.descriptionTextFont  = ChartFont;
     _pieChartView.duration = 2.0;
     _pieChartView.showOnlyValues = YES;
     [_pieChartView strokeChart];

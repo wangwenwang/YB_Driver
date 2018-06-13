@@ -73,7 +73,9 @@
 // 承运商饼图长宽
 #define kGCPieChartWH 200
 // 顶部文字高度
-#define kGCPieChartTopText 40
+#define kGCPieChartTopText 0
+// 圆饼图字体
+#define ChartFont [UIFont fontWithName:@"Avenir-Medium" size:12]
 
 @implementation FactoryChartViewController
 
@@ -123,6 +125,8 @@
     
     [super updateViewConstraints];
 
+    // 顶部文字 + 饼状图 + 饼状图Padding + 底部文字 + 底部Padding
+    _PieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + self.pieTextHeight + 12;
     _scrollContentViewHeight.constant = _selectDateViewHeight.constant + _PieChartSuperViewHeight.constant + _barChartViewHeight.constant;
 }
 
@@ -144,6 +148,14 @@
         [v removeFromSuperview];
     }
     
+    // legend左Padding
+    CGFloat legendLeftPadding = 12;
+    // legend内小圆标宽度
+    CGFloat legendIcon = 15;
+    // legend右Padding
+    CGFloat legendRightPadding = 8;
+    // 屏宽 - legend左Padding - legend内小圆标宽度 - legend右Padding
+    CGFloat labelMaxWidth = ScreenWidth - legendLeftPadding - legendIcon - legendRightPadding;
     NSArray *colors = [Tools getChartColor];
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
     for(int i = 0; i < _factorys.count; i++) {
@@ -154,13 +166,17 @@
         NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.ship_from_name, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:colors[i] description:desc]];
     
-        // 计算所有物流商名称高度
-        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)];
-        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        // 计算所有工厂名称高度
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:ChartFont andWidth:labelMaxWidth];
+        // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:ChartFont andWidth:labelMaxWidth];
         self.pieTextHeight += tmsFlletNameWidth;
+        //        NSLog(@"物流商:%@", desc);
+        //        NSLog(@"宽度:%.1f", labelMaxWidth);
+        //        NSLog(@"行高:%.1f", tmsFlletNameWidth);
     }
-    self.pieTextHeight += 30;
     [self updateViewConstraints];
+    
     NSArray *items = [muArrM copy];
     
     PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText, kGCPieChartWH, kGCPieChartWH) items:items];
@@ -174,8 +190,8 @@
     pieChart.legendStyle = PNLegendItemStyleStacked;
     pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
     
-    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - (ScreenWidth - kGCPieChartWH) / 2)];
-    [legend setFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
+    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - legendLeftPadding - legendRightPadding)];
+    [legend setFrame:CGRectMake(legendLeftPadding, kGCPieChartTopText + kGCPieChartWH + legendLeftPadding, legend.frame.size.width, legend.frame.size.height)];
     [self.PieChartSuperView addSubview:legend];
     
     [self.PieChartSuperView addSubview:pieChart];

@@ -42,7 +42,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-lo-jJo" userLabel="承运商发货数量饼状图">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发货数量圆饼图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6sL-5T-ZPd">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="10086" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发货数量圆饼图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6sL-5T-ZPd">
                                             <rect key="frame" x="239.5" y="10" width="121.5" height="20.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="C8v-63-7Je"/>

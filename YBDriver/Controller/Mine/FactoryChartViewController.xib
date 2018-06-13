@@ -13,13 +13,13 @@
             <connections>
                 <outlet property="BarChartView" destination="R2w-cB-avX" id="Ww7-Ht-xpf"/>
                 <outlet property="PieChartSuperView" destination="Pfr-Md-QAN" id="vt5-T5-wgO"/>
-                <outlet property="PieChartSuperViewHeight" destination="3Q5-uQ-NRS" id="ndh-pE-ACE"/>
+                <outlet property="PieChartSuperViewHeight" destination="3Q5-uQ-NRS" id="I1F-ve-dfy"/>
                 <outlet property="barChartScrollContentWidth" destination="JAE-2K-dTT" id="yiw-kE-ny1"/>
                 <outlet property="barChartViewHeight" destination="aZJ-e4-7U6" id="8hJ-ih-B6q"/>
                 <outlet property="qtyTotalLabel" destination="fnL-YY-Yea" id="l4Y-Rp-spt"/>
                 <outlet property="scrollContentViewHeight" destination="ZYU-Cp-E2m" id="1bt-WX-j6d"/>
                 <outlet property="selectDate" destination="cSZ-1J-7ZY" id="tjB-hW-Sd5"/>
-                <outlet property="selectDateViewHeight" destination="jGw-zx-Tva" id="DCR-MZ-8T5"/>
+                <outlet property="selectDateViewHeight" destination="jGw-zx-Tva" id="9hl-wa-xvJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

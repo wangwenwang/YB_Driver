@@ -96,7 +96,7 @@
     //判断定位权限  延迟检查，因为用户首次选择需要时间
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        sleep(5);
+        sleep(7);
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if([Tools isLocationServiceOpen]) {
@@ -193,23 +193,6 @@
     CLLocationCoordinate2D _lo = _location;
     if(_lo.latitude != 0 & _lo.longitude != 0)  {
         if(_isUpdataLocation) {
-//#ifdef DEBUG
-//            if([_app.user.USER_CODE isEqualToString:@"13726027405"]) {
-//                NSLog(@"是本人帐号，开启上传位置功能");
-//                //判断连接状态
-//                if([Tools isConnectionAvailable]) {
-//                    [self alert:@"位置更改，上传"];
-//                    [_myLocationService updataLocation:_lo];
-//                }else {
-//                    [self alert:@"位置更改，保存"];
-//                    [_myLocationService saveLocationPointInLocal:_lo];
-//                }
-//                NSLog(@"%s: %f   %f", __func__, _location.latitude, _location.longitude);
-//            }else {
-//                NSLog(@"不是本人帐号，不开启上传位置功能");
-//            }
-//            _isUpdataLocation = NO;
-//#else
             //判断连接状态
             if([Tools isConnectionAvailable]) {
                 [self alert:@"位置更改，上传"];
@@ -220,10 +203,8 @@
             }
             NSLog(@"%s: %f   %f", __func__, _location.latitude, _location.longitude);
             _isUpdataLocation = NO;
-//#endif
         }
     }
-    
 }
 
 // 开启间隔时间上传位置点计时器
