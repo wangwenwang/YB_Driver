@@ -303,9 +303,20 @@ typedef void (^Animation)(void);
     label.text = text;
     label.font = font;
     label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByCharWrapping;
+//    label.lineBreakMode = NSLineBreakByCharWrapping;
     CGSize sizeToFit = [label sizeThatFits:CGSizeMake(width, MAXFLOAT)];
+
+    NSLog(@"size = %@", NSStringFromCGSize(sizeToFit));
     return sizeToFit.height;
+    
+    
+//    UILabel *testLabel = [[UILabel alloc] init];
+//    testLabel.font = font;
+//    testLabel.text = text;
+//    CGSize size = [testLabel sizeThatFits:CGSizeMake(width, MAXFLOAT)];
+//    NSLog(@"size = %@", NSStringFromCGSize(size));
+//     return size.height;
+    
 }
 
 

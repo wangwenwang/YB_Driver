@@ -207,10 +207,11 @@
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:self.colors[i] description:desc]];
         
         // 计算所有物流商名称高度
-        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 24)];
-        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
+        CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12 - 8 - 15)];
+        tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:[UIFont fontWithName:@"Avenir-Medium" size:12.0] andWidth:(ScreenWidth - 12 - 8 - 15)]; // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
         self.pieTextHeight += tmsFlletNameWidth;
         NSLog(@"物流商:%@", desc);
+        NSLog(@"宽度:%.1f", (ScreenWidth - 12 - 8 - 15));
         NSLog(@"行高:%.1f", tmsFlletNameWidth);
     }
 //    self.pieTextHeight += 30;
@@ -220,7 +221,7 @@
     
     PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((ScreenWidth - kGCPieChartWH) / 2, kGCPieChartTopText, kGCPieChartWH, kGCPieChartWH) items:items];
     pieChart.descriptionTextColor = [UIColor whiteColor];
-    pieChart.descriptionTextFont = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+    pieChart.descriptionTextFont = [UIFont fontWithName:@"Avenir-Medium" size:12.0];
     pieChart.descriptionTextShadowColor = [UIColor clearColor];
     pieChart.showAbsoluteValues = NO;
     pieChart.showOnlyValues = YES;
@@ -229,7 +230,7 @@
     pieChart.legendStyle = PNLegendItemStyleStacked;
     pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
     
-    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - 12)];
+    UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - 12 - 8)];
     [legend setFrame:CGRectMake(12, kGCPieChartTopText + kGCPieChartWH + 12, legend.frame.size.width, legend.frame.size.height)];
     [self.GCPieChartSuperView addSubview:legend];
 
