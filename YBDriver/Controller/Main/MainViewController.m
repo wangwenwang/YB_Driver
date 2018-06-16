@@ -54,6 +54,9 @@
 // 弹出3个定位受权（包括iOS11下始终允许）
 @property (strong, nonatomic) CLLocationManager *reqAuth;
 
+// 定位延迟，始终化1，允许定位后为0。 解决iOS11下无法弹出始终允许定位权限(与原生请求定位权限冲突)
+@property (assign, nonatomic) unsigned PositioningDelay;
+
 @end
 
 @implementation MainViewController
@@ -69,8 +72,26 @@
         
         _baiduMapView.zoomLevel = 16;
         
-        _locationService = [[BMKLocationService alloc] init];
+        // 13800138000
         
+        if([Tools isLocationServiceOpen]) {
+            
+            _PositioningDelay = 0;
+        } else {
+            _PositioningDelay = 1;
+        }
+        
+        // 解决iOS11下无法弹出始终允许定位权限(与原生请求定位权限冲突)
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            sleep(_PositioningDelay);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                _locationService = [[BMKLocationService alloc] init];
+            });
+        });
+        
+
         _myLocationService = [[LocationService alloc] init];
         _myLocationService.delegate = self;
         
@@ -109,47 +130,54 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
     NSLog(@"%s", __func__);
-    
-    _locationService.delegate = self;
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        sleep(_PositioningDelay);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            _locationService.delegate = self;
+        });
+    });
     _baiduMapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [_baiduMapView viewWillAppear];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+
     [super viewDidAppear:animated];
     NSLog(@"%s", __func__);
-    
+
     self.navigationController.navigationBar.topItem.title = @"首页";
     UIColor *color = [UIColor whiteColor];
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
-    
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
+
         usleep(800000);
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+
             _baiduMapView.userTrackingMode = BMKUserTrackingModeFollow;
         });
     });
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
+
     [super viewWillDisappear:animated];
     NSLog(@"%s", __func__);
-    
+
     _locationService.delegate = nil;
     _baiduMapView.delegate = nil; // 不用时，置nil
     [_baiduMapView viewWillDisappear];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    
+
     [super viewDidDisappear:animated];
     NSLog(@"%s", __func__);
 }
@@ -285,13 +313,14 @@
     // 先关闭显示的定位图层
     _baiduMapView.showsUserLocation = NO;
     // 设置定位的状态
-    _baiduMapView.userTrackingMode = BMKUserTrackingModeNone;
+    _baiduMapView.userTrackingMode = BMKUserTrackingModeFollow;
     // 显示定位图层
     _baiduMapView.showsUserLocation = YES;
     // 设置定位精度
     _locationService.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     // 指定最小距离更新(米)，默认：kCLDistanceFilterNone
     _locationService.distanceFilter = 1;
+//    _baiduMapView.userTrackingMode = BMKUserTrackingModeFollow;
 }
 
 /**
