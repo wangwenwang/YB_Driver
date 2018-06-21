@@ -128,6 +128,18 @@
 		30ED362A1F62B33F0054FE66 /* LM_alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ED36291F62B33F0054FE66 /* LM_alert.m */; };
 		30ED362E1F62B6340054FE66 /* CheckOrderPathViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ED362C1F62B6340054FE66 /* CheckOrderPathViewController.m */; };
 		30ED362F1F62B6340054FE66 /* CheckOrderPathViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30ED362D1F62B6340054FE66 /* CheckOrderPathViewController.xib */; };
+		3B26BDBA20DC06B800A4FBD3 /* RiLiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8D20DBFD3E000CA7EC /* RiLiViewController.xib */; };
+		3B26BDBB20DC072400A4FBD3 /* JTDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D7D20DBFC5F000CA7EC /* JTDateHelper.m */; };
+		3B26BDBC20DC072900A4FBD3 /* NYPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D7F20DBFC5F000CA7EC /* NYPopover.m */; };
+		3B26BDBD20DC073600A4FBD3 /* ZYCalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8120DBFC5F000CA7EC /* ZYCalendarManager.m */; };
+		3B26BDBE20DC073E00A4FBD3 /* ZYCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8320DBFC5F000CA7EC /* ZYCalendarView.m */; };
+		3B26BDBF20DC075600A4FBD3 /* ZYDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8520DBFC5F000CA7EC /* ZYDayView.m */; };
+		3B26BDC020DC075D00A4FBD3 /* ZYMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8720DBFC5F000CA7EC /* ZYMonthView.m */; };
+		3B26BDC120DC076300A4FBD3 /* ZYWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8920DBFC5F000CA7EC /* ZYWeekView.m */; };
+		3B26BDC420DC080E00A4FBD3 /* NSCalendar+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B26BDC320DC080D00A4FBD3 /* NSCalendar+ST.m */; };
+		3B26BDC520DC082A00A4FBD3 /* NSCalendar+ST.h in Sources */ = {isa = PBXBuildFile; fileRef = 3B26BDC220DC080D00A4FBD3 /* NSCalendar+ST.h */; };
+		3B7A2D8E20DC02D8000CA7EC /* RiLiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8C20DBFD3E000CA7EC /* RiLiViewController.m */; };
+		3B7A2D9120DC03CF000CA7EC /* UIColor+NotRGB.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A2D8F20DC03CF000CA7EC /* UIColor+NotRGB.m */; };
 		3B7AE4451F753D030077F1C9 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE43E1F753D030077F1C9 /* TPKeyboardAvoidingCollectionView.m */; };
 		3B7AE4461F753D030077F1C9 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4401F753D030077F1C9 /* TPKeyboardAvoidingScrollView.m */; };
 		3B7AE4471F753D030077F1C9 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7AE4421F753D030077F1C9 /* TPKeyboardAvoidingTableView.m */; };
@@ -365,6 +377,27 @@
 		30ED362B1F62B6340054FE66 /* CheckOrderPathViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckOrderPathViewController.h; sourceTree = "<group>"; };
 		30ED362C1F62B6340054FE66 /* CheckOrderPathViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckOrderPathViewController.m; sourceTree = "<group>"; };
 		30ED362D1F62B6340054FE66 /* CheckOrderPathViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckOrderPathViewController.xib; sourceTree = "<group>"; };
+		3B26BDC220DC080D00A4FBD3 /* NSCalendar+ST.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCalendar+ST.h"; sourceTree = "<group>"; };
+		3B26BDC320DC080D00A4FBD3 /* NSCalendar+ST.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSCalendar+ST.m"; sourceTree = "<group>"; };
+		3B7A2D7C20DBFC5F000CA7EC /* JTDateHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JTDateHelper.h; sourceTree = "<group>"; };
+		3B7A2D7D20DBFC5F000CA7EC /* JTDateHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JTDateHelper.m; sourceTree = "<group>"; };
+		3B7A2D7E20DBFC5F000CA7EC /* NYPopover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYPopover.h; sourceTree = "<group>"; };
+		3B7A2D7F20DBFC5F000CA7EC /* NYPopover.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYPopover.m; sourceTree = "<group>"; };
+		3B7A2D8020DBFC5F000CA7EC /* ZYCalendarManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYCalendarManager.h; sourceTree = "<group>"; };
+		3B7A2D8120DBFC5F000CA7EC /* ZYCalendarManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarManager.m; sourceTree = "<group>"; };
+		3B7A2D8220DBFC5F000CA7EC /* ZYCalendarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYCalendarView.h; sourceTree = "<group>"; };
+		3B7A2D8320DBFC5F000CA7EC /* ZYCalendarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarView.m; sourceTree = "<group>"; };
+		3B7A2D8420DBFC5F000CA7EC /* ZYDayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYDayView.h; sourceTree = "<group>"; };
+		3B7A2D8520DBFC5F000CA7EC /* ZYDayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYDayView.m; sourceTree = "<group>"; };
+		3B7A2D8620DBFC5F000CA7EC /* ZYMonthView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYMonthView.h; sourceTree = "<group>"; };
+		3B7A2D8720DBFC5F000CA7EC /* ZYMonthView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYMonthView.m; sourceTree = "<group>"; };
+		3B7A2D8820DBFC5F000CA7EC /* ZYWeekView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYWeekView.h; sourceTree = "<group>"; };
+		3B7A2D8920DBFC5F000CA7EC /* ZYWeekView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYWeekView.m; sourceTree = "<group>"; };
+		3B7A2D8B20DBFD3E000CA7EC /* RiLiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RiLiViewController.h; sourceTree = "<group>"; };
+		3B7A2D8C20DBFD3E000CA7EC /* RiLiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RiLiViewController.m; sourceTree = "<group>"; };
+		3B7A2D8D20DBFD3E000CA7EC /* RiLiViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RiLiViewController.xib; sourceTree = "<group>"; };
+		3B7A2D8F20DC03CF000CA7EC /* UIColor+NotRGB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+NotRGB.m"; sourceTree = "<group>"; };
+		3B7A2D9020DC03CF000CA7EC /* UIColor+NotRGB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+NotRGB.h"; sourceTree = "<group>"; };
 		3B7AE43D1F753D030077F1C9 /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		3B7AE43E1F753D030077F1C9 /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		3B7AE43F1F753D030077F1C9 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -462,6 +495,10 @@
 				300AF0F71D75261800A2794A /* LoginTextField.m */,
 				306417401D846E00002C609F /* MyPNPieChart.h */,
 				306417411D846E00002C609F /* MyPNPieChart.m */,
+				3B7A2D9020DC03CF000CA7EC /* UIColor+NotRGB.h */,
+				3B7A2D8F20DC03CF000CA7EC /* UIColor+NotRGB.m */,
+				3B26BDC220DC080D00A4FBD3 /* NSCalendar+ST.h */,
+				3B26BDC320DC080D00A4FBD3 /* NSCalendar+ST.m */,
 			);
 			path = Custum;
 			sourceTree = "<group>";
@@ -543,6 +580,7 @@
 		3012DE7F1D75D78F005A036F /* Thire */ = {
 			isa = PBXGroup;
 			children = (
+				3B7A2D7B20DBFC5F000CA7EC /* ZYCalendarView */,
 				30EAC8A41F78F8EB00F9B6D4 /* LMBlurredView */,
 				30EAC8A71F78F8EB00F9B6D4 /* LMPickerView */,
 				3B7AE43C1F753D030077F1C9 /* TPKeyboardAvoiding */,
@@ -980,6 +1018,7 @@
 		30324A6F1D8293D400ABAC2E /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				3B7A2D8A20DBFD3E000CA7EC /* RiLi */,
 				30324A761D8293D400ABAC2E /* MineViewController.h */,
 				30324A771D8293D400ABAC2E /* MineViewController.m */,
 				30324A781D8293D400ABAC2E /* MineViewController.xib */,
@@ -1077,6 +1116,37 @@
 			path = LMPickerView;
 			sourceTree = "<group>";
 		};
+		3B7A2D7B20DBFC5F000CA7EC /* ZYCalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				3B7A2D7E20DBFC5F000CA7EC /* NYPopover.h */,
+				3B7A2D7F20DBFC5F000CA7EC /* NYPopover.m */,
+				3B7A2D7C20DBFC5F000CA7EC /* JTDateHelper.h */,
+				3B7A2D7D20DBFC5F000CA7EC /* JTDateHelper.m */,
+				3B7A2D8020DBFC5F000CA7EC /* ZYCalendarManager.h */,
+				3B7A2D8120DBFC5F000CA7EC /* ZYCalendarManager.m */,
+				3B7A2D8220DBFC5F000CA7EC /* ZYCalendarView.h */,
+				3B7A2D8320DBFC5F000CA7EC /* ZYCalendarView.m */,
+				3B7A2D8420DBFC5F000CA7EC /* ZYDayView.h */,
+				3B7A2D8520DBFC5F000CA7EC /* ZYDayView.m */,
+				3B7A2D8620DBFC5F000CA7EC /* ZYMonthView.h */,
+				3B7A2D8720DBFC5F000CA7EC /* ZYMonthView.m */,
+				3B7A2D8820DBFC5F000CA7EC /* ZYWeekView.h */,
+				3B7A2D8920DBFC5F000CA7EC /* ZYWeekView.m */,
+			);
+			path = ZYCalendarView;
+			sourceTree = "<group>";
+		};
+		3B7A2D8A20DBFD3E000CA7EC /* RiLi */ = {
+			isa = PBXGroup;
+			children = (
+				3B7A2D8B20DBFD3E000CA7EC /* RiLiViewController.h */,
+				3B7A2D8C20DBFD3E000CA7EC /* RiLiViewController.m */,
+				3B7A2D8D20DBFD3E000CA7EC /* RiLiViewController.xib */,
+			);
+			path = RiLi;
+			sourceTree = "<group>";
+		};
 		3B7AE43C1F753D030077F1C9 /* TPKeyboardAvoiding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1130,7 +1200,6 @@
 				300AF0D01D75238600A2794A /* Sources */,
 				300AF0D11D75238600A2794A /* Frameworks */,
 				300AF0D21D75238600A2794A /* Resources */,
-				DF89B4F173EA15FD63735D85 /* [CP] Embed Pods Frameworks */,
 				75B0CF3AB02448D9A2DE6F30 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1185,6 +1254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B26BDBA20DC06B800A4FBD3 /* RiLiViewController.xib in Resources */,
 				30324A8C1D8293D400ABAC2E /* LoginViewController.xib in Resources */,
 				30324A981D8293D400ABAC2E /* MineViewController.xib in Resources */,
 				302F68D31D90BE4B004DA6F1 /* CoreSVP.bundle in Resources */,
@@ -1228,9 +1298,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YBDriver/Pods-YBDriver-resources.sh",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mapapi.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1243,28 +1318,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YBDriver-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		DF89B4F173EA15FD63735D85 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YBDriver/Pods-YBDriver-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1274,6 +1337,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B26BDC520DC082A00A4FBD3 /* NSCalendar+ST.h in Sources */,
+				3B26BDC120DC076300A4FBD3 /* ZYWeekView.m in Sources */,
+				3B26BDC020DC075D00A4FBD3 /* ZYMonthView.m in Sources */,
+				3B26BDBF20DC075600A4FBD3 /* ZYDayView.m in Sources */,
+				3B26BDBE20DC073E00A4FBD3 /* ZYCalendarView.m in Sources */,
+				3B26BDBD20DC073600A4FBD3 /* ZYCalendarManager.m in Sources */,
+				3B26BDBC20DC072900A4FBD3 /* NYPopover.m in Sources */,
+				3B26BDBB20DC072400A4FBD3 /* JTDateHelper.m in Sources */,
+				3B7A2D8E20DC02D8000CA7EC /* RiLiViewController.m in Sources */,
 				30CC65931D7E679C0019720C /* NotPayOrderService.m in Sources */,
 				30324A9A1D8293D400ABAC2E /* OrderDetailViewController.m in Sources */,
 				303B751B1D77D4D9005AF369 /* NSObject+JSONCategories.m in Sources */,
@@ -1310,6 +1382,7 @@
 				302F68AE1D90BE4B004DA6F1 /* CALayer+Transition.m in Sources */,
 				30324A971D8293D400ABAC2E /* MineViewController.m in Sources */,
 				302F68A51D90BE4B004DA6F1 /* PBScrollView.m in Sources */,
+				3B7A2D9120DC03CF000CA7EC /* UIColor+NotRGB.m in Sources */,
 				30324AA71D82945F00ABAC2E /* OrderPathCheckViewController.m in Sources */,
 				30D6E5051D7F9DAC00104FCA /* OrderDetailService.m in Sources */,
 				302F68AB1D90BE4B004DA6F1 /* NSString+File.m in Sources */,
@@ -1339,6 +1412,7 @@
 				302F68B71D90BE4B004DA6F1 /* UIImage+Color.m in Sources */,
 				30CC658A1D7D67720019720C /* PayedTableViewCell.m in Sources */,
 				302F68E41D910444004DA6F1 /* MyBMKLocationService.m in Sources */,
+				3B26BDC420DC080E00A4FBD3 /* NSCalendar+ST.m in Sources */,
 				302F68D11D90BE4B004DA6F1 /* UIButton+SD.m in Sources */,
 				774B76B220C4E1A00038A472 /* RegisterService.m in Sources */,
 				30324A931D8293D400ABAC2E /* AboutViewController.m in Sources */,

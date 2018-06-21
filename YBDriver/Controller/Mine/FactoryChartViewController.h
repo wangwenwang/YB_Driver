@@ -10,4 +10,6 @@
 
 @interface FactoryChartViewController : UIViewController
 
+//@property (weak, nonatomic) IBOutlet UILabel *startLabel;
+
 @end

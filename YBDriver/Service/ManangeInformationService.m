@@ -29,11 +29,12 @@
 - (void)getManangeInformationData:(NSString *)time {
     NSDictionary *parameters = nil;
     if(_app.user) {
-        parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                      _app.user.IDX, @"strUserId",
-                      time, @"chartDate",
-                      @"", @"strLicense",
-                      nil];
+        parameters = @{
+                       @"strUserId":_app.user.IDX,
+                       @"startDate":@"2018-06-20",
+                       @"endDate":@"2018-06-21",
+                       @"strLicense":@""
+                       };
     }
     
     NSLog(@"%@", parameters);

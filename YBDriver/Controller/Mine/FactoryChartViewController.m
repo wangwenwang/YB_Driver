@@ -15,6 +15,7 @@
 #import "PNPieChart.h"
 #import "PNBarChart.h"
 #import "Tools.h"
+#import "RiLiViewController.h"
 
 @interface FactoryChartViewController ()<FactoryChartServiceDelegate, LMPickerViewDelegate>{
     
@@ -66,6 +67,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *qtyTotalLabel;
 // 条形图容器高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *barChartViewHeight;
+
+// 日期
+@property(nonatomic,strong)NSMutableDictionary *infoDic;
 
 @end
 
@@ -124,7 +128,7 @@
 - (void)updateViewConstraints {
     
     [super updateViewConstraints];
-
+    
     // 顶部文字 + 饼状图 + 饼状图Padding + 底部文字 + 底部Padding
     _PieChartSuperViewHeight.constant = kGCPieChartTopText + kGCPieChartWH + 12 + self.pieTextHeight + 12;
     _scrollContentViewHeight.constant = _selectDateViewHeight.constant + _PieChartSuperViewHeight.constant + _barChartViewHeight.constant;
@@ -165,7 +169,7 @@
         long long qtyTotal = _qtyTotal ? _qtyTotal : 1;
         NSString *desc = [NSString stringWithFormat:@"%@  数量:%lld  占比:%.1f%%", m.ship_from_name, m.QtyTotal, (m.QtyTotal * 1.0 / qtyTotal) * 100];
         [muArrM addObject:[PNPieChartDataItem dataItemWithValue:m.QtyTotal color:colors[i] description:desc]];
-    
+        
         // 计算所有工厂名称高度
         CGFloat tmsFlletNameWidth = [Tools getHeightOfString:desc andFont:ChartFont andWidth:labelMaxWidth];
         // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
@@ -262,9 +266,37 @@
 
 - (IBAction)selectDateOnclick:(UIButton *)sender {
     
-    NSDate *maxDate = [_formatter_ss dateFromString:[Tools getCurrentBeforeDate_Second:0]];
+    __weak typeof(self) weakSelf=self;
     
-    [self createDatePicker:maxDate];
+    RiLiViewController *riLi =[[RiLiViewController alloc]initWithNibName:@"RiLiViewController" bundle:nil];
+    riLi.selectDate = ^(NSString *start ,NSString *end){
+        //        if (start == nil && end == nil) {
+        //            self.infoDic[@"startDate"] = @"";
+        //            self.infoDic[@"endDate"] = @"";
+        //            weakSelf.startLabel.text = @"请选择日期";
+        //            weakSelf.lineLabel.hidden = YES;
+        //            weakSelf.endLabel.text = @"";
+        //
+        //            return;
+        //        }
+        //        if (start != nil) {
+        //            weakview.startLabel.text = start;
+        //        }
+        //        if (end != nil) {
+        //            weakview.lineLabel.hidden = NO;
+        //            weakview.endLabel.text = end;
+        //        }else{
+        //            weakview.lineLabel.hidden = YES;
+        //        }
+        //        self.infoDic[@"startDate"] = start;
+        //        self.infoDic[@"endDate"] = end;
+        //        self.page = 1;
+    };
+    [self.navigationController pushViewController:riLi animated:YES];
+    
+//    NSDate *maxDate = [_formatter_ss dateFromString:[Tools getCurrentBeforeDate_Second:0]];
+//
+//    [self createDatePicker:maxDate];
 }
 
 

@@ -34,6 +34,17 @@ DEPENDENCIES:
   - PNChart
   - SDCycleScrollView (~> 1.64)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - BaiduMapKit
+    - MBProgressHUD
+    - MJRefresh
+    - PNChart
+    - SDCycleScrollView
+    - SDWebImage
+    - UICountingLabel
+
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BaiduMapKit: de2a726d5296d6b2dc0e974b683af73153608dcd
@@ -46,4 +57,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 071a3f94e1bb0c114828d87856bdd75c91318a3e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.5.3
