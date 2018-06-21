@@ -69,8 +69,8 @@
 #define API_GET_ORDER_LOCATIONS @"http://218.17.181.244:8081/api/GetLocaltion"
 /// 交付订单
 #define API_PAY_ORDER @"http://218.17.181.244:8081/api/DriverPay"
-/// 信息管理
-#define API_INFORMATION_MANANGE @"http://218.17.181.244:8081/api/GetCestbonCount"
+/// 物流管理信息
+#define API_INFORMATION_MANANGE @"http://218.17.181.244:8081/api/GetDateCestbonCount"
 /// 获取已交付订单图片信息
 #define API_GET_ORDER_PICTURE @"http://218.17.181.244:8081/api/GetAutograph"
 /// 注册接口
@@ -79,8 +79,9 @@
 /// 图片地址
 #define API_LOAD_URL @"http://218.17.181.244:8081/"
 
-/// 工厂发货报表
-#define API_FACTORY_CHART @"http://218.17.181.244:8081/api/GetCestbonFleetCount"
+/// 工厂管理信息
+#define API_FACTORY_CHART @"http://218.17.181.244:8081/api/GetDateCestbonFleetCount"
+
 
 /*--------- 判断iOS版本 ---------*/
 #define SystemVersion [[UIDevice currentDevice] systemVersion].floatValue

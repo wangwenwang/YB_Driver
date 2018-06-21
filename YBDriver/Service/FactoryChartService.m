@@ -31,7 +31,8 @@
     if(_app.user) {
         parameters = @{
                        @"strUserId":_app.user.IDX,
-                       @"chartDate":time,
+                       @"startDate":@"2018-06-20",
+                       @"endDate":@"2018-06-21",
                        @"strLicense":@""
                        };
     }
