@@ -154,6 +154,7 @@
 		7760623F20C1167C00F0899A /* FactoryChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7760623D20C1167C00F0899A /* FactoryChartViewController.xib */; };
 		7760624220C1183200F0899A /* FactoryChartService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760624120C1183200F0899A /* FactoryChartService.m */; };
 		7760624520C11EB600F0899A /* FactoryChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760624420C11EB600F0899A /* FactoryChartModel.m */; };
+		77EB647C20DCDF1300A42435 /* TimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EB647B20DCDF1300A42435 /* TimeButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -421,6 +422,8 @@
 		7760624120C1183200F0899A /* FactoryChartService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactoryChartService.m; sourceTree = "<group>"; };
 		7760624320C11EB600F0899A /* FactoryChartModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactoryChartModel.h; sourceTree = "<group>"; };
 		7760624420C11EB600F0899A /* FactoryChartModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactoryChartModel.m; sourceTree = "<group>"; };
+		77EB647A20DCDF1300A42435 /* TimeButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeButton.h; sourceTree = "<group>"; };
+		77EB647B20DCDF1300A42435 /* TimeButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeButton.m; sourceTree = "<group>"; };
 		7F4C5CB362E52272D95E0FF8 /* libPods-YBDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YBDriver.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B0EBE48AEEE3C57BFA746B /* Pods-YBDriver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YBDriver.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YBDriver/Pods-YBDriver.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -499,6 +502,8 @@
 				3B7A2D8F20DC03CF000CA7EC /* UIColor+NotRGB.m */,
 				3B26BDC220DC080D00A4FBD3 /* NSCalendar+ST.h */,
 				3B26BDC320DC080D00A4FBD3 /* NSCalendar+ST.m */,
+				77EB647A20DCDF1300A42435 /* TimeButton.h */,
+				77EB647B20DCDF1300A42435 /* TimeButton.m */,
 			);
 			path = Custum;
 			sourceTree = "<group>";
@@ -1427,6 +1432,7 @@
 				30EAC8AB1F78F8EB00F9B6D4 /* LMPickerView.m in Sources */,
 				300779691D7EAB5500AE49BA /* OrderDetailsTableViewCell.m in Sources */,
 				30324AA11D8293D400ABAC2E /* UnPayedOrderViewController.m in Sources */,
+				77EB647C20DCDF1300A42435 /* TimeButton.m in Sources */,
 				300E8EB01D8E336400684F48 /* LocationService.m in Sources */,
 				775C2FE120BFAAAC00860183 /* QRCodeViewController.m in Sources */,
 				302F68AC1D90BE4B004DA6F1 /* CoreArchive.m in Sources */,

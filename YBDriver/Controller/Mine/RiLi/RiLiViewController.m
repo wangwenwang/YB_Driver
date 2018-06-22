@@ -33,7 +33,7 @@
     butt.frame = CGRectMake(0, 0, 70, 30);
     butt.titleLabel.font = [UIFont systemFontOfSize:14];
     [butt setTitle:@"取消选择" forState:UIControlStateNormal];
-    [butt setTitleColor:[UIColor colorWithHexString:@"#4562e9" andAlpha:1.0] forState:UIControlStateNormal];
+    [butt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [butt addTarget:self action:@selector(handleCancel) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:butt];
     self.navigationItem.rightBarButtonItem = right;

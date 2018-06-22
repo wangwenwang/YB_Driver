@@ -26,13 +26,13 @@
     return self;
 }
 
-- (void)getManangeInformationData:(NSString *)time {
+- (void)getManangeInformationData:(NSString *)startDate andEedDate:(NSString *)endDate {
     NSDictionary *parameters = nil;
     if(_app.user) {
         parameters = @{
                        @"strUserId":_app.user.IDX,
-                       @"startDate":@"2018-06-20",
-                       @"endDate":@"2018-06-21",
+                       @"startDate":startDate,
+                       @"endDate":endDate,
                        @"strLicense":@""
                        };
     }

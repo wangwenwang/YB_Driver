@@ -23,11 +23,12 @@
 @property (weak, nonatomic)id <FactoryChartServiceDelegate> delegate;
 
 /**
- * 获取报表数据
+ * 工厂管理信息数据
  *
- * time: 当天的时间 格式：yyyy-MM-dd
+ * startDate: 开始时间 格式：yyyy-MM-dd
  *
+ * startDate: 结束时间 格式：yyyy-MM-dd
  */
-- (void)getFactoryChart:(NSString *)time;
+- (void)getFactoryChart:(NSString *)startDate andEedDate:(NSString *)endDate;
 
 @end

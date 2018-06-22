@@ -15,6 +15,7 @@
 #import <MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "LMPickerView.h"
+#import "TimeButton.h"
 
 @interface ManangeInformationViewController ()<ManangeInformationServiceDelegate, PNChartDelegate, LMPickerViewDelegate> {
     
@@ -26,14 +27,17 @@
 @property (strong, nonatomic)LMPickerView *LM;
 // 时间格式 yyyy-MM-dd
 @property (strong, nonatomic) NSDateFormatter *formatter_ss;
-// 选择日期Button
-@property (weak, nonatomic) IBOutlet UIButton *selectDate;
-// 选择日期
-- (IBAction)selectDateOnclick:(UIButton *)sender;
-// 用户选择的时间,默认为当天
-@property (copy, nonatomic) NSDate *startDate;
+// 开始时间
+@property (weak, nonatomic) IBOutlet TimeButton *startDateBtn;
+// 结束时间
+@property (weak, nonatomic) IBOutlet TimeButton *endDateBtn;
+// 已选择的时间,默认为当天
+@property (copy, nonatomic) NSDate *selectedDate;
+// 当前时间类型
+@property (assign, nonatomic) NSUInteger currentDateType;
 // 用户是否选择了日期
 @property (assign, nonatomic) BOOL isSelectedDate;
+
 // 网络层
 @property (strong, nonatomic) ManangeInformationService *service;
 // 页面高度
@@ -92,6 +96,14 @@
 // 圆饼ltu字体
 #define ChartFont [UIFont fontWithName:@"Avenir-Medium" size:12]
 
+
+// 时间类型
+typedef enum _DateType {
+    
+    Date_TYPE_START_DATE = 0,         // 开始时间
+    Date_TYPE_END_DATE,               // 结束时间
+} DateType;
+
 @implementation ManangeInformationViewController
 
 #pragma mark - 生命周期
@@ -118,8 +130,8 @@
         _pieChartColors = [NSArray arrayWithObjects:color1, color2, color3, nil];
         
         _pieChartDataIndex = 0;
-        _startDate = [NSDate date];
         
+        _selectedDate  = [NSDate date];
         _formatter_ss = [[NSDateFormatter alloc] init];
         [_formatter_ss setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         _LM = [[LMPickerView alloc] init];
@@ -136,11 +148,14 @@
     
     _colors = [Tools getChartColor];
     
+    // 初始化时间按钮 例如:2018年6月22日
+    [self initDateBtn];
+    
     if([Tools isADMINorWLS]) {
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [_service.arrM removeAllObjects];
-        [_service getManangeInformationData:@""];
+        [_service getManangeInformationData:_startDateBtn.dateStr andEedDate:_endDateBtn.dateStr];
     } else {
         
         [self dealData];
@@ -190,6 +205,23 @@
 
 #pragma mark - 功能函数
 
+- (void)initDateBtn {
+    
+    // 初始化时间按钮
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
+    NSInteger year=[components year];
+    NSInteger month=[components month];
+    NSInteger day=[components day];
+    NSString *showTime = [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)year, (long)month, (long)day];
+    [self.startDateBtn setTitle:showTime forState:UIControlStateNormal];
+    [self.endDateBtn setTitle:showTime forState:UIControlStateNormal];
+    self.startDateBtn.date = [NSDate date];
+    self.endDateBtn.date = [NSDate date];
+    self.startDateBtn.dateStr = [_formatter stringFromDate:[NSDate date]];
+    self.endDateBtn.dateStr = [_formatter stringFromDate:[NSDate date]];
+}
+
 - (void)addGCPieChart {
     
     //移除GCPieChartSuperView里的UIView视图
@@ -210,6 +242,7 @@
     // 屏宽 - legend左Padding - legend内小圆标宽度 - legend右Padding
     CGFloat labelMaxWidth = ScreenWidth - legendLeftPadding - legendIcon - legendRightPadding;
     NSMutableArray *muArrM = [[NSMutableArray alloc] init];
+    self.pieTextHeight = 0;
     for(int i = 0; i < _arrM.count; i++) {
         
         ManangeInformationModel *m = _arrM[i];
@@ -223,9 +256,9 @@
         // 防止 tms_fllet_name 为空时，tmsFlletNameWidth 为 0
         tmsFlletNameWidth ? tmsFlletNameWidth : [Tools getHeightOfString:@"fds" andFont:ChartFont andWidth:labelMaxWidth];
         self.pieTextHeight += tmsFlletNameWidth;
-//        NSLog(@"物流商:%@", desc);
-//        NSLog(@"宽度:%.1f", labelMaxWidth);
-//        NSLog(@"行高:%.1f", tmsFlletNameWidth);
+        //        NSLog(@"物流商:%@", desc);
+        //        NSLog(@"宽度:%.1f", labelMaxWidth);
+        //        NSLog(@"行高:%.1f", tmsFlletNameWidth);
     }
     [self updateViewConstraints];
     
@@ -245,7 +278,7 @@
     UIView *legend = [pieChart getLegendWithMaxWidth:(ScreenWidth - legendLeftPadding - legendRightPadding)];
     [legend setFrame:CGRectMake(legendLeftPadding, kGCPieChartTopText + kGCPieChartWH + legendLeftPadding, legend.frame.size.width, legend.frame.size.height)];
     [self.GCPieChartSuperView addSubview:legend];
-
+    
     [self.GCPieChartSuperView addSubview:pieChart];
 }
 
@@ -431,54 +464,81 @@
 
 #pragma mark - 点击事件
 
-- (IBAction)selectDateOnclick:(UIButton *)sender {
+- (IBAction)startDateOnclick {
     
-    NSDate *maxDate = [_formatter_ss dateFromString:[Tools getCurrentBeforeDate_Second:0]];
+    [self createDatePicker:Date_TYPE_START_DATE andDefaultDate:_startDateBtn.date andMinData:nil andMaxDate:_endDateBtn.date];
     
-    [self createDatePicker:maxDate];
+    _currentDateType = Date_TYPE_START_DATE;
+}
+
+- (IBAction)endDateOnclick {
+    
+    [self createDatePicker:Date_TYPE_END_DATE andDefaultDate:_endDateBtn.date andMinData:_startDateBtn.date andMaxDate:[NSDate date]];
+    
+    _currentDateType = Date_TYPE_END_DATE;
 }
 
 
 #pragma mark - 时间模块
 
+- (void)createDatePicker:(NSUInteger)tag andDefaultDate:(NSDate *)dufaultDate andMinData:(NSDate *)minDate andMaxDate:(NSDate *)maxDate {
+
+    _LM.minimumDate = minDate;
+    _LM.maximumDate = maxDate;
+    _LM.date = dufaultDate ? dufaultDate : maxDate;
+    [_LM showDatePicker];
+}
+
 - (void)PickerViewComplete:(NSDate *)date {
     
-    _startDate = date;
+    _selectedDate  = date;
     
-    NSString *time = [_formatter stringFromDate:date];
+    NSString *dateStr = [_formatter stringFromDate:date];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    if([Tools isConnectionAvailable]) {
-        
-        _barItemMaxWidth = 0;
-        [_service.arrM removeAllObjects];
-        [_service getManangeInformationData:time];
-    } else {
-        [Tools showAlert:self.view andTitle:@"网络不可用"];
-    }
     _isSelectedDate = YES;
     
     
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:_startDate];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:_selectedDate ];
     
     NSInteger year=[components year];
     NSInteger month=[components month];
     NSInteger day=[components day];
     
-    if(_isSelectedDate) {
-        
-        NSString *showTime = [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)year, (long)month, (long)day];
-        [_selectDate setTitle:showTime forState:UIControlStateNormal];
-    }
-}
-
-
-- (void)createDatePicker:maxDate {
     
-    _LM.maximumDate = maxDate;
-    [_LM showDatePicker];
+    NSString *showTime = [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)year, (long)month, (long)day];
+    
+    switch (_currentDateType) {
+        case Date_TYPE_START_DATE:
+            
+            [_startDateBtn setTitle:showTime forState:UIControlStateNormal];
+            _startDateBtn.date = _selectedDate;
+            _startDateBtn.dateStr = dateStr;
+            break;
+            
+        case Date_TYPE_END_DATE:
+            
+            [_endDateBtn setTitle:showTime forState:UIControlStateNormal];
+            _endDateBtn.date = _selectedDate;
+            _endDateBtn.dateStr = dateStr;
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    if([Tools isConnectionAvailable]) {
+        
+        _barItemMaxWidth = 0;
+        [_service.arrM removeAllObjects];
+        [_service getManangeInformationData:_startDateBtn.dateStr andEedDate:_endDateBtn.dateStr];
+    } else {
+        [Tools showAlert:self.view andTitle:@"网络不可用"];
+    }
+    
 }
 
 

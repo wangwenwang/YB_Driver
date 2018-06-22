@@ -25,11 +25,12 @@
 @property (weak, nonatomic)id <ManangeInformationServiceDelegate> delegate;
 
 /**
- * 获取报表数据
+ * 物流管理信息数据
  *
- * time: 当天的时间 格式：yyyy-MM-dd
+ * startDate: 开始时间 格式：yyyy-MM-dd
  *
+ * startDate: 结束时间 格式：yyyy-MM-dd
  */
-- (void)getManangeInformationData:(NSString *)time;
+- (void)getManangeInformationData:(NSString *)startDate andEedDate:(NSString *)endDate;
 
 @end

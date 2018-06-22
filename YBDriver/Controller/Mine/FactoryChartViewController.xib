@@ -16,10 +16,11 @@
                 <outlet property="PieChartSuperViewHeight" destination="3Q5-uQ-NRS" id="I1F-ve-dfy"/>
                 <outlet property="barChartScrollContentWidth" destination="JAE-2K-dTT" id="yiw-kE-ny1"/>
                 <outlet property="barChartViewHeight" destination="aZJ-e4-7U6" id="8hJ-ih-B6q"/>
+                <outlet property="endDateBtn" destination="ZAO-sr-ddQ" id="gIq-5j-vdC"/>
                 <outlet property="qtyTotalLabel" destination="fnL-YY-Yea" id="l4Y-Rp-spt"/>
                 <outlet property="scrollContentViewHeight" destination="ZYU-Cp-E2m" id="1bt-WX-j6d"/>
-                <outlet property="selectDate" destination="cSZ-1J-7ZY" id="tjB-hW-Sd5"/>
-                <outlet property="selectDateViewHeight" destination="jGw-zx-Tva" id="9hl-wa-xvJ"/>
+                <outlet property="selectDateViewHeight" destination="h4C-hU-Bdm" id="ysP-Px-kDH"/>
+                <outlet property="startDateBtn" destination="szN-MI-owD" id="ecl-wS-FQb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -34,22 +35,42 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tuc-H0-5O5">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0CB-9V-SL5" userLabel="时间筛选">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6uu-SG-3CW" userLabel="时间筛选">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSZ-1J-7ZY">
-                                            <rect key="frame" x="118" y="5" width="138" height="30"/>
-                                            <state key="normal" title="默认全日期发货汇总"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szN-MI-owD" customClass="TimeButton">
+                                            <rect key="frame" x="25" y="5" width="62" height="30"/>
+                                            <state key="normal" title="起始时间"/>
                                             <connections>
-                                                <action selector="selectDateOnclick:" destination="-1" eventType="touchUpInside" id="liW-f1-uQh"/>
+                                                <action selector="startDateOnclick" destination="-1" eventType="touchUpInside" id="MHv-kb-MbP"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAO-sr-ddQ" customClass="TimeButton">
+                                            <rect key="frame" x="288" y="5" width="62" height="30"/>
+                                            <state key="normal" title="结束时间"/>
+                                            <connections>
+                                                <action selector="endDateOnclick" destination="-1" eventType="touchUpInside" id="bb8-gL-imq"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-xP-0jI">
+                                            <rect key="frame" x="107" y="19" width="161" height="2"/>
+                                            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="2" id="aWy-bS-wuR"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstItem="cSZ-1J-7ZY" firstAttribute="centerY" secondItem="0CB-9V-SL5" secondAttribute="centerY" id="KzQ-QM-32H"/>
-                                        <constraint firstAttribute="height" constant="40" id="jGw-zx-Tva"/>
-                                        <constraint firstItem="cSZ-1J-7ZY" firstAttribute="centerX" secondItem="0CB-9V-SL5" secondAttribute="centerX" id="jJg-Rc-ieq"/>
+                                        <constraint firstItem="ZdQ-xP-0jI" firstAttribute="centerY" secondItem="6uu-SG-3CW" secondAttribute="centerY" id="1mb-ep-FQv"/>
+                                        <constraint firstItem="ZdQ-xP-0jI" firstAttribute="leading" secondItem="szN-MI-owD" secondAttribute="trailing" constant="20" id="2D1-Dz-Rvb"/>
+                                        <constraint firstAttribute="trailing" secondItem="ZAO-sr-ddQ" secondAttribute="trailing" constant="25" id="3gg-ch-brm"/>
+                                        <constraint firstItem="szN-MI-owD" firstAttribute="centerY" secondItem="6uu-SG-3CW" secondAttribute="centerY" id="5aj-1L-nrf"/>
+                                        <constraint firstItem="szN-MI-owD" firstAttribute="leading" secondItem="6uu-SG-3CW" secondAttribute="leading" constant="25" id="Bgs-gz-mTb"/>
+                                        <constraint firstItem="ZAO-sr-ddQ" firstAttribute="centerY" secondItem="6uu-SG-3CW" secondAttribute="centerY" id="Uaz-YB-fZ8"/>
+                                        <constraint firstItem="szN-MI-owD" firstAttribute="centerY" secondItem="6uu-SG-3CW" secondAttribute="centerY" id="e5r-y7-fKc"/>
+                                        <constraint firstAttribute="height" constant="40" id="h4C-hU-Bdm"/>
+                                        <constraint firstItem="ZAO-sr-ddQ" firstAttribute="leading" secondItem="ZdQ-xP-0jI" secondAttribute="trailing" constant="20" id="zaM-aA-W3u"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pfr-Md-QAN" userLabel="饼状图">
@@ -115,15 +136,15 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="VJm-t7-d4a" firstAttribute="top" secondItem="Pfr-Md-QAN" secondAttribute="bottom" id="6Qz-tA-Iuq"/>
-                                <constraint firstItem="0CB-9V-SL5" firstAttribute="leading" secondItem="Tuc-H0-5O5" secondAttribute="leading" id="JTB-h4-QrU"/>
+                                <constraint firstItem="6uu-SG-3CW" firstAttribute="top" secondItem="Tuc-H0-5O5" secondAttribute="top" id="JAX-ru-7fa"/>
                                 <constraint firstAttribute="trailing" secondItem="Pfr-Md-QAN" secondAttribute="trailing" id="N5c-N0-tQN"/>
                                 <constraint firstItem="VJm-t7-d4a" firstAttribute="leading" secondItem="Tuc-H0-5O5" secondAttribute="leading" id="Rqm-K0-ija"/>
                                 <constraint firstAttribute="trailing" secondItem="VJm-t7-d4a" secondAttribute="trailing" id="XZd-tQ-xWC"/>
                                 <constraint firstAttribute="height" constant="600" id="ZYU-Cp-E2m"/>
-                                <constraint firstItem="0CB-9V-SL5" firstAttribute="top" secondItem="Tuc-H0-5O5" secondAttribute="top" id="c30-DX-rsr"/>
-                                <constraint firstAttribute="trailing" secondItem="0CB-9V-SL5" secondAttribute="trailing" id="gVo-me-vdG"/>
+                                <constraint firstAttribute="trailing" secondItem="6uu-SG-3CW" secondAttribute="trailing" id="gi7-Yr-bRU"/>
                                 <constraint firstItem="Pfr-Md-QAN" firstAttribute="leading" secondItem="Tuc-H0-5O5" secondAttribute="leading" id="i2g-is-vbd"/>
-                                <constraint firstItem="Pfr-Md-QAN" firstAttribute="top" secondItem="0CB-9V-SL5" secondAttribute="bottom" id="yfO-pw-z5U"/>
+                                <constraint firstItem="Pfr-Md-QAN" firstAttribute="top" secondItem="6uu-SG-3CW" secondAttribute="bottom" id="lhg-0s-Qfg"/>
+                                <constraint firstItem="6uu-SG-3CW" firstAttribute="leading" secondItem="Tuc-H0-5O5" secondAttribute="leading" id="wFh-tT-Y3a"/>
                             </constraints>
                         </view>
                     </subviews>

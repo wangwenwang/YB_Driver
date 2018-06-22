@@ -13,21 +13,19 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "ManangeInformationViewController.h"
-#import "ManangeInformationService.h"
 #import <MBProgressHUD.h>
 #import "Tools.h"
 #import "MainViewController.h"
 #import "QRCodeViewController.h"
 #import "FactoryChartViewController.h"
 
-@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, ManangeInformationServiceDelegate> {
+@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray *_minePlistArrM;
     AppDelegate *_app;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *mineTableView;
 - (IBAction)changeAccount:(UIButton *)sender;
-@property (strong, nonatomic) ManangeInformationService *manangeInformationService;
 
 // 底部高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomHeight;
@@ -44,8 +42,6 @@
         self.tabBarItem.image = [UIImage imageNamed:@"menu_mine_unselected"];
         _minePlistArrM = [[NSMutableArray alloc] init];
         _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        _manangeInformationService = [[ManangeInformationService alloc] init];
-        _manangeInformationService.delegate = self;
     }
     return self;
 }
@@ -198,10 +194,9 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else if([_minePlistArrM[indexPath.row][@"title"] isEqualToString:@"物流管理信息"]) {
         
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         if([Tools isConnectionAvailable]) {
-            [_manangeInformationService.arrM removeAllObjects];
-            [_manangeInformationService getManangeInformationData:@""];
+            ManangeInformationViewController *vc = [[ManangeInformationViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }else {
             [Tools showAlert:self.view andTitle:@"网络不可用"];
         }
@@ -218,33 +213,6 @@
         AboutViewController *vc = [[AboutViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
-    //    //权限管理
-    //    if([Tools isADMINorWLS]) {
-    //
-    //    }else {
-    //        if(indexPath.row == 3) {
-    //
-    //        }
-    //    }
-}
-
-#pragma mark - ManangeInformationServiceDelegate
-- (void)success {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-    ManangeInformationViewController *vc = [[ManangeInformationViewController alloc] init];
-    vc.arrM = _manangeInformationService.arrM;
-    if(_manangeInformationService.arrM.count) {
-        [self.navigationController pushViewController:vc animated:YES];
-    }else {
-        [Tools showAlert:self.view andTitle:@"没有数据"];
-    }
-}
-
-- (void)failure:(NSString *)msg {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Tools showAlert:self.view andTitle:msg ? msg : @"请求失败"];
 }
 
 @end

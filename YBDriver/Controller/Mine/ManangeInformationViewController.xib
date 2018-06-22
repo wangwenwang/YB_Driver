@@ -18,13 +18,14 @@
                 <outlet property="barChartScrollView" destination="aQr-eW-ZX6" id="31n-Pk-0ve"/>
                 <outlet property="barChartView" destination="yNe-Is-4zk" id="T9t-5b-HUm"/>
                 <outlet property="barChartViewHeight" destination="4TC-6G-hM8" id="yJc-bU-own"/>
+                <outlet property="endDateBtn" destination="vKa-PK-NXR" id="l8c-Eg-A3d"/>
                 <outlet property="outGoodsTotalLabel" destination="Dve-Pg-pVE" id="Pv8-6b-Ohb"/>
                 <outlet property="picChartView" destination="QfG-iE-Rxe" id="1Wu-cf-CWW"/>
                 <outlet property="pieChartTitleLabel" destination="hcL-m0-31H" id="jQw-B3-Tgc"/>
                 <outlet property="pieChartViewHeight" destination="qoh-KK-pte" id="dPL-m5-fj2"/>
                 <outlet property="scrollContentViewHeight" destination="fWQ-Ma-5I5" id="L3w-og-VMg"/>
-                <outlet property="selectDate" destination="PNj-vz-JLq" id="pEe-gq-8w2"/>
                 <outlet property="selectDateViewHeight" destination="cCk-tf-zCB" id="Ala-Ee-bvn"/>
+                <outlet property="startDateBtn" destination="PNj-vz-JLq" id="J60-Da-bqB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -67,19 +68,39 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8o0-nJ-RaM" userLabel="时间筛选">
                                     <rect key="frame" x="0.0" y="300" width="600" height="40"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNj-vz-JLq">
-                                            <rect key="frame" x="231" y="5" width="138" height="30"/>
-                                            <state key="normal" title="默认全日期发货汇总"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNj-vz-JLq" customClass="TimeButton">
+                                            <rect key="frame" x="25" y="5" width="62" height="30"/>
+                                            <state key="normal" title="起始时间"/>
                                             <connections>
-                                                <action selector="selectDateOnclick:" destination="-1" eventType="touchUpInside" id="L9P-Va-H2c"/>
+                                                <action selector="startDateOnclick" destination="-1" eventType="touchUpInside" id="PuT-fv-zWd"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vKa-PK-NXR" customClass="TimeButton">
+                                            <rect key="frame" x="513" y="5" width="62" height="30"/>
+                                            <state key="normal" title="结束时间"/>
+                                            <connections>
+                                                <action selector="endDateOnclick" destination="-1" eventType="touchUpInside" id="ivP-Ls-UxI"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auh-SD-Qe4">
+                                            <rect key="frame" x="107" y="19" width="386" height="2"/>
+                                            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="2" id="VD4-4Z-TOr"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="centerX" secondItem="8o0-nJ-RaM" secondAttribute="centerX" id="8Nr-4u-U1P"/>
+                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="centerY" secondItem="8o0-nJ-RaM" secondAttribute="centerY" id="ATD-IL-H2N"/>
                                         <constraint firstItem="PNj-vz-JLq" firstAttribute="centerY" secondItem="8o0-nJ-RaM" secondAttribute="centerY" id="GpY-ye-3My"/>
+                                        <constraint firstItem="vKa-PK-NXR" firstAttribute="leading" secondItem="auh-SD-Qe4" secondAttribute="trailing" constant="20" id="I7O-Zi-NIS"/>
+                                        <constraint firstItem="auh-SD-Qe4" firstAttribute="leading" secondItem="PNj-vz-JLq" secondAttribute="trailing" constant="20" id="O84-1p-B7B"/>
+                                        <constraint firstItem="vKa-PK-NXR" firstAttribute="centerY" secondItem="8o0-nJ-RaM" secondAttribute="centerY" id="OXA-7B-K87"/>
+                                        <constraint firstItem="auh-SD-Qe4" firstAttribute="centerY" secondItem="8o0-nJ-RaM" secondAttribute="centerY" id="bVE-uE-6vJ"/>
                                         <constraint firstAttribute="height" constant="40" id="cCk-tf-zCB"/>
+                                        <constraint firstAttribute="trailing" secondItem="vKa-PK-NXR" secondAttribute="trailing" constant="25" id="hgF-XG-QXX"/>
+                                        <constraint firstItem="PNj-vz-JLq" firstAttribute="leading" secondItem="8o0-nJ-RaM" secondAttribute="leading" constant="25" id="ukP-d0-vdc"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dE-Ou-kA6" userLabel="承运商发货数量条形图">
