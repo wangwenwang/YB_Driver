@@ -67,8 +67,10 @@
 #define API_GET_ORDER_TMSINFO @"http://218.17.181.244:8081/api/getOrderTmsInfo"
 /// 获取订单线路点位集合
 #define API_GET_ORDER_LOCATIONS @"http://218.17.181.244:8081/api/GetLocaltion"
-/// 交付订单
+/// 交付订单（已弃用）
 #define API_PAY_ORDER @"http://218.17.181.244:8081/api/DriverPay"
+/// 交付订单（新增于2018/09/05），添加多4个字段
+#define API_PAY_ORDER1 @"http://218.17.181.244:8081/api/DriverPay1"
 /// 物流管理信息
 #define API_INFORMATION_MANANGE @"http://218.17.181.244:8081/api/GetDateCestbonCount"
 /// 获取已交付订单图片信息

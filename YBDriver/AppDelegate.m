@@ -11,6 +11,7 @@
 #import <BaiduMapAPI_Base/BMKGeneralDelegate.h>
 #import <BaiduMapAPI_Base/BMKMapManager.h>
 #import "LoginViewController.h"
+#import <AFHTTPSessionManager.h>
 
 
 @interface AppDelegate ()<BMKGeneralDelegate>{

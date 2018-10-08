@@ -156,11 +156,11 @@
     }];
 }
 
-- (void)failure {
+- (void)failure:(NSString *)msg {
     
     NSLog(@"登陆失败");
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [Tools showAlert:self.view andTitle:@"登陆失败"];
+    [Tools showAlert:self.view andTitle:msg];
 }
 
 @end

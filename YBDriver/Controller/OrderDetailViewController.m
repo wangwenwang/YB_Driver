@@ -295,6 +295,7 @@
         PayOrderViewController *vc = [[PayOrderViewController alloc] init];
         vc.orderIDX = _service.order.IDX;
         vc.orderPayState = _service.order.DRIVER_PAY;
+        vc.ORD_TO_ADDRESS = _service.order.ORD_TO_ADDRESS;
         [self.navigationController pushViewController:vc animated:YES];
         
     } else {

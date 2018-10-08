@@ -16,6 +16,7 @@
 #import "UnPayedOrderViewController.h"
 #import "PhotoBroswerVC.h"
 #import "PayedOrderViewController.h"
+#import "AppDelegate.h"
 
 @interface PayOrderViewController ()<UIAlertViewDelegate, UIImagePickerControllerDelegate, PayOrderServiceDelegate, UINavigationControllerDelegate> {
     
@@ -76,6 +77,10 @@
 
 @property (strong, nonatomic) UnPayedOrderViewController *unPayedOrderVC;
 
+@property (strong, nonatomic)  AppDelegate *app;
+
+@property (assign, nonatomic) CLLocationCoordinate2D addressLoction;
+
 @end
 
 @implementation PayOrderViewController
@@ -93,6 +98,8 @@
         _service.delegate = self;
         _isHaveImageOne = NO;
         _isHaveImageTwo = NO;
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        _addressLoction = CLLocationCoordinate2DMake(0, 0);
     }
     return self;
 }
@@ -118,6 +125,8 @@
     }else {
         nil;
     }
+    
+    [_service geocoderToLocation:_ORD_TO_ADDRESS];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -213,7 +222,11 @@
     //判断连接状态
     if([Tools isConnectionAvailable]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [_service payOrderWithPicture:_orderIDX andOrderPayState:_orderPayState andImage1Str:image1Str andImage2Str:image2Str];
+        
+        // 取出上一次定位坐标
+        CLLocationCoordinate2D currLocation = _app.currLocation;
+        
+        [_service payOrderWithPicture:_orderIDX andOrderPayState:_orderPayState andImage1Str:image1Str andImage2Str:image2Str andToLng:@(_addressLoction.longitude) andToLat:@(_addressLoction.latitude) andCurrentLng:@(currLocation.longitude) andCurrentLat:@(currLocation.latitude)];
     }else {
         [Tools showAlert:self.view andTitle:@"网络连接不可用!"];
     }
@@ -391,6 +404,17 @@
 - (void)failure:(NSString *)msg {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [Tools showAlert:self.view andTitle:msg ? msg : @"交付失败"];
+}
+
+
+/**
+ 地址转坐标回调
+
+ @param loction 坐标
+ */
+- (void)successGeo:(CLLocationCoordinate2D)loction {
+    
+    _addressLoction = loction;
 }
 
 @end

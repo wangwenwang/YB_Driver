@@ -16,5 +16,8 @@
 /// 订单交付状态 N:未交付，S:已到达，Y:已交付
 @property (copy, nonatomic) NSString *orderPayState;
 
+/// 目的地址
+@property (copy, nonatomic) NSString *ORD_TO_ADDRESS;
+
 
 @end

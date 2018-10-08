@@ -15,6 +15,9 @@
 
 @property (strong, nonatomic) UserModel *user;
 
+// 记录用户最近坐标
+@property (assign, nonatomic) CLLocationCoordinate2D currLocation;
+
 //@property (assign, nonatomic) BOOL isPresen;
 
 @end

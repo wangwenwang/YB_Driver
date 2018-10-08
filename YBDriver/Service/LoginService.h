@@ -14,7 +14,7 @@
 - (void)success;
 
 @optional
-- (void)failure;
+- (void)failure:(NSString *)msg;
 
 @end
 

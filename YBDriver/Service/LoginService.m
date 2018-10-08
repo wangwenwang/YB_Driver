@@ -62,6 +62,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"请求成功---%@", responseObject);
         int _type = [responseObject[@"type"] intValue];
+        NSString *_msg = responseObject[@"msg"];
         if(_type == 1) {
             if([_delegate respondsToSelector:@selector(success)]) {
                 NSArray *arrResult = responseObject[@"result"];
@@ -73,15 +74,15 @@
                 [_delegate success];
             }
         }else {
-            if([_delegate respondsToSelector:@selector(failure)]) {
-                [_delegate failure];
+            if([_delegate respondsToSelector:@selector(failure:)]) {
+                [_delegate failure:_msg];
             }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求失败---%@", error);
-        if([_delegate respondsToSelector:@selector(failure)]) {
-            [_delegate failure];
+        if([_delegate respondsToSelector:@selector(failure:)]) {
+            [_delegate failure:@"请求失败"];
         }
     }];
 }

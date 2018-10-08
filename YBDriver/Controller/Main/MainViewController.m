@@ -275,6 +275,7 @@
 - (void)myDidUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
     
     _location = userLocation.location.coordinate;
+    _app.currLocation = userLocation.location.coordinate;
     _isUpdataLocation = YES;
     if(_myLocationService.isNeedChangeUpdataLocationSpanTime) {
         NSLog(@"更改上传位置点间隔时间：更改为:%f", _myLocationService.updataLocationSpanTimeMin);
