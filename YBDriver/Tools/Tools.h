@@ -15,22 +15,22 @@
  * @param jsonString JSON格式的字符串
  * @return 返回字典
  */
-+ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
++ (nullable NSDictionary *)dictionaryWithJsonString:(nullable NSString *)jsonString;
 
 //请求API
 //方式：POST
 //类型：application/x-www-form-urlencoded
-+ (NSString *)postAPI:(NSString *)urlStr andString:(NSString *)postStr;
++ (nullable NSString *)postAPI:(nullable NSString *)urlStr andString:(nullable NSString *)postStr;
 
 /*!
  * @brief 把字典转换成JSON字符串
  * @param dict 字典
  * @return 返回JSON字符串
  */
-+ (NSString *)JsonStringWithDictonary:(NSDictionary *)dict;
++ (nullable NSString *)JsonStringWithDictonary:(nullable NSDictionary *)dict;
 
 /// 提示  参数:View    NSString
-+ (void)showAlert:(NSObject *)view andTitle:(NSString *)title;
++ (void)showAlert:(nullable NSObject *)view andTitle:(nullable NSString *)title;
 
 /// 网络状态
 + (BOOL)isConnectionAvailable;
@@ -40,7 +40,7 @@
  *
  * return 手机当前时间 "yyy-MM-dd HH:mm:ss"
  */
-+ (NSString *)getCurrentDate;
++ (nullable NSString *)getCurrentDate;
 
 /**
  * 获取订单交付状态
@@ -49,20 +49,20 @@
  *
  * return 订单交付状态，中文字符
  */
-+ (NSString *)getOrderPayState:(NSString *)str;
++ (nullable NSString *)getOrderPayState:(nullable NSString *)str;
 
 /**
  *	@brief	浏览头像
  *
  *	@param 	oldImageView 	头像所在的imageView
  */
-+(void)showImage:(UIImageView*)avatarImageView;
++(void)showImage:(nullable UIImageView *)avatarImageView;
 
 /// 筛选出最小的数
 + (NSInteger)getMinNumber:(NSInteger)a andB:(NSInteger)b;
 
 /// 淡入效果的转场动画
-+ (void)setRootViewController:(UIWindow *)window andViewController:(UIViewController *)vc;
++ (void)setRootViewController:(nullable UIWindow *)window andViewController:(nullable UIViewController *)vc;
 
 /// 判断是否管理员和物流商
 + (BOOL)isADMINorWLS;
